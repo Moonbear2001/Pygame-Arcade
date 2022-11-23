@@ -3,21 +3,32 @@ import os
 from states.state import State
 
 
-class ClickGameplay(State):
+class Clicker(State):
 
     def __init__(self, game):
         super().__init__(game)
+        self.name = "Clicker"
         self.player = pygame.Rect(0, 0, 50, 50)
+        self.score = 0
+        self.high_score = self.game.saved_game_data.high_score
 
     def update(self):
         super().update()
 
     def handle_event(self, event):
         super().handle_event(event)
+
         if event.type == pygame.MOUSEBUTTONDOWN:
-            self.game.score += 1
+            self.score += 1
 
     def render(self):
         self.game.canvas.fill(self.game.colors["white"])
-        # pygame.draw.rect(self.game.canvas, self.game.colors["blue"], self.player)
-        self.game.render_text(self.game.canvas, str(self.game.score), self.game.colors["black"], self.game.canvas_width / 10, self.game.canvas_height / 10)
+        self.game.render_text(self.game.canvas, "The high score is: " + str(self.high_score), "roboto", self.game.colors["blue"],
+                              self.game.canvas_width / 2, self.game.canvas_height * 0.9, size=30)
+        self.game.render_text(self.game.canvas, str(self.score), "roboto", self.game.colors["black"],
+                              self.game.canvas_width / 2, self.game.canvas_height / 2, size=60)
+        super().render()
+
+    def exit_state(self):
+        self.game.saved_game_data.high_score = max(self.high_score, self.score)
+        super().exit_state()

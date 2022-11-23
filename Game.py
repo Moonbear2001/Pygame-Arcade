@@ -1,6 +1,8 @@
 import pygame
 import time
 from states.title import Title
+from states.loading import Loading
+from SaveLoadManager import SaveLoadManager
 
 
 class Game:
@@ -9,8 +11,9 @@ class Game:
 
         pygame.init()
 
-        self.canvas_width = 480
-        self.canvas_height = 270
+        self.game_name = "Template"
+        self.canvas_width = 1280
+        self.canvas_height = 720
         self.canvas = pygame.Surface((self.canvas_width, self.canvas_height))
         self.screen_width = 1280
         self.screen_height = 720
@@ -18,11 +21,13 @@ class Game:
         self.state_stack = []
         self.running = True
         self.playing = True
-        self.actions = {"left": False, "right": False, "up": False, "down": False, "action1": False, "action2": False,
-                        "start": False}
         self.delta_time = 0
         self.prev_time = 0
         self.fps = 60
+
+        self.score = 0
+        self.save_load_manager = SaveLoadManager(".save", "save_data")
+        self.saved_game_data = self.save_load_manager.load_data("data")
 
         self.colors = None
         self.colors_init()
@@ -31,15 +36,11 @@ class Game:
         self.font_init()
 
         self.example_img = None
+        self.example_sprite_sheet = None
         self.image_init()
 
         self.example_sound = None
         self.sound_init()
-
-        self.title_state = None
-        self.state_init()
-
-        self.socket_init()
 
     def colors_init(self):
         self.colors = {"white": (255, 255, 255),
@@ -49,32 +50,40 @@ class Game:
                        "blue": (0, 0, 255)}
 
     def font_init(self):
-        self.fonts = {
-            "main_font": pygame.font.Font("fonts/Pokemon Solid.ttf", 20)
-        }
+        self.fonts = ("pokemon", "roboto")
 
     def image_init(self):
         self.example_img = pygame.image.load("images/pygame_logo.png").convert()
+        self.example_sprite_sheet = pygame.image.load("images/example_sprite_sheet.png").convert_alpha()
 
     def sound_init(self):
         self.example_sound = pygame.mixer.Sound("sounds/example_sound.mp3")
 
-    def state_init(self):
-        self.title_state = Title(self)
-        self.state_stack.append(self.title_state)
+    def render_text(self, surface, text, font, color, x, y, size=10, center=True):
+        """
+        :param surface:
+        :param text:
+        :param font:
+        :param color:
+        :param x:
+        :param y:
+        :param size:
+        :param center: positions text using provided x, y as center
+        :return:
+        """
+        # If font is nonexistent, rendering is skipped
+        if font is None or font not in self.fonts:
+            return
 
-    def socket_init(self):
-        pass
-
-    def render_text(self, surface, text, color, x, y):
-        text_surface = self.fonts["main_font"].render(text, True, color)
+        path = "fonts/" + font + ".ttf"
+        text_surface = pygame.font.Font(path, size).render(text, True, color)
         text_rect = text_surface.get_rect()
-        text_rect.center = (x, y)
+        if center:
+            text_rect.center = (x, y)
+        else:
+            text_rect.x = x
+            text_rect.y = y
         surface.blit(text_surface, text_rect)
-
-    def reset_actions(self):
-        for action in self.actions:
-            self.actions[action] = False
 
     def get_delta_time(self):
         now = time.time()
@@ -82,49 +91,11 @@ class Game:
         self.prev_time = now
 
     def event_loop(self):
-
-        for event in pygame.event.get(): 
-
-            if event.type == pygame.QUIT: 
-                break   
-
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.playing = False
-                    self.moving = False         
-                if event.key == pygame.K_d:
-                    self.actions["right"] = True
-                if event.key == pygame.K_a:
-                    self.actions["left"] = True
-                if event.key == pygame.K_w:
-                    self.actions["up"] = True
-                if event.key == pygame.K_s:
-                    self.actions["down"] = True
-                if event.key == pygame.K_q:
-                    self.actions["action1"] = True
-                if event.key == pygame.K_e:
-                    self.actions["action2"] = True
-                if event.key == pygame.K_r:
-                    self.actions["ultimate"] = True
-
-            if event.type == pygame.KEYUP:            
-                if event.key == pygame.K_d:
-                    self.actions["right"] = False
-                if event.key == pygame.K_a:
-                    self.actions["left"] = False
-                if event.key == pygame.K_w:
-                    self.actions["up"] = False
-                if event.key == pygame.K_s:
-                    self.actions["down"] = False
-                if event.key == pygame.K_q:
-                    self.actions["action1"] = False
-                if event.key == pygame.K_e:
-                    self.actions["action2"] = False
-                if event.key == pygame.K_r:
-                    self.actions["ultimate"] = False
+        for event in pygame.event.get():
+            self.state_stack[-1].handle_event(event)
 
     def update(self):
-        self.state_stack[-1].update(self.delta_time, self.actions)
+        self.state_stack[-1].update()
 
     def render(self):
         self.state_stack[-1].render()
@@ -135,11 +106,11 @@ class Game:
     def game_loop(self):
 
         clock = pygame.time.Clock()
-
         self.prev_time = time.time()
-        
+        Loading(self).enter_state()
+
         while self.playing:
-            
+
             # --- Delta time logic --- #
             self.get_delta_time()
 
@@ -154,6 +125,17 @@ class Game:
 
             # --- Limit frame rate --- #
             clock.tick(self.fps)
-        
+
+        self.game_quit()
+
+    def game_quit(self):
+        """
+        Maintenance before game closes.
+        :return:
+        """
+
+        # Save Data
+        self.save_load_manager.save_data(self.saved_game_data, "data")
+
         pygame.quit()
         exit()

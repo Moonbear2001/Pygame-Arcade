@@ -1,12 +1,16 @@
 import pygame
+from sprites.SpriteSheet import SpriteSheet
 
 
-class Player:
-    def __init__(self, game, x=0, y=0, width=100, height=100):
+class Player(pygame.sprite.Sprite):
+
+    def __init__(self, game, sprite_sheet, x=0, y=0, width=100, height=100):
+        super().__init__()
         self.game = game
         self.rect = pygame.Rect(x, y, width, height)
         self.speed = 10
         self.actions = {"right": False, "left": False, "up": False, "down": False}
+        self.sprite_sheet = SpriteSheet(sprite_sheet)
 
     def handle_event(self, event):
 
@@ -37,9 +41,10 @@ class Player:
         if self.actions["up"]:
             self.rect.y -= self.speed
         if self.actions["down"]:
-            self.rect.y += self.speed 
+            self.rect.y += self.speed
 
     def render(self):
-        pygame.draw.rect(self.game.canvas, self.game.colors["red"], self.rect)
+        self.game.canvas.blit(self.sprite_sheet.get_frame(self.actions, self.rect.width, self.rect.height),
+                              (self.rect.x, self.rect.y))
 
 
