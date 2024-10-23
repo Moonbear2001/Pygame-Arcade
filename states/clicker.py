@@ -1,9 +1,11 @@
 import pygame
-import os
 from states.state import State
 
 
 class Clicker(State):
+    """
+    Simple clicker game in which the player just tries to beat the high score number of clicks.
+    """
 
     def __init__(self, game):
         super().__init__(game)
@@ -22,10 +24,10 @@ class Clicker(State):
             self.score += 1
 
     def render(self):
-        self.game.canvas.fill(self.game.colors["white"])
-        self.game.render_text(self.game.canvas, "The high score is: " + str(self.high_score), "roboto", self.game.colors["blue"],
+        self.game.canvas.fill("white")
+        self.game.render_text(self.game.canvas, "The high score is: " + str(self.high_score), "roboto", "blue",
                               self.game.canvas_width / 2, self.game.canvas_height * 0.9, size=30)
-        self.game.render_text(self.game.canvas, str(self.score), "roboto", self.game.colors["black"],
+        self.game.render_text(self.game.canvas, str(self.score), "roboto", "black",
                               self.game.canvas_width / 2, self.game.canvas_height / 2, size=60)
         super().render()
 

@@ -2,14 +2,16 @@ import pygame
 
 
 class SpriteSheet:
+    """
+    Holds information about a sprite sheet.
+    """
 
-    def __init__(self, image):
+    def __init__(self, image, num_rows, num_cols, px_width, px_height):
         self.sheet = image
-        self.num_rows = 2
-        self.num_cols = 5
-        self.num_frames = self.num_rows * self.num_cols
-        self.px_width = 300
-        self.px_height = 128
+        self.num_rows = num_rows
+        self.num_cols = num_cols
+        self.px_width = px_width
+        self.px_height = px_height
         self.frame_width = self.px_width / self.num_cols
         self.frame_height = self.px_height / self.num_rows
         self.curr_row = 0

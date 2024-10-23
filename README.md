@@ -1,6 +1,6 @@
 # pygame_template
 
-Pygame template for beginning a pygame project.  Purpose is to eliminate rewriting the same code over and over again.
+Pygame template for beginning a pygame project. It's purpose is to eliminate rewriting the same code over and over again and give a model for building common game features such as a loading screen, saving data, managing game assets like fonts, music, and images.
 
 Features included include:
 - Game class

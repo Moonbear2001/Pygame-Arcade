@@ -7,17 +7,24 @@ from SaveLoadManager import SaveLoadManager
 
 class Game:
 
-    def __init__(self):
+    screen_width = 1280
+    screen_height = 720
 
+    custom_colors = {"gold": (255, 215, 0)}
+
+    def __init__(self):
+        """
+        Initialize the game.
+        """
         pygame.init()
 
         self.game_name = "Template"
         self.canvas_width = 1280
         self.canvas_height = 720
         self.canvas = pygame.Surface((self.canvas_width, self.canvas_height))
-        self.screen_width = 1280
-        self.screen_height = 720
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+        pygame.display.set_caption(self.game_name)
+
         self.state_stack = []
         self.running = True
         self.playing = True
@@ -29,9 +36,6 @@ class Game:
         self.save_load_manager = SaveLoadManager(".save", "save_data")
         self.saved_game_data = self.save_load_manager.load_data("data")
 
-        self.colors = None
-        self.colors_init()
-
         self.fonts = None
         self.font_init()
 
@@ -41,13 +45,6 @@ class Game:
 
         self.example_sound = None
         self.sound_init()
-
-    def colors_init(self):
-        self.colors = {"white": (255, 255, 255),
-                       "black": (0, 0, 0),
-                       "red": (255, 0, 0),
-                       "green": (0, 255, 0),
-                       "blue": (0, 0, 255)}
 
     def font_init(self):
         self.fonts = ("pokemon", "roboto")
@@ -104,7 +101,9 @@ class Game:
         pygame.display.flip()
 
     def game_loop(self):
-
+        """
+        The main game loop.
+        """
         clock = pygame.time.Clock()
         self.prev_time = time.time()
         Loading(self).enter_state()
@@ -130,10 +129,9 @@ class Game:
 
     def game_quit(self):
         """
-        Maintenance before game closes.
+        Maintenance before game closes. Save data, etc.
         :return:
         """
-
         # Save Data
         self.save_load_manager.save_data(self.saved_game_data, "data")
 

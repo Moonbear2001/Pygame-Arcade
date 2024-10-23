@@ -13,6 +13,6 @@ class Settings(State):
         super().handle_event(event)
 
     def render(self):
-        self.game.canvas.fill(self.game.colors["white"])
-        self.game.render_text(self.game.canvas, "Settings", "roboto", self.game.colors["black"], self.game.canvas_width / 2, self.game.canvas_height / 2)
+        self.game.canvas.fill("white")
+        self.game.render_text(self.game.canvas, "Settings", "roboto", "black", self.game.canvas_width / 2, self.game.canvas_height / 2)
         super().render()

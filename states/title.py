@@ -27,8 +27,8 @@ class Title(State):
                 Platformer(self.game).enter_state()
 
     def render(self):
-        self.game.canvas.fill(self.game.colors["white"])
-        self.game.render_text(self.game.canvas, "Title screen", "roboto",  self.game.colors["blue"],
+        self.game.canvas.fill("white")
+        self.game.render_text(self.game.canvas, "Title screen", "roboto",  "blue",
                               self.game.canvas_width / 2, self.game.canvas_height * 0.25, size=40)
         self.clicker_btn.render()
         self.platformer_btn.render()
