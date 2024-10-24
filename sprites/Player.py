@@ -1,16 +1,31 @@
 import pygame
-from sprites.SpriteSheet import SpriteSheet
 
+from .AnimatableSprite import AnimatableSprite
+from .SpriteSheet import SpriteSheet
 
-class Player(pygame.sprite.Sprite):
+class Player(AnimatableSprite):
+    """
+    Basic player with animations and movement.
+    """
 
-    def __init__(self, game, sprite_sheet, x=0, y=0, width=100, height=100):
-        super().__init__()
+    # All Players share one sprite sheet, so information can be shared across instances
+    SPRITESHEET_FILE = "example_sprite_sheet.png"
+    NUM_ROWS = 2
+    NUM_COLS = 5
+    PX_WIDTH = 300
+    PX_HEIGHT = 128
+    COLORKEY= (247, 247, 247)
+
+    def __init__(self, game, x=0, y=0, width=100, height=100):
+        super().__init__(self.SPRITESHEET_FILE, self.NUM_ROWS, self.NUM_COLS, self.PX_WIDTH, self.PX_HEIGHT, colorkey=self.COLORKEY)
         self.game = game
         self.rect = pygame.Rect(x, y, width, height)
         self.speed = 10
         self.actions = {"right": False, "left": False, "up": False, "down": False}
-        self.sprite_sheet = SpriteSheet(sprite_sheet)
+
+        # Add animations
+        self.add_animation("run", 0, 5, 0.1)
+        self.play_animation("run")
 
     def handle_event(self, event):
 
@@ -33,7 +48,8 @@ class Player(pygame.sprite.Sprite):
             if event.key == pygame.K_s:
                 self.actions["down"] = False
 
-    def update(self):
+    def update(self, delta_time):
+        super().update(delta_time)
         if self.actions["right"]:
             self.rect.x += self.speed
         if self.actions["left"]:
@@ -44,7 +60,6 @@ class Player(pygame.sprite.Sprite):
             self.rect.y += self.speed
 
     def render(self):
-        self.game.canvas.blit(self.sprite_sheet.get_frame(self.actions, self.rect.width, self.rect.height),
-                              (self.rect.x, self.rect.y))
+        self.game.canvas.blit(self.image,  (self.rect.x, self.rect.y))
 
 

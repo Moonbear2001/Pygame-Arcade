@@ -14,8 +14,8 @@ class Clicker(State):
         self.score = 0
         self.high_score = self.game.saved_game_data.high_score
 
-    def update(self):
-        super().update()
+    def update(self, delta_time):
+        super().update(delta_time)
 
     def handle_event(self, event):
         super().handle_event(event)

@@ -3,15 +3,18 @@ from sprites.Player import Player
 
 
 class Platformer(State):
+    """
+    Simple platformer game.
+    """
 
     def __init__(self, game):
         super().__init__(game)
         self.name = "Platformer"
-        self.player1 = Player(self.game, self.game.example_sprite_sheet)
+        self.player1 = Player(self.game)
 
-    def update(self):
-        super().update()
-        self.player1.update()
+    def update(self, delta_time):
+        super().update(delta_time)
+        self.player1.update(delta_time)
 
     def handle_event(self, event):
         super().handle_event(event)

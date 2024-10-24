@@ -1,15 +1,17 @@
 import pygame
 import time
+
 from states.title import Title
 from states.loading import Loading
 from SaveLoadManager import SaveLoadManager
-
+from constants import *
 
 class Game:
 
     screen_width = 1280
     screen_height = 720
 
+    # Store custom global colors here
     custom_colors = {"gold": (255, 215, 0)}
 
     def __init__(self):
@@ -40,21 +42,28 @@ class Game:
         self.font_init()
 
         self.example_img = None
-        self.example_sprite_sheet = None
         self.image_init()
 
         self.example_sound = None
         self.sound_init()
 
     def font_init(self):
+        """
+        Store globally available fonts.
+        """
         self.fonts = ("pokemon", "roboto")
 
     def image_init(self):
-        self.example_img = pygame.image.load("images/pygame_logo.png").convert()
-        self.example_sprite_sheet = pygame.image.load("images/example_sprite_sheet.png").convert_alpha()
+        """
+        Store globally available images.
+        """
+        self.example_img = pygame.image.load(IMAGES_DIR / "pygame_logo.png").convert()
 
     def sound_init(self):
-        self.example_sound = pygame.mixer.Sound("sounds/example_sound.mp3")
+        """
+        Store globally available sounds.
+        """
+        self.example_sound = pygame.mixer.Sound(SOUNDS_DIR / "example_sound.mp3")
 
     def render_text(self, surface, text, font, color, x, y, size=10, center=True):
         """
@@ -72,7 +81,7 @@ class Game:
         if font is None or font not in self.fonts:
             return
 
-        path = "fonts/" + font + ".ttf"
+        path = FONTS_DIR / (font + ".ttf")
         text_surface = pygame.font.Font(path, size).render(text, True, color)
         text_rect = text_surface.get_rect()
         if center:
@@ -82,7 +91,7 @@ class Game:
             text_rect.y = y
         surface.blit(text_surface, text_rect)
 
-    def get_delta_time(self):
+    def manage_delta_time(self):
         now = time.time()
         self.delta_time = now - self.prev_time
         self.prev_time = now
@@ -92,7 +101,7 @@ class Game:
             self.state_stack[-1].handle_event(event)
 
     def update(self):
-        self.state_stack[-1].update()
+        self.state_stack[-1].update(self.delta_time)
 
     def render(self):
         self.state_stack[-1].render()
@@ -111,7 +120,7 @@ class Game:
         while self.playing:
 
             # --- Delta time logic --- #
-            self.get_delta_time()
+            self.manage_delta_time()
 
             # --- Event Loop --- #
             self.event_loop()

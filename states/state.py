@@ -11,7 +11,7 @@ class State:
         self.game = game
         self.prev_state = None
 
-    def update(self):
+    def update(self, delta_time):
         pass
 
     def render(self):

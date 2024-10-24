@@ -15,8 +15,8 @@ class Title(State):
         self.platformer_btn = Button(self, width=200, height=100, x=self.game.canvas_width * 0.65,
                                      y=self.game.canvas_width//2, text="Platformer", text_color=(0, 0, 255))
 
-    def update(self):
-        super().update()
+    def update(self, delta_time):
+        super().update(delta_time)
 
     def handle_event(self, event):
         super().handle_event(event)

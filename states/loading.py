@@ -9,12 +9,12 @@ class Loading(State):
     def __init__(self, game):
         super().__init__(game)
         self.name = "Loading"
-        self.timer = threading.Timer(3, self.go_next)
+        self.timer = threading.Timer(1, self.go_next)
         self.timer.start()
         self.loading_circle = LoadingCircle(self, self.game.canvas_width/2, self.game.canvas_height * 0.65, 200, 200, center=True)
 
-    def update(self):
-        super().update()
+    def update(self, delta_time):
+        super().update(delta_time)
         self.loading_circle.update()
 
     def handle_event(self, event):
