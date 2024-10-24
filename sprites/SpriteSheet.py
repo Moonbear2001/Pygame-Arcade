@@ -1,6 +1,6 @@
 import pygame
 
-from constants import SPRITESHEETS_DIR
+from paths import SPRITESHEETS_DIR
 
 class SpriteSheet:
     """

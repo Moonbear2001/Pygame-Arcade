@@ -1,5 +1,6 @@
 from states.state import State
 
+import Game
 
 class Settings(State):
 
@@ -14,5 +15,5 @@ class Settings(State):
 
     def render(self):
         self.game.canvas.fill("white")
-        self.game.render_text(self.game.canvas, "Settings", "roboto", "black", self.game.canvas_width / 2, self.game.canvas_height / 2)
+        self.game.render_text(self.game.canvas, "Settings", "roboto", "black", Game.canvas_width / 2, self.game.Game.canvas_height / 2)
         super().render()

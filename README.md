@@ -7,8 +7,9 @@ Features included include:
   - implements delta time and frame rate independence
   - reading key presses from wasd keys
   - simple movement
-- SaveLoadManager
-  - serializes and saves data to be reloaded
 - Folder layout
   - fonts, images, sounds, save_data, states folder pre-created
 
+
+Managers
+- singletons with useful utilities that can be used anywhere in the project
