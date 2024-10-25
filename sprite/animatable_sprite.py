@@ -1,7 +1,7 @@
 import pygame
 
-from .SpriteSheet import SpriteSheet
-from .Animation import Animation
+from .sprite_sheet import SpriteSheet
+from .animation import Animation
 
 class AnimatableSprite(pygame.sprite.Sprite):
     """
@@ -45,6 +45,12 @@ class AnimatableSprite(pygame.sprite.Sprite):
             anim.time_elapsed = 0
             anim.current_frame = (anim.current_frame + 1) % anim.num_frames
             self.image = self.sprite_sheet.get_frame(anim.start_row, anim.current_frame)
+
+    def render(self):
+        """
+        Return an image to be rendered one level above.
+        """
+        return self.image
 
     
 

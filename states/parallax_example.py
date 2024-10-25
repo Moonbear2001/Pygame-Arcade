@@ -1,13 +1,14 @@
 import pygame
 
-from states.state import State
+from states import State
 
 
 class ParallaxExample(State):
     """
+    Example using the parallax effect.
     """
-    def __init__(self, game, folder):
-        super().__init__(game)
+    def __init__(self):
+        super().__init__()
         self.name = "Parallax"
 
     def update(self, delta_time):
@@ -15,7 +16,3 @@ class ParallaxExample(State):
 
     def handle_event(self, event):
         super().handle_event(event)
-
-    def render(self):
-        
-        super().render()

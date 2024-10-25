@@ -1,7 +1,6 @@
 import pygame
 
-from .AnimatableSprite import AnimatableSprite
-from .SpriteSheet import SpriteSheet
+from ..animatable_sprite import AnimatableSprite
 
 class Player(AnimatableSprite):
     """
@@ -14,11 +13,10 @@ class Player(AnimatableSprite):
     NUM_COLS = 5
     PX_WIDTH = 300
     PX_HEIGHT = 128
-    COLORKEY= (247, 247, 247)
+    COLORKEY = (247, 247, 247)
 
-    def __init__(self, game, x=0, y=0, width=100, height=100):
+    def __init__(self, x=0, y=0, width=100, height=100):
         super().__init__(self.SPRITESHEET_FILE, self.NUM_ROWS, self.NUM_COLS, self.PX_WIDTH, self.PX_HEIGHT, colorkey=self.COLORKEY)
-        self.game = game
         self.rect = pygame.Rect(x, y, width, height)
         self.speed = 10
         self.actions = {"right": False, "left": False, "up": False, "down": False}
@@ -58,8 +56,5 @@ class Player(AnimatableSprite):
             self.rect.y -= self.speed
         if self.actions["down"]:
             self.rect.y += self.speed
-
-    def render(self):
-        self.game.canvas.blit(self.image,  (self.rect.x, self.rect.y))
 
 

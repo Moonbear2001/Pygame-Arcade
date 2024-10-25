@@ -6,7 +6,7 @@ from states.state import State
 from states.clicker import Clicker
 from states.platformer import Platformer
 # from states.parallax_example import ParallaxExample
-from sprites import Button
+from sprite import Button
 
 from utilities import render_text
 from managers import StateManager

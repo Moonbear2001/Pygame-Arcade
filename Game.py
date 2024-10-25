@@ -1,7 +1,6 @@
 import pygame
 import time
 
-from states import Loading
 from managers import *
 from paths import *
 
@@ -66,18 +65,12 @@ class Game:
 
             # Quit gracefully
             if event.type == pygame.QUIT:
-                self.cleanup()
                 self.game_quit()
 
             if event.type == pygame.KEYDOWN:
-
-                # Press T to return to title screen
-                if event.key == pygame.K_t:
-                    self.cleanup()
                 
                 # Esc to quit
                 if event.key == pygame.K_ESCAPE:
-                    self.cleanup()
                     self.game_quit()
 
             StateManager().handle_event(event)
