@@ -1,54 +1,51 @@
-from pygame.locals import QUIT
 import pygame
+from abc import ABC, abstractmethod  
+from utilities import render_text
 
-
-import Game
-
-class State:
+class State(ABC):
     """
-    A state that the game can be in (ie. menu, paused, looking at map, gaemplay, etc). A state is reponsible for passing events, updating, and drawing each of"""
+    A state that the game can be in (e.g., menu, paused, looking at map, gameplay).
+    
+    A state is responsible for passing events, updating, and drawing each of its components.
+    The state manager is responsible for handling transitions between states.
+    """
 
-    def __init__(self, game):
-        self.name = ""
-        self.game = game
-        self.prev_state = None
+    def __init__(self):
+        super().__init__()
+        self.canvas_width = 1280
+        self.canvas_height = 720
+        self.canvas = pygame.Surface((self.canvas_width, self.canvas_height))
 
+    @abstractmethod
     def update(self, delta_time):
+        """
+        Update the state. Must be implemented by subclasses.
+        """
         pass
 
-    def render(self):
+    @abstractmethod
+    def render(self) -> pygame.Surface:
+        """
+        Render the state. Must be implemented by subclasses.
+        Returns a pygame Surface.
+        """
+        pass
 
-        # Print game info
-        fps = f"FPS: {self.game.fps}"
-        self.game.render_text(self.game.canvas, fps, "roboto", "blue",
-                              0.01 * Game.canvas_width, 0.03 * self.game.canvas_height, size=20, center=False)
-        stack = "State stack: "
-        for state in self.game.state_stack:
-            stack += state.name + ", "
-        self.game.render_text(self.game.canvas, stack, "roboto", "blue",
-                              0.01 * Game.canvas_width, 0.08 * self.game.canvas_height, size=20, center=False)
+    def enter(self):
+        """
+        Courtesy location to set things up before state is entered.
+        """
+        pass
 
-    def enter_state(self):
-        if len(self.game.state_stack) > 1:
-            self.prev_state = self.game.state_stack[-1]
-        else:
-            self.prev_state = None
-        self.game.state_stack.append(self)
+    def cleanup(self):
+        """
+        Courtesy location to clean up resources, save, etc.
+        Called by the state manager before exiting out of this state.
+        """
+        pass
 
     def handle_event(self, event):
-
-        # Quit gracefully
-        if event.type == pygame.QUIT:
-            self.exit_state()
-            self.game.game_quit()
-
-        # Press T to return to title screen
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_t:
-                self.exit_state()
-            if event.key == pygame.K_ESCAPE:
-                self.exit_state()
-                self.game.game_quit()
-
-    def exit_state(self):
-        self.game.state_stack.pop()
+        """
+        Handle individual events. Can be overridden by subclasses.
+        """
+        pass

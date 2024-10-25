@@ -1,6 +1,7 @@
 from states.state import State
 
-import Game
+from utilities import render_text
+
 
 class Settings(State):
 
@@ -14,6 +15,6 @@ class Settings(State):
         super().handle_event(event)
 
     def render(self):
-        self.game.canvas.fill("white")
-        self.game.render_text(self.game.canvas, "Settings", "roboto", "black", Game.canvas_width / 2, self.game.Game.canvas_height / 2)
+        canvas.fill("white")
+        render_text(self.game.canvas, "Settings", "roboto", "black", self.canvas_width / 2, self.canvas_height / 2)
         super().render()

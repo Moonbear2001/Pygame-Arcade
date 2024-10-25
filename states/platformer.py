@@ -21,6 +21,6 @@ class Platformer(State):
         self.player1.handle_event(event)
 
     def render(self):
-        self.game.canvas.fill("white")
+        canvas.fill("white")
         self.player1.render()
         super().render()

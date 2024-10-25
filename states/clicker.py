@@ -3,6 +3,8 @@ import pygame
 from states.state import State
 import Game
 from managers import SaveLoadManager
+from utilities import render_text
+
 
 class Clicker(State):
     """
@@ -27,18 +29,17 @@ class Clicker(State):
             self.score += 1
 
     def render(self):
-        self.game.canvas.fill("white")
-        self.game.render_text(self.game.canvas, "The high score is: " + str(self.high_score), "roboto", "blue",
-                              Game.canvas_width / 2, self.game.Game.canvas_height * 0.9, size=30)
-        self.game.render_text(self.game.canvas, str(self.score), "roboto", "black",
-                              Game.canvas_width / 2, self.game.Game.canvas_height / 2, size=60)
-        super().render()
+        self.canvas.fill("white")
+        render_text(self.canvas, "The high score is: " + str(self.high_score), "roboto", "blue",
+                              self.canvas_width / 2, self.canvas_height * 0.9, size=30)
+        render_text(self.canvas, str(self.score), "roboto", "black",
+                              self.canvas_width / 2, self.canvas_height / 2, size=60)
+        return self.canvas
 
-    def exit_state(self):
+    def cleanup(self):
         """
         Save new high score if acheived before exiting.
         """
         self.high_score = max(self.high_score, self.score)
         self.saved_data["high_score"] = self.high_score
         SaveLoadManager().save_data(self.saved_data, "clicker")
-        super().exit_state()

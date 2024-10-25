@@ -2,8 +2,13 @@ import pygame
 from visual_elems.VisualElement import VisualElement
 from states.state import State
 
+from utilities import render_text
+
 
 class Button(VisualElement):
+    """
+    Button that detects clicks and calls a function when clicked.
+    """
 
     def __init__(self, state, x: int = 0, y: int = 0, width: int = 100, height: int = 100,
                  color: tuple = (0, 0, 0), text: str = "", font: pygame.font = None,
@@ -20,5 +25,5 @@ class Button(VisualElement):
         pygame.draw.rect(self.state.game.canvas, self.color, self.rect)
 
         if self.text != "":
-            self.state.game.render_text(self.state.game.canvas, self.text, "roboto", self.text_color, self.rect.centerx,
+            render_text(self.state.game.canvas, self.text, "roboto", self.text_color, self.rect.centerx,
                                         self.rect.centery)

@@ -1,33 +1,38 @@
 import threading
-from states.state import State
-from states.title import Title
-from visual_elems.LoadingCircle import LoadingCircle
-import Game
+from states import State, Title
+# from visual_elems.LoadingCircle import LoadingCircle
+
+from managers import StateManager
+from utilities import render_text
 
 
 class Loading(State):
+    """
+    Simulates a loading state.
+    Doesn't actually load anything.
+    """
 
-    def __init__(self, game):
-        super().__init__(game)
+    def __init__(self):
+        super().__init__()
         self.name = "Loading"
+        # self.loading_circle = LoadingCircle(self, self.canvas_width/2, self.canvas_height * 0.65, 200, 200, center=True)
         self.timer = threading.Timer(1, self.go_next)
         self.timer.start()
-        self.loading_circle = LoadingCircle(self, Game.canvas_width/2, self.game.Game.canvas_height * 0.65, 200, 200, center=True)
 
     def update(self, delta_time):
         super().update(delta_time)
-        self.loading_circle.update()
+        # self.loading_circle.update()
 
     def handle_event(self, event):
         super().handle_event(event)
 
     def render(self):
-        self.game.canvas.fill("white")
-        self.game.render_text(self.game.canvas, Game.name, "roboto", "black",
-                              Game.canvas_width/2, self.game.Game.canvas_height/2, size=30, center=True)
-        self.loading_circle.render()
-        super().render()
+        self.canvas.fill("white")
+        render_text(self.canvas, "Pygame Arcade", "roboto", "black",
+                              self.canvas_width/2, self.canvas_height/2, size=30, center=True)
+        # self.loading_circle.render()
+        return self.canvas
 
     def go_next(self):
-        Title(self.game).enter_state()
+        StateManager().set_state("title")
 
