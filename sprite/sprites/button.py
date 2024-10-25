@@ -7,24 +7,25 @@ class Button(pygame.sprite.Sprite):
     Button that detects clicks and calls a function when clicked.
     """
     def __init__(self, x: int = 0, y: int = 0, width: int = 100, height: int = 100,
-                 color: tuple = (0, 0, 0), text: str = "", font: pygame.font = None,
+                 color: tuple = (0, 0, 0), text: str = "", font_name: str = "roboto",
                  text_color: tuple = (0, 0, 0)):
         super().__init__()
-        self.surface = pygame.Surface((width, height))
         self.rect = pygame.Rect(x, y, width, height)
         self.color = color
         self.text = text
         self.text_color = text_color
-        self.font = font
+        self.font_name = font_name
         self.rect.center = (x, y)
+
+        self.surface = pygame.Surface((width, height))
+        self.surface.fill(self.color)
+        if self.text:
+            render_text(self.surface, self.text, self.font_name, self.text_color, self.rect.centerx, self.rect.centery)
 
     def update(self):
         pass
 
     def render(self):
-        self.surface.fill(self.color)
-        if self.text != "":
-            render_text(self.surface, self.text, "roboto", self.text_color, self.rect.centerx, self.rect.centery)
         return self.surface
 
     def is_hovered(self, mouse_pos):

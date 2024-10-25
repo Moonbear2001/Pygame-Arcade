@@ -3,11 +3,11 @@ from pathlib import Path
 
 from paths import FONTS_DIR
 
-def render_text(surface, text, font, color, x, y, size=10, center=True):
+def render_text(surface, text, font_name, color, x, y, size=10, center=True):
     """
     Utility function for rendering some text to a surface.
     """
-    font_path = FONTS_DIR / (font + ".ttf")
+    font_path = FONTS_DIR / (font_name + ".ttf")
     
     if not font_path.is_file():
         return  
