@@ -42,6 +42,7 @@ class Game:
         """
         StateManager()
         SaveLoadManager()
+        AudioManager()
 
     def image_init(self):
         """
