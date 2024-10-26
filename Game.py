@@ -73,6 +73,10 @@ class Game:
                 if event.key == pygame.K_ESCAPE:
                     self.game_quit()
 
+                # T to return to menu
+                if event.key == pygame.K_t:
+                    StateManager().set_state("title")
+
             StateManager().handle_event(event)
 
     def update(self):

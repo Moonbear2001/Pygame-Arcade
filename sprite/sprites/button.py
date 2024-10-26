@@ -8,14 +8,17 @@ class Button(pygame.sprite.Sprite):
     """
     def __init__(self, x: int = 0, y: int = 0, width: int = 100, height: int = 100,
                  color: tuple = (0, 0, 0), text: str = "", font_name: str = "roboto",
-                 text_color: tuple = (0, 0, 0)):
+                 text_color: tuple = (0, 0, 0), callback=None):
         super().__init__()
         self.rect = pygame.Rect(x, y, width, height)
+        print(self.rect)
         self.color = color
         self.text = text
         self.text_color = text_color
         self.font_name = font_name
         self.rect.center = (x, y)
+
+        self.callback = callback
 
         self.surface = pygame.Surface((width, height))
         self.surface.fill(self.color)
@@ -36,8 +39,10 @@ class Button(pygame.sprite.Sprite):
 
     def handle_event(self, event):
         """
-        Handle button events.
+        Call the callback function when clicked.
         """
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.is_hovered(event.pos):
-                print(f"{self.text_surface} button clicked!")
+                if self.callback:
+                    print("callback")
+                    self.callback()

@@ -10,8 +10,8 @@ class Clicker(State):
     Simple clicker game in which the player just tries to beat the high score number of clicks.
     """
 
-    def __init__(self, game):
-        super().__init__(game)
+    def __init__(self):
+        super().__init__()
         self.name = "Clicker"
         self.player = pygame.Rect(0, 0, 50, 50)
         self.score = 0

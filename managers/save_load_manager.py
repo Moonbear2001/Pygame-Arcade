@@ -31,8 +31,11 @@ class SaveLoadManager:
         Otherwise load the template and return the default data.
         """
         saved_data = Path(SAVED_DATA_DIR / (file_name + ".json"))
+        data_template_file = SAVE_DATA_TEMPLATES_DIR / (file_name + "_template.json")
         if saved_data.is_file():
-            with open(saved_data, 'r') as file:
-                return json.load(file)
+            file_path = saved_data
         else:
-            return json.load(SAVE_DATA_TEMPLATES_DIR / (file_name + "json"))
+            file_path = data_template_file
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+        return data
