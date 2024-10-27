@@ -13,8 +13,8 @@ class AnimatableSprite(pygame.sprite.Sprite):
         self.sprite_sheet = SpriteSheet(sprite_sheet_file, num_rows, num_cols, px_width, px_height, colorkey)
         self.animations = {}
         self.current_animation = None
-        self.image = None
-        self.rect = None
+        self.image = pygame.Surface((100, 100))
+        self.rect = pygame.Rect(0, 0, 100, 100)
 
     def add_animation(self, name, start_row, num_frames, frame_duration):
         self.animations[name] = Animation(start_row, num_frames, frame_duration)

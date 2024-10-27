@@ -1,7 +1,10 @@
 import pygame
 from pathlib import Path
+from random import shuffle
 
 from paths import MUSIC_DIR, SOUNDS_DIR
+from custom_events import PLAYLIST_NEXT
+
 
 class AudioManager:
     """
@@ -22,6 +25,8 @@ class AudioManager:
         self.music_volume = 0.5
         self.sounds_volume = 0.5
         pygame.mixer.music.set_volume(self.music_volume)
+        self.playlist = []
+        self.current_track_index = 0
 
     def set_music_volume(self, volume):
         if 0 <= volume <= 1:
@@ -32,7 +37,7 @@ class AudioManager:
         if 0 <= volume <= 1:
             self.sounds_volume = volume
             for sound in self.sounds.values():
-                sound.set_volume(self.sound_volume)
+                sound.set_volume(self.sounds_volume)
 
     def load_sound(self, name, ext):
         """
@@ -51,18 +56,45 @@ class AudioManager:
             self.sounds[name].set_volume(self.sounds_volume)
             self.sounds[name].play()
 
-    def play_music(self, name, ext, loops=0):
+    def play_music(self, file_path, loops=0):
         """
-        Load and play a music track.
+        Load and play a music track provided a file path starting at MUSIC_DIR.
         """
-        file_path = MUSIC_DIR / (name + "." + ext)
-        if file_path.is_file():
-            pygame.mixer.music.load(file_path)
+        full_path = MUSIC_DIR / file_path
+        if full_path.is_file():
+            pygame.mixer.music.load(full_path)
             pygame.mixer.music.set_volume(self.music_volume)
-        pygame.mixer.music.play(loops)
+            pygame.mixer.music.play(loops)
+
+    def play_playlist(self, folder_name):
+        """
+        Plays music from a 'playlist'. Accepts a folder and plays music from that folder. No order is guaranteed.
+        Play the full playlist and then restart the playlist.
+        """
+        folder_path = MUSIC_DIR / folder_name
+        if folder_path.is_dir():
+            self.playlist = [folder_path / file for file in folder_path.iterdir()]
+            if self.playlist:
+                shuffle(self.playlist)
+                self.current_track_index = 0
+                pygame.mixer.music.set_endevent(PLAYLIST_NEXT)
+                self.play_music(self.playlist[0])
 
     def stop_all_audio(self):
         pygame.mixer.stop()
+
+    def handle_event(self, event):
+        if event.type == PLAYLIST_NEXT:
+            print("playlist next")
+            if self.current_track_index == len(self.playlist) - 1:
+                print("restart")
+                self.current_track_index = 0
+            else:
+                print("next song")
+                self.current_track_index += 1
+            pygame.mixer.music.set_endevent(PLAYLIST_NEXT)
+            self.play_music(self.playlist[self.current_track_index])
+
     
     
 

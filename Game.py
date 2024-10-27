@@ -27,7 +27,6 @@ class Game:
         self.prev_time = 0
         self.fps = 60
 
-        self.managers_init()
 
         self.example_img = None
         self.image_init()
@@ -35,13 +34,12 @@ class Game:
         self.example_sound = None
         self.sound_init()
 
-    def managers_init(self):
-        """
-        Initialize all managers. They are all singletons so can just be instantiated here.
-        """
+        # Initialize all managers. They are all singletons so can just be instantiated here.
         StateManager()
         SaveLoadManager()
         AudioManager()
+        TransitionManager()
+
 
     def image_init(self):
         """
@@ -76,13 +74,21 @@ class Game:
                 # T to return to menu
                 if event.key == pygame.K_t:
                     StateManager().set_state("title")
-
+            
+            # Let managers handle events
             StateManager().handle_event(event)
+            AudioManager().handle_event(event)
 
     def update(self):
         StateManager().update(self.delta_time)
+        TransitionManager().update(self.delta_time)
 
     def render(self):
+        """
+        Draw the current state onto the canvas.
+        Draw any current transition effects on top
+        Scale the canvas to the screen width.
+        """
         canvas = StateManager().render()
         scaled_canvas = pygame.transform.scale(canvas, (self.screen_width, self.screen_height))
         self.screen.blit(scaled_canvas, (0, 0))

@@ -19,9 +19,12 @@ class Title(State):
         super().__init__()
         self.name = "title"
         self.clicker_btn = Button(x=self.canvas_width * 0.1, y=self.canvas_width//2, width=200, height=100, text="Clicker", text_color=(0, 0, 255), callback=lambda: StateManager().set_state("clicker"))
-        self.platformer_btn = Button(x=self.canvas_width * 0.4, y=self.canvas_width//2, width=200, height=100, text="Platformer", text_color=(0, 0, 255), callback=lambda: StateManager().set_state("platformer"))
-        self.parallax_btn = Button(x=self.canvas_width * 0.7, y=self.canvas_width//2, width=200, height=100, text="Parallax Example", text_color=(0, 0, 255), callback=lambda: StateManager().set_state("parallax_example"))
-        self.arcade_btn = Button(x=self.canvas_width * 0.4, y=self.canvas_width//2, width=200, height=100, text="arcade", text_color=(0, 0, 255), color="red", callback=lambda: StateManager().set_state("arcade"))
+        
+        self.platformer_btn = Button(x=self.canvas_width * 0.3, y=self.canvas_width//2, width=200, height=100, text="Platformer", text_color=(0, 0, 255), callback=lambda: StateManager().set_state("platformer"))
+        
+        self.parallax_btn = Button(x=self.canvas_width * 0.5, y=self.canvas_width//2, width=200, height=100, text="Parallax Example", text_color=(0, 0, 255), callback=lambda: StateManager().set_state("parallax_example"))
+        
+        self.arcade_btn = Button(x=self.canvas_width * 0.7, y=self.canvas_width//2, width=200, height=100, text="arcade", text_color=(0, 0, 255), color="red", callback=lambda: StateManager().set_state("arcade"))
 
     def update(self, delta_time):
         super().update(delta_time)

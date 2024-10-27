@@ -23,8 +23,8 @@ class SpriteSheet:
         self.curr_col = 0
 
     def load_sprite_sheet(self, sprite_sheet_file, colorkey):
-        sheet = pygame.image.load(SPRITESHEETS_DIR / sprite_sheet_file)
-        if colorkey:
+        sheet = pygame.image.load(SPRITESHEETS_DIR / sprite_sheet_file).convert_alpha()
+        if colorkey is not None:
             sheet.set_colorkey(colorkey)
         return sheet
 
@@ -33,24 +33,8 @@ class SpriteSheet:
         Get a specific frame from the sprite sheet. 
         Scale and make certain colors to transparent if requested.
         """
-        frame = pygame.Surface((self.frame_width, self.frame_height)).convert_alpha()
+        frame = pygame.Surface((self.frame_width, self.frame_height), pygame.SRCALPHA).convert_alpha()
         frame.blit(self.sheet, (0, 0), (col * self.frame_width, row * self.frame_height, self.frame_width, self.frame_height))
         if scale != 1:
-            frame = pygame.transform.scale_by(frame, scale)
+            frame = pygame.transform.scale(frame, (int(self.frame_width * scale), int(self.frame_height * scale)))
         return frame
-
-    # def get_frame(self, actions, width, height, scale=1, ):
-
-    #     self.curr_col = (self.curr_col + 1) % self.num_cols
-    #     self.curr_row = (self.curr_row + 1) % self.num_rows
-
-    #     frame = pygame.Surface((width, height)).convert_alpha()
-    #     frame.blit(self.sheet, (0, 0), (self.curr_row * self.frame_width, self.curr_col * self.frame_height,
-    #                                     self.frame_width, self.frame_height))
-    #     if scale != 1:
-    #         frame = pygame.transform.scale(frame, (width * scale, height * scale))
-
-    #     frame.set_colorkey((255, 255, 255))
-
-    #     return frame
-

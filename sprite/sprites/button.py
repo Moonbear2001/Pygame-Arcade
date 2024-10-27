@@ -11,7 +11,6 @@ class Button(pygame.sprite.Sprite):
                  text_color: tuple = (0, 0, 0), callback=None):
         super().__init__()
         self.rect = pygame.Rect(x, y, width, height)
-        print(self.rect)
         self.color = color
         self.text = text
         self.text_color = text_color
@@ -44,5 +43,4 @@ class Button(pygame.sprite.Sprite):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.is_hovered(event.pos):
                 if self.callback:
-                    print("callback")
                     self.callback()

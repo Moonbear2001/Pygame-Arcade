@@ -1,6 +1,6 @@
 class StateManager:
     """
-    Manages transitioning between game states.
+    Manages game states.
     Uses the singleton design pattern.
     """
     _instance = None
