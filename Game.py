@@ -66,11 +66,10 @@ class Game:
                 self.game_quit()
 
             if event.type == pygame.KEYDOWN:
-                
+    
                 # Esc to quit
                 if event.key == pygame.K_ESCAPE:
                     self.game_quit()
-
                 # T to return to menu
                 if event.key == pygame.K_t:
                     StateManager().set_state("title")
@@ -90,6 +89,7 @@ class Game:
         Scale the canvas to the screen width.
         """
         canvas = StateManager().render()
+        TransitionManager().render(canvas)
         scaled_canvas = pygame.transform.scale(canvas, (self.screen_width, self.screen_height))
         self.screen.blit(scaled_canvas, (0, 0))
         pygame.display.flip()

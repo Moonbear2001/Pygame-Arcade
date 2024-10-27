@@ -23,14 +23,8 @@ class Transition(ABC):
         pass
 
     @abstractmethod
-    def render(self) -> pygame.Surface:
+    def render(self, canvas):
         """
-        Return a surface with whatever visual effect is happening.
+        Draw the visual effect onto the canvas.
         """
         pass
-
-
-
-
-
-    
