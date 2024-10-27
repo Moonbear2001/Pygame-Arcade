@@ -12,7 +12,7 @@ class StateManager:
         return cls._instance
     
     def _init(self):
-        from states import Title, Loading, Settings, Clicker, Platformer, ParallaxExample
+        from states import Title, Loading, Settings, Clicker, Platformer, ParallaxExample, Arcade
 
         self.states = {
             "title": Title,
@@ -21,6 +21,7 @@ class StateManager:
             "clicker": Clicker,
             "platformer": Platformer,
             "parallax_example": ParallaxExample,
+            "arcade": Arcade
         }
         self.state_stack = []
         self.current_state = None

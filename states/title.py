@@ -21,6 +21,7 @@ class Title(State):
         self.clicker_btn = Button(x=self.canvas_width * 0.1, y=self.canvas_width//2, width=200, height=100, text="Clicker", text_color=(0, 0, 255), callback=lambda: StateManager().set_state("clicker"))
         self.platformer_btn = Button(x=self.canvas_width * 0.4, y=self.canvas_width//2, width=200, height=100, text="Platformer", text_color=(0, 0, 255), callback=lambda: StateManager().set_state("platformer"))
         self.parallax_btn = Button(x=self.canvas_width * 0.7, y=self.canvas_width//2, width=200, height=100, text="Parallax Example", text_color=(0, 0, 255), callback=lambda: StateManager().set_state("parallax_example"))
+        self.arcade_btn = Button(x=self.canvas_width * 0.4, y=self.canvas_width//2, width=200, height=100, text="arcade", text_color=(0, 0, 255), color="red", callback=lambda: StateManager().set_state("arcade"))
 
     def update(self, delta_time):
         super().update(delta_time)
@@ -30,6 +31,7 @@ class Title(State):
         self.clicker_btn.handle_event(event)
         self.platformer_btn.handle_event(event)
         self.parallax_btn.handle_event(event)
+        self.arcade_btn.handle_event(event)
 
     def render(self):
         self.canvas.fill("gray")
@@ -37,4 +39,5 @@ class Title(State):
         self.canvas.blit(self.clicker_btn.render(), self.clicker_btn.rect)
         self.canvas.blit(self.platformer_btn.render(), self.platformer_btn.rect)
         self.canvas.blit(self.parallax_btn.render(), self.parallax_btn.rect)
+        self.canvas.blit(self.arcade_btn.render(), self.arcade_btn.rect)
         return self.canvas

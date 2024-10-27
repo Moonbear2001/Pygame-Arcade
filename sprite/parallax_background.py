@@ -29,6 +29,8 @@ class ParallaxBackground(pygame.sprite.Sprite):
             # Only load files
             if file_path.is_file():
                 layer_image = pygame.image.load(file_path).convert_alpha()
+
+                # TODO: layers are forced to scale, might have a layer that is narrower and needs to repeat more
                 layer_image = pygame.transform.scale(layer_image, (self.canvas_width, self.canvas_height))
 
                 # TODO: find a better way to manage speed
