@@ -16,8 +16,12 @@ class Arcade(State):
     def __init__(self):
         super().__init__()
         self.name = "arcade"
-
-        self.machine1 = ArcadeMachine()
+        self.arcade_machines = [
+            ArcadeMachine("pong"),
+            ArcadeMachine("out_of_order"),
+            ArcadeMachine("out_of_order")
+        ]
+        self.current_game_index = 0
         
     def enter(self):
         # AudioManager().play_music("arcade_music/1.mp3", loops=-1)
@@ -25,14 +29,52 @@ class Arcade(State):
 
     def update(self, delta_time):
         super().update(delta_time)
-        self.machine1.update(delta_time)
+        for arcade_machine in self.arcade_machines:
+            arcade_machine.update(delta_time)
 
     def handle_event(self, event):
         super().handle_event(event)
-        self.machine1.handle_event(event)
+        for arcade_machine in self.arcade_machines:
+            arcade_machine.handle_event(event)
 
+        # Controls for selecting game to play
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                self.go_left()
+            if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                self.go_right()
+            if event.key == pygame.K_e or event.key == pygame.K_RETURN:
+                self.enter_game()
 
     def render(self):
         self.canvas.fill("pink")
-        self.canvas.blit(self.machine1.render(), self.machine1.rect)
+        left = 0
+        for arcade_machine in self.arcade_machines:
+            pos_rect = arcade_machine.rect
+            # pos_rect.bottom = 720
+            pos_rect.left = left
+            self.canvas.blit(arcade_machine.render(), pos_rect)
+            left += 300
         return self.canvas
+
+    def go_left(self):
+        """
+        Move one game selection to the left.
+        """
+        if len(self.arcade_machines) > self.current_game_index + 1:
+            self.current_game_index += 1
+
+
+    def go_right(self):
+        """
+        Move one game selection to the right.
+        """
+        if self.current_game_index - 1 >= 0 :
+            self.current_game_index -= 1
+
+    def enter_game(self):
+        """
+        Enter and play the selected game.
+        """
+        print(self.arcade_machines[self.current_game_index].game_name)
+        StateManager().push_state(self.arcade_machines[self.current_game_index].game_name)

@@ -34,6 +34,10 @@ class SpriteSheet:
         Scale and make certain colors to transparent if requested.
         """
         frame = pygame.Surface((self.frame_width, self.frame_height), pygame.SRCALPHA).convert_alpha()
+
+        # TESTING
+        frame.fill("blue")
+
         frame.blit(self.sheet, (0, 0), (col * self.frame_width, row * self.frame_height, self.frame_width, self.frame_height))
         if scale != 1:
             frame = pygame.transform.scale(frame, (int(self.frame_width * scale), int(self.frame_height * scale)))

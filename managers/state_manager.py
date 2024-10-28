@@ -14,7 +14,7 @@ class StateManager:
         return cls._instance
     
     def _init(self):
-        from states import Title, Loading, Settings, Clicker, Platformer, ParallaxExample, Arcade
+        from states import Title, Loading, Settings, Clicker, Platformer, ParallaxExample, Arcade, Pong
 
         self.states = {
             "title": Title,
@@ -23,7 +23,8 @@ class StateManager:
             "clicker": Clicker,
             "platformer": Platformer,
             "parallax_example": ParallaxExample,
-            "arcade": Arcade
+            "arcade": Arcade,
+            "pong": Pong
         }
         self.state_stack = []
         self.current_state = None
@@ -39,8 +40,6 @@ class StateManager:
         Enter a new state, discarding the current state and the entire state stack.
         If the new state doesn't exist, nothing happens.
         """
-        print(f"set state {state_name}...{self.state_stack}")
-
         state_class = self.states.get(state_name)
         if state_class:
             if self.current_state:
@@ -48,8 +47,6 @@ class StateManager:
             self.state_stack = []
             self.current_state = state_class() 
             self.current_state.enter()
-
-        print("set state end... ", self.state_stack)
         
 
     def push_state(self, state_name):
@@ -57,8 +54,6 @@ class StateManager:
         Enter a new state, keeping the current state.
         If the new state doesn't exist, nothing happens.
         """
-        print("push state start... ", self.state_stack)
-
         # Prevent stacking of the same state
         if self.current_state and self.current_state.name == state_name:
             print("blocked")
@@ -70,8 +65,6 @@ class StateManager:
                 self.state_stack.append(self.current_state)
             self.current_state = state_class()
             self.current_state.enter()
-        print("push state end... ", self.state_stack)
-
 
     def pop_state(self):
         """
