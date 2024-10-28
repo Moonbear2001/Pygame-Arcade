@@ -41,6 +41,8 @@ class TransitionManager:
             if self.current_transition.finished:
                 StateManager().set_state(self.current_transition.next_state_name)
                 self.current_transition = None
+            else:
+                self.current_transition.update(delta_time)
 
     def render(self, canvas):
         """

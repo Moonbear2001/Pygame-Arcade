@@ -12,7 +12,7 @@ class Transition(ABC):
         """
         super().__init__()
         self.next_state_name = next_state_name
-        self.surface = pygame.Surface((1280, 720))
+        self.surface = pygame.Surface((1280, 720), pygame.SRCALPHA).convert_alpha()
         self.finished = False
 
     @abstractmethod

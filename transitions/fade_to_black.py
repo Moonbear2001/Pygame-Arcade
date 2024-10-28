@@ -5,8 +5,8 @@ class FadeToBlack(Transition):
     Fades the screen to black.
     """
 
-    def __init__(self, next_state_name, duration):
-        self.next_state_name = next_state_name
+    def __init__(self, next_state_name, duration=1):
+        super().__init__(next_state_name)
         self.duration = duration
         self.current_time = 0
         self.surface.fill("black")
@@ -17,7 +17,8 @@ class FadeToBlack(Transition):
         alpha = int(255 * fade_progress)
         self.surface.set_alpha(alpha)
         if fade_progress == 1:
+            print("fade to black finished")
             self.finished = True
 
     def render(self, canvas):
-        canvas.blit(self.suface, (0, 0))
+        canvas.blit(self.surface, (0, 0))

@@ -1,3 +1,5 @@
+import pygame
+
 class StateManager:
     """
     Manages game states.
@@ -34,27 +36,42 @@ class StateManager:
 
     def set_state(self, state_name):
         """
-        Enter a new state, discarding the current state.
+        Enter a new state, discarding the current state and the entire state stack.
         If the new state doesn't exist, nothing happens.
         """
+        print(f"set state {state_name}...{self.state_stack}")
+
         state_class = self.states.get(state_name)
         if state_class:
             if self.current_state:
                 self.current_state.cleanup()
+            self.state_stack = []
             self.current_state = state_class() 
             self.current_state.enter()
+
+        print("set state end... ", self.state_stack)
+        
 
     def push_state(self, state_name):
         """
         Enter a new state, keeping the current state.
         If the new state doesn't exist, nothing happens.
         """
+        print("push state start... ", self.state_stack)
+
+        # Prevent stacking of the same state
+        if self.current_state and self.current_state.name == state_name:
+            print("blocked")
+            return
+
         state_class = self.states.get(state_name)
         if state_class:
             if self.current_state:
                 self.state_stack.append(self.current_state)
             self.current_state = state_class()
             self.current_state.enter()
+        print("push state end... ", self.state_stack)
+
 
     def pop_state(self):
         """
@@ -68,10 +85,23 @@ class StateManager:
 
     def handle_event(self, event):
         """
-        Handle invidivual events.
+        Handle global state controls.
+        Pass events to the current state.
         """
         if self.current_state:
             self.current_state.handle_event(event)
+
+        if event.type == pygame.KEYDOWN:
+
+            # Esc go back one state (if possible)
+            if event.key == pygame.K_ESCAPE:
+                self.pop_state()
+            # T for title page
+            if event.key == pygame.K_t:
+                StateManager().set_state("title")
+            # Y for settings
+            if event.key == pygame.K_s:
+                StateManager().push_state("settings")
 
     def update(self, delta_time):
         """

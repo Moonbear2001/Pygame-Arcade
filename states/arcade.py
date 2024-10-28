@@ -25,9 +25,12 @@ class Arcade(State):
 
     def update(self, delta_time):
         super().update(delta_time)
+        self.machine1.update(delta_time)
 
     def handle_event(self, event):
         super().handle_event(event)
+        self.machine1.handle_event(event)
+
 
     def render(self):
         self.canvas.fill("pink")

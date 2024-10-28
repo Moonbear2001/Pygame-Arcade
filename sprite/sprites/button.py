@@ -4,25 +4,23 @@ from utilities import render_text
 
 class Button(pygame.sprite.Sprite):
     """
-    Button that detects clicks and calls a function when clicked.
+    Customizable button that detects clicks and calls a function when clicked.
     """
-    def __init__(self, x: int = 0, y: int = 0, width: int = 100, height: int = 100,
-                 color: tuple = (0, 0, 0), text: str = "", font_name: str = "roboto",
-                 text_color: tuple = (0, 0, 0), callback=None):
+    def __init__(self, x, y, width, height, center_coords: bool = True, bg_color: tuple = (0, 0, 0), text: str = "", font_name: str = "roboto", text_color: pygame.Color = "black", center_text=True, callback=None):
         super().__init__()
         self.rect = pygame.Rect(x, y, width, height)
-        self.color = color
-        self.text = text
-        self.text_color = text_color
-        self.font_name = font_name
-        self.rect.center = (x, y)
-
         self.callback = callback
 
-        self.surface = pygame.Surface((width, height))
-        self.surface.fill(self.color)
-        if self.text:
-            render_text(self.surface, self.text, self.font_name, self.text_color, self.rect.centerx, self.rect.centery)
+        if center_coords:
+            self.rect.center = (x, y)
+
+        # Render once here
+        self.surface = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha()
+        if bg_color:
+            self.surface.fill(bg_color)
+        if text:
+            render_text(self.surface, text, font_name, text_color)
+        
 
     def update(self):
         pass

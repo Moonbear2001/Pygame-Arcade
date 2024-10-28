@@ -33,11 +33,42 @@ class AudioManager:
             self.music_volume = volume
             pygame.mixer.music.set_volume(self.music_volume)
 
+    def increase_music_volume(self, increment):
+        """
+        Increase the music volume by a requested increment.
+        """
+        self.set_music_volume(min(1, self.music_volume + increment))
+        print(f"music vol: {self.music_volume}")
+
+    def decrease_music_volume(self, increment):
+        """
+        Decrease the music volume by a requested increment.
+        """
+        print("decrease calc: ", self.music_volume - increment)
+        self.set_music_volume(max(0, self.music_volume - increment))
+        print(f"music vol: {self.music_volume}")
+
+
     def set_sounds_volume(self, volume):
         if 0 <= volume <= 1:
             self.sounds_volume = volume
             for sound in self.sounds.values():
                 sound.set_volume(self.sounds_volume)
+
+    def increase_sounds_volume(self, increment):
+        """
+        Increase the sounds volume by a requested increment.
+        """
+        self.set_sounds_volume(min(1, self.sounds_volume + increment))
+        print(f"sfx vol: {self.sounds_volume}")
+
+
+    def decrease_sounds_volume(self, increment):
+        """
+        Increase the sounds volume by a requested increment.
+        """
+        self.set_sounds_volume(max(0, self.sounds_volume - increment))
+        print(f"sfx vol: {self.sounds_volume}")
 
     def load_sound(self, name, ext):
         """

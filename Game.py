@@ -44,15 +44,6 @@ class Game:
             # Quit gracefully
             if event.type == pygame.QUIT:
                 self.game_quit()
-
-            if event.type == pygame.KEYDOWN:
-    
-                # Esc to quit
-                if event.key == pygame.K_ESCAPE:
-                    self.game_quit()
-                # T to return to menu
-                if event.key == pygame.K_t:
-                    StateManager().set_state("title")
             
             # Let managers handle events
             StateManager().handle_event(event)
@@ -70,8 +61,9 @@ class Game:
         """
         canvas = StateManager().render()
         TransitionManager().render(canvas)
-        scaled_canvas = pygame.transform.scale(canvas, (self.screen_width, self.screen_height))
-        self.screen.blit(scaled_canvas, (0, 0))
+        # scaled_canvas = pygame.transform.scale(canvas, (self.screen_width, self.screen_height))
+        # self.screen.blit(scaled_canvas, (0, 0))
+        self.screen.blit(canvas, (0, 0))
         pygame.display.flip()
 
     def game_quit(self):

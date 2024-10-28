@@ -15,7 +15,7 @@ class Loading(State):
     def __init__(self):
         super().__init__()
         self.name = "Loading"
-        self.timer = threading.Timer(1, self.go_next)
+        self.timer = threading.Timer(1, lambda: TransitionManager().start_transition("fade_to_black", "title"))
         self.timer.start()
 
     def update(self, delta_time):
@@ -26,11 +26,6 @@ class Loading(State):
 
     def render(self):
         self.canvas.fill("white")
-        render_text(self.canvas, "Pygame Arcade", "roboto", "black",
-                              self.canvas_width/2, self.canvas_height/2, size=30, center=True)
+        render_text(self.canvas, "Pygame Arcade", "roboto", "black", size=30)
         return self.canvas
-
-    def go_next(self):
-        StateManager().set_state("title")
-        # TransitionManager().start_transition("fade_to_black", "title")
-
+        
