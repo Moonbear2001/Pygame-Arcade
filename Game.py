@@ -27,31 +27,11 @@ class Game:
         self.prev_time = 0
         self.fps = 60
 
-
-        self.example_img = None
-        self.image_init()
-
-        self.example_sound = None
-        self.sound_init()
-
         # Initialize all managers. They are all singletons so can just be instantiated here.
         StateManager()
         SaveLoadManager()
         AudioManager()
         TransitionManager()
-
-
-    def image_init(self):
-        """
-        Store globally available images.
-        """
-        self.example_img = pygame.image.load(IMAGES_DIR / "pygame_logo.png").convert()
-
-    def sound_init(self):
-        """
-        Store globally available sounds.
-        """
-        self.example_sound = pygame.mixer.Sound(SOUNDS_DIR / "example_sound.mp3")
 
     def manage_delta_time(self):
         now = time.time()

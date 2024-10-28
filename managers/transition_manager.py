@@ -1,6 +1,6 @@
 import pygame
 
-from states.transitions import FadeToBlack, FadeFromBlack
+from transitions import FadeToBlack, FadeFromBlack
 # from states import FadeToBlack, FadeFromBlack
 from .state_manager import StateManager
 

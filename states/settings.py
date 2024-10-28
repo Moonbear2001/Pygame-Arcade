@@ -1,4 +1,4 @@
-from states.state import State
+from states import State
 
 from utilities import render_text
 

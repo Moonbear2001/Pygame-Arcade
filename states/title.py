@@ -1,9 +1,7 @@
 import pygame
 from pygame.locals import MOUSEBUTTONDOWN
 
-# from states import State, ParallaxExample, Clicker, Platformer
 from states import State
-# from states.parallax_example import ParallaxExample
 from sprite.sprites import Button
 
 from utilities import render_text

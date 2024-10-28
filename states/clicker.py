@@ -1,6 +1,6 @@
 import pygame
 
-from states.state import State
+from states import State
 from managers import SaveLoadManager
 from utilities import render_text
 
