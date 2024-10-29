@@ -18,12 +18,10 @@ class Game:
         self.name = "Template"
         self.screen_width = 1280
         self.screen_height = 720
-        flags = pygame.NOFRAME | pygame.RESIZABLE
+        # flags = pygame.NOFRAME | pygame.RESIZABLE
+        flags = pygame.RESIZABLE
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), flags=flags)
         pygame.display.set_caption(self.name)
-
-        # Canvas that scenes draw on
-        self.canvas = 
 
         self.running = True
         self.playing = True
@@ -32,7 +30,6 @@ class Game:
         self.fps = 60
 
         # Initialize all managers. They are all singletons so can just be instantiated here.
-        # StateManager()
         SceneManager()
         SaveLoadManager()
         AudioManager()
@@ -51,17 +48,16 @@ class Game:
                 self.game_quit()
 
             # Update resolution if window is resized
-            if event.type == pygame.VIDEORESIZE:
-                print("resize")
-            
+            if event.type == pygame.WINDOWRESIZED:
+                self.screen_width = event.x
+                self.screen_height = event.y
+
             # Let managers handle events
-            # StateManager().handle_event(event)
             SceneManager().handle_event(event)
             AudioManager().handle_event(event)
 
     def update(self):
         SceneManager().update(self.delta_time)
-        # StateManager().update(self.delta_time)
         TransitionManager().update(self.delta_time)
 
     def render(self):
@@ -91,7 +87,7 @@ class Game:
         """
         clock = pygame.time.Clock()
         self.prev_time = time.time()
-        SceneManager().set_scene("test")
+        SceneManager().set_scene("intro", 0, 0, 1280, 720)
 
         while self.playing:
 

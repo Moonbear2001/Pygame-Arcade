@@ -14,9 +14,13 @@ class SceneManager:
         return cls._instance
 
     def _init(self):
-        from scenes import Test
+        from scenes import Test, Intro, Arcade, Settings, Clicker
         self.scenes = {
-            "test": Test
+            "test": Test,
+            "intro": Intro,
+            "arcade": Arcade,
+            "settings": Settings,
+            "clicker": Clicker
         }
         self.scene_stack = []
         self.current_scene = None
@@ -27,7 +31,7 @@ class SceneManager:
         """
         self.scenes[scene_name] = scene_class
 
-    def set_scene(self, scene_name):
+    def set_scene(self, scene_name, *args, **kwargs):
         """
         Set the current scene, replacing the existing scene and the whole scene stack.
         If the new scene doesn't exist, nothing happens.
@@ -36,22 +40,22 @@ class SceneManager:
         if scene_class:
             if self.current_scene:
                 self.current_scene.cleanup()
-            self.current_scene = scene_class()
+            self.current_scene = scene_class(*args, **kwargs)
             self.current_scene.enter()
 
-    def push_scene(self, scene_name):
+    def push_scene(self, scene_name, *args, **kwargs):
         """
         Push a new scene onto the stack, keeping the current scene.
         If the new scene doesn't exist, nothing happens.
         """
-        # Prevent stacking of the same scene
+        # Prevent stacking of the same scene by class type
         if self.current_scene and self.current_scene.name == scene_name:
             return
         scene_class = self.scenes.get(scene_name)
         if scene_class:
             if self.current_scene:
                 self.scene_stack.append(self.current_scene)
-            self.current_scene = scene_class()
+            self.current_scene = scene_class(*args, **kwargs)
             self.current_scene.enter()
 
     def pop_scene(self):
@@ -62,7 +66,6 @@ class SceneManager:
         if self.scene_stack and self.current_scene:
             self.current_scene.cleanup()
             self.current_scene = self.scene_stack.pop()
-            self.current_scene.enter()
 
     def update(self, delta_time):
         """
@@ -70,7 +73,6 @@ class SceneManager:
         """
         if self.current_scene:
             self.current_scene.update(delta_time)
-            self.current_scene.update_children(delta_time)
 
     def render(self):
         """
@@ -103,5 +105,10 @@ class SceneManager:
                 self.set_scene("title")
             
             # Example for pushing a settings scene
-            elif event.key == pygame.K_s:
+            elif event.key == pygame.K_p:
                 self.push_scene("settings")
+
+            # Example for pushing a clicker scene
+            elif event.key == pygame.K_c:
+                self.push_scene("clicker")
+                

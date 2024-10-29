@@ -4,21 +4,21 @@ from abc import ABC, abstractmethod
 
 class Transition(ABC):
     """
-    A transition between two states. This is usually just some visual effect. If there is a transition taking place, the TransitionManager draws the visual effect on top of the current state.
+    A transition between two scenes. This is usually just some visual effect. If there is a transition taking place, the TransitionManager draws the visual effect on top of the current scene.
     """
-    def __init__(self, next_state_name):
+    def __init__(self, next_scene_name):
         """
-        Next state is the name of state to go to after the transition is finished.
+        Next scene is the name of scene to go to after the transition is finished.
         """
         super().__init__()
-        self.next_state_name = next_state_name
+        self.next_scene_name = next_scene_name
         self.surface = pygame.Surface((1280, 720), pygame.SRCALPHA).convert_alpha()
         self.finished = False
 
     @abstractmethod
     def update(self, delta_time):
         """
-        Update the transition over time. This is where you set finished to true, signaling to the TransitionManager to go to the next state.
+        Update the transition over time. This is where you set finished to true, signaling to the TransitionManager to go to the next scene.
         """
         pass
 

@@ -8,16 +8,16 @@ class Scene(ABC):
     A scene is responsible for passing events, updating, and drawing each of its components onto its own Surface, which it returns to either the parent Scene or if it is the top level Scene returns up to the SceneManager.
     """
 
-    def __init__(self, left, top, width, height):
+    def __init__(self, left=0, top=0, width=1280, height=720):
         """
         Initialize a new scene.
         """
         super().__init__()
         self.rect = pygame.Rect(left, top, width, height)
-        self.canvas = pygame.Surface((width, height))
+        self.canvas = pygame.Surface((width, height), pygame.SRCALPHA)
         self.children = []
         self.sprites = pygame.sprite.Group()
-        self.active = False
+        self.active = True
 
     ### UPDATING ###
 
@@ -26,7 +26,7 @@ class Scene(ABC):
         Update the scene, all child scenes, and all child sprites.
         """
         if self.active:
-            self.on_update()
+            self.on_update(delta_time)
             for child in self.children:
                 if child.active:
                   child.update(delta_time)
@@ -48,8 +48,9 @@ class Scene(ABC):
             self.on_render()
             for child in self.children:
                 if child.active:
-                    self.canvas.blit(child.canvas, child.rect)
-            self.sprites.render(self.canvas)
+                    self.canvas.blit(child.render(), child.rect)
+            self.sprites.draw(self.canvas)
+            return self.canvas
 
     def on_render(self):
         """
@@ -68,6 +69,8 @@ class Scene(ABC):
             for child in self.children:
                 if child.active:
                     child.handle_event(event)
+            for sprite in self.sprites:
+                sprite.handle_event(event)
 
     def on_event(self, event):
         pass
@@ -96,7 +99,7 @@ class Scene(ABC):
     def on_cleanup(self):
         pass
 
-    ### CHILD MANAGEMENT ###
+    ### CHILD SCENE MANAGEMENT ###
 
     def add_child(self, scene):
         """
@@ -110,6 +113,20 @@ class Scene(ABC):
         """
         if scene in self.children:
             self.children.remove(scene)
+
+    ### SPRITE MANAGEMENT ###
+
+    def add_sprite(self, sprite):
+        """
+        Add a nested scene.
+        """
+        self.sprites.add(sprite)
+
+    def remove_add(self, sprite):
+        """
+        Remove a nested scene.
+        """
+        self.sprites.remove(sprite)
 
 
 

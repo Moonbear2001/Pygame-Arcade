@@ -5,8 +5,8 @@ class FadeToBlack(Transition):
     Fades the screen to black.
     """
 
-    def __init__(self, next_state_name, duration=1):
-        super().__init__(next_state_name)
+    def __init__(self, next_scene_name, duration=1):
+        super().__init__(next_scene_name)
         self.duration = duration
         self.current_time = 0
         self.surface.fill("black")

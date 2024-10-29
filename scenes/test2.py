@@ -1,12 +1,10 @@
 import pygame
 
 from .scene import Scene
-from .test2 import Test2
-from sprite.sprites import Player
 
-class Test(Scene):
+class Test2(Scene):
 
-    name = "test"
+    name = "test2"
     
     def __init__(self):
         """
@@ -14,25 +12,22 @@ class Test(Scene):
         """
         super().__init__()
 
-        self.add_child(Test2())
-        self.add_sprite(Player())
-
     def on_update(self, delta_time):
         pass
 
     def on_render(self):
-        self.canvas.fill("green")
+        self.canvas.fill("gray")
 
     def on_event(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                print("enter")
+            if event.key == pygame.K_j:
+                print("j")
 
     def on_enter(self):
-        print("test ON ENTER")
+        print("test 2 ON ENTER")
 
     def on_cleanup(self):
-        print("test ON CLEANUP")
+        print("test 2 ON CLEANUP")
 
 
 
