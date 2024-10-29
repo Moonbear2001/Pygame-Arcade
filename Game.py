@@ -18,8 +18,12 @@ class Game:
         self.name = "Template"
         self.screen_width = 1280
         self.screen_height = 720
-        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+        flags = pygame.NOFRAME | pygame.RESIZABLE
+        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), flags=flags)
         pygame.display.set_caption(self.name)
+
+        # Canvas that scenes draw on
+        self.canvas = 
 
         self.running = True
         self.playing = True
@@ -28,7 +32,8 @@ class Game:
         self.fps = 60
 
         # Initialize all managers. They are all singletons so can just be instantiated here.
-        StateManager()
+        # StateManager()
+        SceneManager()
         SaveLoadManager()
         AudioManager()
         TransitionManager()
@@ -44,26 +49,32 @@ class Game:
             # Quit gracefully
             if event.type == pygame.QUIT:
                 self.game_quit()
+
+            # Update resolution if window is resized
+            if event.type == pygame.VIDEORESIZE:
+                print("resize")
             
             # Let managers handle events
-            StateManager().handle_event(event)
+            # StateManager().handle_event(event)
+            SceneManager().handle_event(event)
             AudioManager().handle_event(event)
 
     def update(self):
-        StateManager().update(self.delta_time)
+        SceneManager().update(self.delta_time)
+        # StateManager().update(self.delta_time)
         TransitionManager().update(self.delta_time)
 
     def render(self):
         """
-        Draw the current state onto the canvas.
-        Draw any current transition effects on top
+        Get the canvas from the SceneManager.
+        Draw any current transition effects on top.
         Scale the canvas to the screen width.
         """
-        canvas = StateManager().render()
+        canvas = SceneManager().render()
         TransitionManager().render(canvas)
-        # scaled_canvas = pygame.transform.scale(canvas, (self.screen_width, self.screen_height))
-        # self.screen.blit(scaled_canvas, (0, 0))
-        self.screen.blit(canvas, (0, 0))
+        scaled_canvas = pygame.transform.scale(canvas, (self.screen_width, self.screen_height))
+        self.screen.blit(scaled_canvas, (0, 0))
+        # self.screen.blit(canvas, (0, 0))
         pygame.display.flip()
 
     def game_quit(self):
@@ -80,7 +91,7 @@ class Game:
         """
         clock = pygame.time.Clock()
         self.prev_time = time.time()
-        StateManager().set_state("loading")
+        SceneManager().set_scene("test")
 
         while self.playing:
 
