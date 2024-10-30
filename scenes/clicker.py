@@ -4,13 +4,14 @@ from .scene import Scene
 from utilities import render_text
 from managers import SaveLoadManager
 
+
 class Clicker(Scene):
     """
     Simple clicker game in which the player just tries to beat the high score number of clicks.
     """
 
     name = "clicker"
-    
+
     def __init__(self):
         """
         Initialize a new scene.
@@ -25,8 +26,22 @@ class Clicker(Scene):
 
     def on_render(self):
         self.canvas.fill("gray")
-        render_text(self.canvas, "The high score is: " + str(self.high_score), "roboto", "blue", coord=(self.rect.width / 2, self.rect.height * 0.9), size=30)
-        render_text(self.canvas, str(self.score), "roboto", "black", coord=(self.rect.width / 2, self.rect.height / 2), size=60)
+        render_text(
+            self.canvas,
+            "The high score is: " + str(self.high_score),
+            "roboto",
+            "blue",
+            coord=(self.rect.width / 2, self.rect.height * 0.9),
+            size=30,
+        )
+        render_text(
+            self.canvas,
+            str(self.score),
+            "roboto",
+            "black",
+            coord=(self.rect.width / 2, self.rect.height / 2),
+            size=60,
+        )
         return self.canvas
 
     def on_event(self, event):
@@ -43,7 +58,3 @@ class Clicker(Scene):
         self.high_score = max(self.high_score, self.score)
         self.saved_data["high_score"] = self.high_score
         SaveLoadManager().save_data(self.saved_data, "clicker")
-
-
-
-

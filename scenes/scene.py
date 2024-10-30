@@ -1,6 +1,7 @@
 import pygame
-from abc import ABC, abstractmethod  
+from abc import ABC, abstractmethod
 from utilities import render_text
+
 
 class Scene(ABC):
     """
@@ -29,7 +30,7 @@ class Scene(ABC):
             self.on_update(delta_time)
             for child in self.children:
                 if child.active:
-                  child.update(delta_time)
+                    child.update(delta_time)
             self.sprites.update(delta_time)
 
     def on_update(self, delta_time):
@@ -37,7 +38,7 @@ class Scene(ABC):
         Updates specifically for the current scene.
         """
         pass
-    
+
     ### RENDERING ###
 
     def render(self) -> pygame.Surface:
@@ -89,7 +90,7 @@ class Scene(ABC):
 
     def cleanup(self):
         """
-        Clean up resources, save, etc. 
+        Clean up resources, save, etc.
         Called by the scene manager before exiting this scene.
         """
         self.on_cleanup()
@@ -127,11 +128,3 @@ class Scene(ABC):
         Remove a nested scene.
         """
         self.sprites.remove(sprite)
-
-
-
-
-
-
-
-

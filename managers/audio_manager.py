@@ -11,6 +11,7 @@ class AudioManager:
     Manages loading audio and controlling volume.
     Uses singleton design pattern.
     """
+
     _instance = None
 
     def __new__(cls):
@@ -18,7 +19,7 @@ class AudioManager:
             cls._instance = super(AudioManager, cls).__new__(cls)
             cls._instance._init()
         return cls._instance
-    
+
     def _init(self):
         pygame.mixer.init()
         self.sounds = {}
@@ -48,7 +49,6 @@ class AudioManager:
         self.set_music_volume(max(0, self.music_volume - increment))
         print(f"music vol: {self.music_volume}")
 
-
     def set_sounds_volume(self, volume):
         if 0 <= volume <= 1:
             self.sounds_volume = volume
@@ -61,7 +61,6 @@ class AudioManager:
         """
         self.set_sounds_volume(min(1, self.sounds_volume + increment))
         print(f"sfx vol: {self.sounds_volume}")
-
 
     def decrease_sounds_volume(self, increment):
         """
@@ -125,8 +124,3 @@ class AudioManager:
                 self.current_track_index += 1
             pygame.mixer.music.set_endevent(PLAYLIST_NEXT)
             self.play_music(self.playlist[self.current_track_index])
-
-    
-    
-
-    

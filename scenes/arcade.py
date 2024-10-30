@@ -6,13 +6,14 @@ from paths import IMAGES_DIR
 
 MOVE_SPEED = 100
 
+
 class Arcade(Scene):
     """
     Arcade room with all of the arcade machines.
     """
 
     name = "arcade"
-    
+
     def __init__(self):
         """
         Initialize a new scene.
@@ -69,6 +70,3 @@ class Arcade(Scene):
         """
         # print(self.arcade_machines[self.current_game_index].game_name)
         print("enter game")
-
-
-

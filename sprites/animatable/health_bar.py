@@ -1,5 +1,6 @@
 import pygame
-from ..animatable_sprite import AnimatableSprite
+from .animatable_sprite import AnimatableSprite
+
 
 class HealthBar(AnimatableSprite):
     """
@@ -15,7 +16,14 @@ class HealthBar(AnimatableSprite):
     COLORKEY = None
 
     def __init__(self, x=0, y=0, width=256, height=64):
-        super().__init__(self.SPRITESHEET_FILE, self.NUM_ROWS, self.NUM_COLS, self.PX_WIDTH, self.PX_HEIGHT, colorkey=self.COLORKEY)
+        super().__init__(
+            self.SPRITESHEET_FILE,
+            self.NUM_ROWS,
+            self.NUM_COLS,
+            self.PX_WIDTH,
+            self.PX_HEIGHT,
+            colorkey=self.COLORKEY,
+        )
         self.rect = pygame.Rect(x, y, width, height)
 
         self.add_animation("loop", 0, 7, 1)
@@ -23,5 +31,3 @@ class HealthBar(AnimatableSprite):
 
     def update(self, delta_time):
         super().update(delta_time)
-
-    

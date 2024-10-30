@@ -2,11 +2,26 @@ import pygame
 
 from utilities import render_text
 
+
 class Button(pygame.sprite.Sprite):
     """
     Customizable button that detects clicks and calls a function when clicked.
     """
-    def __init__(self, x, y, width, height, center_coords: bool = True, bg_color: tuple = (0, 0, 0), text: str = "", font_name: str = "roboto", text_color: pygame.Color = "black", center_text=True, callback=None):
+
+    def __init__(
+        self,
+        x,
+        y,
+        width,
+        height,
+        center_coords: bool = True,
+        bg_color: tuple = (0, 0, 0),
+        text: str = "",
+        font_name: str = "roboto",
+        text_color: pygame.Color = "black",
+        center_text=True,
+        callback=None,
+    ):
         super().__init__()
         self.rect = pygame.Rect(x, y, width, height)
         self.callback = callback
@@ -20,7 +35,6 @@ class Button(pygame.sprite.Sprite):
             self.surface.fill(bg_color)
         if text:
             render_text(self.surface, text, font_name, text_color)
-        
 
     def update(self):
         pass

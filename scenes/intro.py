@@ -2,10 +2,10 @@ import pygame
 from threading import Timer
 
 from .scene import Scene
-from .test2 import Test2
-from sprite.sprites import Player
+from sprites import Player
 from managers import TransitionManager
 from paths import IMAGES_DIR
+
 
 class Intro(Scene):
     """
@@ -13,15 +13,17 @@ class Intro(Scene):
     """
 
     name = "intro"
-    
+
     def __init__(self, left, top, width, height):
         """
         Initialize a new scene.
         """
         super().__init__(left, top, width, height)
-        self.timer = Timer(1, lambda: TransitionManager().start_transition("fade_to_black", "arcade"))
+        self.timer = Timer(
+            1, lambda: TransitionManager().start_transition("fade_to_black", "arcade")
+        )
         self.intro_image = pygame.image.load(IMAGES_DIR / "intro.png")
-    
+
     def on_enter(self):
         self.timer.start()
 

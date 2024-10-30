@@ -3,6 +3,7 @@ from pathlib import Path
 
 from paths import FONTS_DIR
 
+
 def render_text(surface, text, font_name, color, coord=None, size=10):
     """
     Utility function for rendering some text to a surface.
@@ -10,9 +11,9 @@ def render_text(surface, text, font_name, color, coord=None, size=10):
     'text' is rendered with parameters 'font_name', 'color', and 'size' and then drawn onto 'surface'. 'coord' is the draw location, if no coordinate is provided then the text is centered horizontally and vertically in the provided surface.
     """
     font_path = FONTS_DIR / (font_name + ".ttf")
-    
+
     if not font_path.is_file():
-        return  
+        return
 
     text_surface = pygame.font.Font(str(font_path), size).render(text, True, color)
     text_rect = text_surface.get_rect()

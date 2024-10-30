@@ -1,10 +1,12 @@
 import pygame
 
+
 class SceneManager:
     """
     Manages scenes.
     Uses the singleton design pattern.
     """
+
     _instance = None
 
     def __new__(cls):
@@ -14,13 +16,13 @@ class SceneManager:
         return cls._instance
 
     def _init(self):
-        from scenes import Test, Intro, Arcade, Settings, Clicker
+        from scenes import Intro, Arcade, Settings, Clicker
+
         self.scenes = {
-            "test": Test,
             "intro": Intro,
             "arcade": Arcade,
             "settings": Settings,
-            "clicker": Clicker
+            "clicker": Clicker,
         }
         self.scene_stack = []
         self.current_scene = None
@@ -95,7 +97,7 @@ class SceneManager:
         This can include input handling for scene transitions or other game controls.
         """
         if event.type == pygame.KEYDOWN:
-            
+
             # Esc go back one scene (if possible)
             if event.key == pygame.K_ESCAPE:
                 self.pop_scene()
@@ -103,7 +105,7 @@ class SceneManager:
             # Example for setting a specific scene
             elif event.key == pygame.K_t:
                 self.set_scene("title")
-            
+
             # Example for pushing a settings scene
             elif event.key == pygame.K_p:
                 self.push_scene("settings")
@@ -111,4 +113,3 @@ class SceneManager:
             # Example for pushing a clicker scene
             elif event.key == pygame.K_c:
                 self.push_scene("clicker")
-                

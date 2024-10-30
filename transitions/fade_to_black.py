@@ -1,5 +1,6 @@
 from .transition import Transition
 
+
 class FadeToBlack(Transition):
     """
     Fades the screen to black.

@@ -4,6 +4,7 @@ import time
 from managers import *
 from paths import *
 
+
 class Game:
     """
     Top level class. Initializes pygame, manages global resources, and holds the main game loop.
@@ -20,7 +21,9 @@ class Game:
         self.screen_height = 720
         # flags = pygame.NOFRAME | pygame.RESIZABLE
         flags = pygame.RESIZABLE
-        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height), flags=flags)
+        self.screen = pygame.display.set_mode(
+            (self.screen_width, self.screen_height), flags=flags
+        )
         pygame.display.set_caption(self.name)
 
         self.running = True
@@ -68,7 +71,9 @@ class Game:
         """
         canvas = SceneManager().render()
         TransitionManager().render(canvas)
-        scaled_canvas = pygame.transform.scale(canvas, (self.screen_width, self.screen_height))
+        scaled_canvas = pygame.transform.scale(
+            canvas, (self.screen_width, self.screen_height)
+        )
         self.screen.blit(scaled_canvas, (0, 0))
         # self.screen.blit(canvas, (0, 0))
         pygame.display.flip()
@@ -79,7 +84,6 @@ class Game:
         """
         pygame.quit()
         exit()
-
 
     def game_loop(self):
         """

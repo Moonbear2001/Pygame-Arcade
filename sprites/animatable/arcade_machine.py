@@ -1,7 +1,8 @@
 import pygame
 from random import randint
 
-from ..animatable_sprite import AnimatableSprite
+from .animatable_sprite import AnimatableSprite
+
 
 class GameplayPreview(AnimatableSprite):
     """
@@ -19,15 +20,21 @@ class GameplayPreview(AnimatableSprite):
         """
         'game' = name of game to preview
         """
-        super().__init__(self.SPRITESHEET_FILE, self.NUM_ROWS, self.NUM_COLS, self.PX_WIDTH, self.PX_HEIGHT)
+        super().__init__(
+            self.SPRITESHEET_FILE,
+            self.NUM_ROWS,
+            self.NUM_COLS,
+            self.PX_WIDTH,
+            self.PX_HEIGHT,
+        )
 
         self.add_animation("pong", 0, 23, 0.5)
         self.add_animation("out_of_order", 1, 10, 2.2)
-        
+
         self.play_animation(game)
 
     def update(self, delta_time):
-            super().update(delta_time)
+        super().update(delta_time)
 
     def render(self):
         return self.image
@@ -46,12 +53,18 @@ class ArcadeMachineBar(AnimatableSprite):
     COLORKEY = None
 
     def __init__(self):
-        super().__init__(self.SPRITESHEET_FILE, self.NUM_ROWS, self.NUM_COLS, self.PX_WIDTH, self.PX_HEIGHT)
+        super().__init__(
+            self.SPRITESHEET_FILE,
+            self.NUM_ROWS,
+            self.NUM_COLS,
+            self.PX_WIDTH,
+            self.PX_HEIGHT,
+        )
 
         self.add_animation("loading", 0, 10, 1)
         self.add_animation("idle1", 1, 24, 1)
         self.add_animation("idle2", 2, 2, 3)
-        
+
         self.play_animation("loading")
 
     def update(self, delta_time):
@@ -60,7 +73,6 @@ class ArcadeMachineBar(AnimatableSprite):
     def render(self):
         return self.image
 
-    
 
 class GameTitle(AnimatableSprite):
     """
@@ -78,11 +90,17 @@ class GameTitle(AnimatableSprite):
         """
         'game' = name of game
         """
-        super().__init__(self.SPRITESHEET_FILE, self.NUM_ROWS, self.NUM_COLS, self.PX_WIDTH, self.PX_HEIGHT)
+        super().__init__(
+            self.SPRITESHEET_FILE,
+            self.NUM_ROWS,
+            self.NUM_COLS,
+            self.PX_WIDTH,
+            self.PX_HEIGHT,
+        )
 
         self.add_animation("arcade", 0, 5, 1.3)
         self.add_animation("pong", 1, 5, 1.3)
-        
+
         if game == "out_of_order":
             self.play_animation("arcade")
         else:
@@ -112,7 +130,13 @@ class ArcadeMachine(AnimatableSprite):
         Pick a random arcade machine sprite upon initialization.
         'game' = tells which preview to show
         """
-        super().__init__(self.SPRITESHEET_FILE, self.NUM_ROWS, self.NUM_COLS, self.PX_WIDTH, self.PX_HEIGHT)
+        super().__init__(
+            self.SPRITESHEET_FILE,
+            self.NUM_ROWS,
+            self.NUM_COLS,
+            self.PX_WIDTH,
+            self.PX_HEIGHT,
+        )
 
         self.game_name = game_name
 
@@ -123,8 +147,7 @@ class ArcadeMachine(AnimatableSprite):
         self.game_title = GameTitle(game_name)
         self.game_preview = GameplayPreview(game_name)
         self.bar = ArcadeMachineBar()
-        
-    
+
     def update(self, delta_time):
         super().update(delta_time)
         self.game_title.update(delta_time)
@@ -132,13 +155,21 @@ class ArcadeMachine(AnimatableSprite):
         self.bar.update(delta_time)
 
     def render(self):
-        self.image.blit(self.game_title.render(), (8/60 * self.image.get_width(), 4/100 * self.image.get_height()))
-        self.image.blit(self.game_preview.render(), (13/60 * self.image.get_width(), 15/100 * self.image.get_height()))
-        self.image.blit(self.bar.render(), (4/60 * self.image.get_width(), 54/100 * self.image.get_height()))
+        self.image.blit(
+            self.game_title.render(),
+            (8 / 60 * self.image.get_width(), 4 / 100 * self.image.get_height()),
+        )
+        self.image.blit(
+            self.game_preview.render(),
+            (13 / 60 * self.image.get_width(), 15 / 100 * self.image.get_height()),
+        )
+        self.image.blit(
+            self.bar.render(),
+            (4 / 60 * self.image.get_width(), 54 / 100 * self.image.get_height()),
+        )
         return pygame.transform.scale_by(self.image, 0.5)
 
     def handle_event(self, event):
         # if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
         #     print('ENTER')
         pass
-

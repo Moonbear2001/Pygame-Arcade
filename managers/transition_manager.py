@@ -3,6 +3,7 @@ import pygame
 from transitions import FadeToBlack, FadeFromBlack
 from .scene_manager import SceneManager
 
+
 class TransitionManager:
     """
     Manages transitions between scenes amd their visual effects.
@@ -16,12 +17,12 @@ class TransitionManager:
             cls._instance = super(TransitionManager, cls).__new__(cls)
             cls._instance._init()
         return cls._instance
-    
+
     def _init(self):
         self.current_transition = None
         self.transitions = {
             "fade_to_black": FadeToBlack,
-            "fade_from_black": FadeFromBlack
+            "fade_from_black": FadeFromBlack,
         }
 
     def start_transition(self, transition_name, next_scene_name):
@@ -50,4 +51,3 @@ class TransitionManager:
         """
         if self.current_transition:
             self.current_transition.render(canvas)
-

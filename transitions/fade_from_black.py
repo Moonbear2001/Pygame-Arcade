@@ -1,5 +1,6 @@
 from .transition import Transition
 
+
 class FadeFromBlack(Transition):
 
     def __init__(self, next_scene_name, duration):

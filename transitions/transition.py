@@ -1,11 +1,12 @@
 import pygame
-from abc import ABC, abstractmethod  
+from abc import ABC, abstractmethod
 
 
 class Transition(ABC):
     """
     A transition between two scenes. This is usually just some visual effect. If there is a transition taking place, the TransitionManager draws the visual effect on top of the current scene.
     """
+
     def __init__(self, next_scene_name):
         """
         Next scene is the name of scene to go to after the transition is finished.
