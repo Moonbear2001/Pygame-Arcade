@@ -17,7 +17,7 @@ class Scene(ABC):
         """
         super().__init__()
         self.rect = pygame.Rect(left, top, width, height)
-        self.canvas = pygame.Surface((width, height), pygame.SRCALPHA)
+        self.canvas = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha()
         self.children = []
         self.sprites = pygame.sprite.Group()
         self.active = False

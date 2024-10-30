@@ -9,12 +9,11 @@ class Transition(ABC):
     the TransitionManager draws the visual effect on top of the current scene.
     """
 
-    def __init__(self, next_scene_name):
+    def __init__(self):
         """
         Next scene is the name of scene to go to after the transition is finished.
         """
         super().__init__()
-        self.next_scene_name = next_scene_name
         self.surface = pygame.Surface((1280, 720), pygame.SRCALPHA).convert_alpha()
         self.finished = False
 

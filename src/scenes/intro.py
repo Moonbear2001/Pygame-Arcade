@@ -16,7 +16,10 @@ class Intro(Scene):
     def __init__(self):
         super().__init__()
         self.timer = Timer(
-            1, lambda: TransitionManager().start_transition("fade_to_black", "arcade")
+            1,
+            lambda: TransitionManager().start_transition(
+                "fade_to_black", "arcade", "fade_from_black"
+            ),
         )
         self.intro_image = pygame.image.load(IMAGES_DIR / "intro.png")
 

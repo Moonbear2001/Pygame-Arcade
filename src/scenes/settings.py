@@ -18,6 +18,18 @@ class Settings(Scene):
         self.settings_image = pygame.image.load(
             IMAGES_DIR / "settings.png"
         ).convert_alpha()
+        # self.background = pygame.Surface((1280, 720), pygame.SRCALPHA).convert_alpha()
+        # self.background.fill((0, 0, 0, 1))
+
+    def _on_event(self, event):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_p:
+            SceneManager().pop_scene()
+
+    def _on_render(self):
+        # self.canvas.blit(self.background, (0, 0))
+        self.canvas.blit(self.settings_image, (0, 0))
+        return self.canvas
+
 
         # self.music_vol_up_btn = Button(
         #     self.canvas_width * 0.41,
@@ -66,11 +78,3 @@ class Settings(Scene):
         #     text_color="white",
         #     callback=lambda: AudioManager().decrease_music_volume(0.1),
         # )
-
-    def _on_event(self, event):
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_p:
-            SceneManager().pop_scene()
-
-    def _on_render(self):
-        self.canvas.blit(self.settings_image, (0, 0))
-        return self.canvas
