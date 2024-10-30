@@ -7,7 +7,6 @@ class HealthBar(AnimatableSprite):
     Simple health bar sprite.
     """
 
-    # All HealthBars share one sprite sheet, so information can be shared across instances
     SPRITESHEET_FILE = "example_sprite_sheet.png"
     NUM_ROWS = 1
     NUM_COLS = 7

@@ -1,5 +1,4 @@
 import pygame
-from pathlib import Path
 from random import shuffle
 
 from paths import MUSIC_DIR, SOUNDS_DIR
@@ -98,7 +97,8 @@ class AudioManager:
 
     def play_playlist(self, folder_name):
         """
-        Plays music from a 'playlist'. Accepts a folder and plays music from that folder. No order is guaranteed.
+        Plays music from a 'playlist'. Accepts a folder and plays music from that
+        folder. No order is guaranteed.
         Play the full playlist and then restart the playlist.
         """
         folder_path = MUSIC_DIR / folder_name

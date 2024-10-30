@@ -76,7 +76,7 @@ class SpriteSheet:
 
 class AnimatableSprite(pygame.sprite.Sprite):
     """
-    Sprite that accepts a sprite sheet and can create, set, loop etc. various animations.
+    Sprite that accepts a sprite sheet and can create, set, loop etc. animations.
     Designed to work with sprite sheets where each row contains an animation.
     """
 

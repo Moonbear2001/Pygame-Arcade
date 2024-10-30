@@ -8,7 +8,8 @@ class SaveLoadManager:
     """
     Manages the loading a saving of data to json files.
 
-    Uses the singleton design pattern, a single instance of this manager can be used anywhere in the project.
+    Uses the singleton design pattern, a single instance of this manager can be used
+    anywhere in the project.
     """
 
     _instance = None

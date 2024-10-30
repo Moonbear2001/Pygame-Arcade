@@ -7,7 +7,8 @@ from paths import PARALLAX_DIR
 class ParallaxBackground(pygame.sprite.Sprite):
     """
     Parallax background that is essentially a sprite.
-    Reads from a directory where images are labeled 1-n. 1 is drawn first (background) and n is drawn last (foreground).
+    Reads from a directory where images are labeled 1-n. 1 is drawn first (background)
+    and n is drawn last (foreground).
     """
 
     def __init__(self, folder_name, speed=1):
@@ -31,7 +32,8 @@ class ParallaxBackground(pygame.sprite.Sprite):
             if file_path.is_file():
                 layer_image = pygame.image.load(file_path).convert_alpha()
 
-                # TODO: layers are forced to scale, might have a layer that is narrower and needs to repeat more
+                # TODO: layers are forced to scale, might have a layer that is
+                # narrower and needs to repeat more
                 layer_image = pygame.transform.scale(
                     layer_image, (self.canvas_width, self.canvas_height)
                 )

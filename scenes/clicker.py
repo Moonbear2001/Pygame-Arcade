@@ -7,7 +7,8 @@ from managers import SaveLoadManager
 
 class Clicker(Scene):
     """
-    Simple clicker game in which the player just tries to beat the high score number of clicks.
+    Simple clicker game in which the player just tries to beat the high score number of
+    clicks.
     """
 
     name = "clicker"

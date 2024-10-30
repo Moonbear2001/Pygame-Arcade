@@ -2,7 +2,6 @@ import pygame
 from threading import Timer
 
 from .scene import Scene
-from sprites import Player
 from managers import TransitionManager
 from paths import IMAGES_DIR
 

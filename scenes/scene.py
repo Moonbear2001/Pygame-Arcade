@@ -1,12 +1,13 @@
 import pygame
-from abc import ABC, abstractmethod
-from utilities import render_text
+from abc import ABC
 
 
 class Scene(ABC):
     """
     A scene that can contain other nested scenes.
-    A scene is responsible for passing events, updating, and drawing each of its components onto its own Surface, which it returns to either the parent Scene or if it is the top level Scene returns up to the SceneManager.
+    A scene is responsible for passing events, updating, and drawing each of its
+    components onto its own Surface, which it returns to either the parent Scene or if
+    it is the top level Scene returns up to the SceneManager.
     """
 
     def __init__(self, left=0, top=0, width=1280, height=720):
@@ -20,7 +21,7 @@ class Scene(ABC):
         self.sprites = pygame.sprite.Group()
         self.active = True
 
-    ### UPDATING ###
+    # UPDATING
 
     def update(self, delta_time):
         """
@@ -39,7 +40,7 @@ class Scene(ABC):
         """
         pass
 
-    ### RENDERING ###
+    # RENDERING
 
     def render(self) -> pygame.Surface:
         """
@@ -59,7 +60,7 @@ class Scene(ABC):
         """
         pass
 
-    ### EVENTS ###
+    # EVENTS
 
     def handle_event(self, event):
         """
@@ -76,7 +77,7 @@ class Scene(ABC):
     def on_event(self, event):
         pass
 
-    ### ENTERING AND LEAVING SCENE ###
+    # ENTERING AND LEAVING SCENE
 
     def enter(self):
         """
@@ -100,7 +101,7 @@ class Scene(ABC):
     def on_cleanup(self):
         pass
 
-    ### CHILD SCENE MANAGEMENT ###
+    # CHILD SCENE MANAGEMENT
 
     def add_child(self, scene):
         """
@@ -115,7 +116,7 @@ class Scene(ABC):
         if scene in self.children:
             self.children.remove(scene)
 
-    ### SPRITE MANAGEMENT ###
+    # SPRITE MANAGEMENT
 
     def add_sprite(self, sprite):
         """

@@ -1,6 +1,6 @@
 import pygame
 
-from ..animatable_sprite import AnimatableSprite
+from .animatable_sprite import AnimatableSprite
 
 
 class Player(AnimatableSprite):
@@ -8,7 +8,6 @@ class Player(AnimatableSprite):
     Basic player with animations and movement.
     """
 
-    # All Players share one sprite sheet, so information can be shared across instances
     SPRITESHEET_FILE = "example_sprite_sheet.png"
     NUM_ROWS = 2
     NUM_COLS = 5

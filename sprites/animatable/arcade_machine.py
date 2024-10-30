@@ -42,7 +42,8 @@ class GameplayPreview(AnimatableSprite):
 
 class ArcadeMachineBar(AnimatableSprite):
     """
-    Loading, idle, etc. animations that play on the bar space on the arcade machine before the game is played.
+    Loading, idle, etc. animations that play on the bar space on the arcade machine
+    before the game is played.
     """
 
     SPRITESHEET_FILE = "arcade_machine/bar_animations.png"

@@ -1,13 +1,13 @@
 import pygame
 import time
 
-from managers import *
-from paths import *
+from managers import AudioManager, SaveLoadManager, SceneManager, TransitionManager
 
 
 class Game:
     """
-    Top level class. Initializes pygame, manages global resources, and holds the main game loop.
+    Top level class.
+    Initializes pygame, manages global resources, and holds the main game loop.
     """
 
     def __init__(self):
@@ -32,7 +32,6 @@ class Game:
         self.prev_time = 0
         self.fps = 60
 
-        # Initialize all managers. They are all singletons so can just be instantiated here.
         SceneManager()
         SaveLoadManager()
         AudioManager()

@@ -1,5 +1,3 @@
-import pygame
-
 from transitions import FadeToBlack, FadeFromBlack
 from .scene_manager import SceneManager
 
@@ -27,7 +25,8 @@ class TransitionManager:
 
     def start_transition(self, transition_name, next_scene_name):
         """
-        Starts a transition, given the name of that transition as a string and the name of the scene to transition to.
+        Starts a transition, given the name of that transition as a string and the name
+        of the scene to transition to.
         """
         print("start transition")
         transition_class = self.transitions.get(transition_name)
