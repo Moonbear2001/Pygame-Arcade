@@ -53,7 +53,7 @@ class Clicker(Scene):
     def _on_enter(self):
         pass
 
-    def _on_cleanup(self):
+    def _on_leave(self):
         """
         Save new high score if acheived before exiting.
         """

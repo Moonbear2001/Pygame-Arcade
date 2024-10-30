@@ -66,8 +66,8 @@ class Scene(ABC):
 
     def handle_events(self, event):
         """
-        Subscribed event handing, controls blocking event handling in superclass if
-        the scene is inactive.
+        Receives events the scene has subscribed to.
+
         """
         if self.active:
             self._on_event(event)
@@ -85,6 +85,8 @@ class Scene(ABC):
         Set things up before the scene is entered.
         """
         EventManager().subscribe(self.watched_events, self.handle_events)
+        for child in self.children:
+            child.enter()
         self.active = True
         self._on_enter()
 
@@ -102,18 +104,18 @@ class Scene(ABC):
     def _on_reenter(self):
         pass
 
-    def cleanup(self):
+    def leave(self):
         """
         Clean up resources, save, unsubscribe from events, etc.
         Called by the scene manager before exiting this scene.
         """
         self.active = False
         EventManager().unsubscribe(self.watched_events, self.handle_events)
-        self._on_cleanup()
+        self._on_leave()
         for child in self.children:
-            child.cleanup()
+            child.leave()
 
-    def _on_cleanup(self):
+    def _on_leave(self):
         pass
 
     # CHILD SCENE MANAGEMENT
@@ -135,12 +137,12 @@ class Scene(ABC):
 
     def add_sprite(self, sprite):
         """
-        Add a nested scene.
+        Add a sprite to the scene.
         """
         self.sprites.add(sprite)
 
-    def remove_add(self, sprite):
+    def remove_sprite(self, sprite):
         """
-        Remove a nested scene.
+        Remove a sprite from the scene.
         """
         self.sprites.remove(sprite)

@@ -45,6 +45,10 @@ class Arcade(Scene):
             elif event.key == pygame.K_c:
                 SceneManager().push_scene("clicker")
 
+            # Go to clicker
+            elif event.key == pygame.K_l:
+                SceneManager().push_scene("pong")
+
             # Movement
             elif event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 self.window.move_ip(-1 * MOVE_SPEED, 0)
@@ -55,7 +59,7 @@ class Arcade(Scene):
             elif event.key == pygame.K_e or event.key == pygame.K_RETURN:
                 self.enter_game()
 
-    def _on_cleanup(self):
+    def _on_leave(self):
         pass
 
     def go_left(self):

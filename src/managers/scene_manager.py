@@ -9,13 +9,14 @@ class SceneManager(Manager):
     default_scene = "arcade"
 
     def _init(self):
-        from scenes import Intro, Arcade, Settings, Clicker
+        from scenes import Intro, Arcade, Settings, Clicker, Pong
 
         self.scenes = {
             "intro": Intro,
             "arcade": Arcade,
             "settings": Settings,
             "clicker": Clicker,
+            "pong": Pong,
         }
         self.scene_stack = []
         self.current_scene = None
@@ -34,7 +35,7 @@ class SceneManager(Manager):
         scene_class = self.scenes.get(scene_name)
         if scene_class:
             if self.current_scene:
-                self.current_scene.cleanup()
+                self.current_scene.leave()
             self.current_scene = scene_class(*args, **kwargs)
             self.current_scene.enter()
 
@@ -54,7 +55,7 @@ class SceneManager(Manager):
         scene_class = self.scenes.get(scene_name)
         if scene_class:
             if self.current_scene:
-                self.current_scene.cleanup()
+                self.current_scene.leave()
                 self.scene_stack.append(self.current_scene)
             self.current_scene = scene_class(*args, **kwargs)
             self.current_scene.enter()
@@ -69,7 +70,7 @@ class SceneManager(Manager):
             return
 
         if self.scene_stack:
-            self.current_scene.cleanup()
+            self.current_scene.leave()
             self.current_scene = self.scene_stack.pop()
             self.current_scene.reenter()
         elif self.current_scene.name != self.default_scene:

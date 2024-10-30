@@ -1,4 +1,4 @@
-from .fade_to_black import FadeToBlack
-from .fade_from_black import FadeFromBlack
+from .fade_to_color import FadeToColor
+from .fade_from_color import FadeFromColor
 
-__all__ = ["FadeToBlack", "FadeFromBlack"]
+__all__ = ["FadeToColor", "FadeFromColor"]

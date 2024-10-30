@@ -1,4 +1,4 @@
-from transitions import FadeToBlack, FadeFromBlack
+from transitions import FadeToColor, FadeFromColor
 from .scene_manager import SceneManager
 
 
@@ -20,8 +20,8 @@ class TransitionManager:
         self.current_transition = None
         self.next_scene_name = ""
         self.transitions = {
-            "fade_to_black": FadeToBlack,
-            "fade_from_black": FadeFromBlack,
+            "fade_to_black": FadeToColor,
+            "fade_from_black": FadeFromColor,
         }
 
     def start_transition(
@@ -48,7 +48,6 @@ class TransitionManager:
         Updates the current transition and switches to the next scene if finished.
         """
         if self.current_transition:
-            print("transitioning")
             if not self.current_transition.finished:
                 self.current_transition.update(delta_time)
             else:

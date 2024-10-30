@@ -1,21 +1,22 @@
 from .transition import Transition
 
 
-class FadeFromBlack(Transition):
+class FadeFromColor(Transition):
     """
-    Fades the screen from black.
+    Fades the screen from a color (default black).
     """
 
-    def __init__(self, duration=1):
+    def __init__(self, duration=1, color="black"):
         super().__init__()
         self.duration = duration
+        self.color = color
         self.current_time = 0
-        self.surface.fill("black")
+        self.surface.fill(color)
 
     def update(self, delta_time):
         self.current_time += delta_time
         fade_progress = min(1, self.current_time / self.duration)
-        alpha = int(255 - 255 * fade_progress)
+        alpha = int(255 * (1 - fade_progress))
         self.surface.set_alpha(alpha)
         if fade_progress == 1:
             self.finished = True
