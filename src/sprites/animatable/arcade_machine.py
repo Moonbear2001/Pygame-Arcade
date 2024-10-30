@@ -169,8 +169,3 @@ class ArcadeMachine(AnimatableSprite):
             (4 / 60 * self.image.get_width(), 54 / 100 * self.image.get_height()),
         )
         return pygame.transform.scale_by(self.image, 0.5)
-
-    def handle_event(self, event):
-        # if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
-        #     print('ENTER')
-        pass

@@ -1,5 +1,6 @@
 import pygame
 from abc import ABC
+from managers import EventManager
 
 
 class Scene(ABC):
@@ -10,31 +11,32 @@ class Scene(ABC):
     it is the top level Scene returns up to the SceneManager.
     """
 
-    def __init__(self, left=0, top=0, width=1280, height=720):
+    def __init__(self, watched_events=set(), left=0, top=0, width=1280, height=720):
         """
-        Initialize a new scene.
+        Initializes a new scene.
         """
         super().__init__()
         self.rect = pygame.Rect(left, top, width, height)
         self.canvas = pygame.Surface((width, height), pygame.SRCALPHA)
         self.children = []
         self.sprites = pygame.sprite.Group()
-        self.active = True
+        self.active = False
+        self.watched_events = watched_events
 
     # UPDATING
 
     def update(self, delta_time):
         """
-        Update the scene, all child scenes, and all child sprites.
+        Updates the scene, all child scenes, and all child sprites.
         """
         if self.active:
-            self.on_update(delta_time)
+            self._on_update(delta_time)
             for child in self.children:
                 if child.active:
                     child.update(delta_time)
             self.sprites.update(delta_time)
 
-    def on_update(self, delta_time):
+    def _on_update(self, delta_time):
         """
         Updates specifically for the current scene.
         """
@@ -47,14 +49,14 @@ class Scene(ABC):
         Render the scene, all child scenes, and all child sprites.
         """
         if self.active:
-            self.on_render()
+            self._on_render()
             for child in self.children:
                 if child.active:
                     self.canvas.blit(child.render(), child.rect)
             self.sprites.draw(self.canvas)
             return self.canvas
 
-    def on_render(self):
+    def _on_render(self):
         """
         Rendering specifically for the current scene.
         """
@@ -62,19 +64,18 @@ class Scene(ABC):
 
     # EVENTS
 
-    def handle_event(self, event):
+    def handle_events(self, event):
         """
-        Handle individual events. Can be overridden by subclasses.
+        Subscribed event handing, controls blocking event handling in superclass if
+        the scene is inactive.
         """
         if self.active:
-            self.on_event(event)
-            for child in self.children:
-                if child.active:
-                    child.handle_event(event)
-            for sprite in self.sprites:
-                sprite.handle_event(event)
+            self._on_event(event)
 
-    def on_event(self, event):
+    def _on_event(self, event):
+        """
+        Subscribed event handling in subclasses.
+        """
         pass
 
     # ENTERING AND LEAVING SCENE
@@ -83,22 +84,36 @@ class Scene(ABC):
         """
         Set things up before the scene is entered.
         """
+        EventManager().subscribe(self.watched_events, self.handle_events)
         self.active = True
-        self.on_enter()
+        self._on_enter()
 
-    def on_enter(self):
+    def _on_enter(self):
+        pass
+
+    def reenter(self):
+        """
+        Set things up when the scene is re-entered.
+        """
+        EventManager().subscribe(self.watched_events, self.handle_events)
+        self.active = True
+        self._on_reenter()
+
+    def _on_reenter(self):
         pass
 
     def cleanup(self):
         """
-        Clean up resources, save, etc.
+        Clean up resources, save, unsubscribe from events, etc.
         Called by the scene manager before exiting this scene.
         """
-        self.on_cleanup()
+        self.active = False
+        EventManager().unsubscribe(self.watched_events, self.handle_events)
+        self._on_cleanup()
         for child in self.children:
             child.cleanup()
 
-    def on_cleanup(self):
+    def _on_cleanup(self):
         pass
 
     # CHILD SCENE MANAGEMENT

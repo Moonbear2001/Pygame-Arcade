@@ -1,6 +1,7 @@
 import pygame
 
 from utilities import render_text
+from managers import EventManager
 
 
 class Button(pygame.sprite.Sprite):
@@ -36,6 +37,8 @@ class Button(pygame.sprite.Sprite):
         if text:
             render_text(self.surface, text, font_name, text_color)
 
+        EventManager().subscribe(pygame.MOUSEBUTTONDOWN, self)
+
     def update(self):
         pass
 
@@ -48,11 +51,10 @@ class Button(pygame.sprite.Sprite):
         """
         return self.rect.collidepoint(mouse_pos)
 
-    def handle_event(self, event):
+    def _handle_events(self, event):
         """
         Call the callback function when clicked.
         """
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            if self.is_hovered(event.pos):
-                if self.callback:
-                    self.callback()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1 and self.is_hovered(event.pos) and self.callback:
+                self.callback()

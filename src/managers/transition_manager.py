@@ -28,7 +28,6 @@ class TransitionManager:
         Starts a transition, given the name of that transition as a string and the name
         of the scene to transition to.
         """
-        print("start transition")
         transition_class = self.transitions.get(transition_name)
         if transition_class:
             self.current_transition = transition_class(next_scene_name)

@@ -6,10 +6,7 @@ from paths import SAVED_DATA_DIR, SAVE_DATA_TEMPLATES_DIR
 
 class SaveLoadManager:
     """
-    Manages the loading a saving of data to json files.
-
-    Uses the singleton design pattern, a single instance of this manager can be used
-    anywhere in the project.
+    Manages the loading and saving of data to json files.
     """
 
     _instance = None

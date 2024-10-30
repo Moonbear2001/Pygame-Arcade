@@ -12,20 +12,21 @@ class Clicker(Scene):
     """
 
     name = "clicker"
+    custom_watched_events = {pygame.MOUSEBUTTONDOWN}
 
     def __init__(self):
         """
         Initialize a new scene.
         """
-        super().__init__()
+        super().__init__(self.custom_watched_events)
         self.score = 0
         self.saved_data = SaveLoadManager().load_data("clicker")
         self.high_score = self.saved_data["high_score"]
 
-    def on_update(self, delta_time):
+    def _on_update(self, delta_time):
         pass
 
-    def on_render(self):
+    def _on_render(self):
         self.canvas.fill("gray")
         render_text(
             self.canvas,
@@ -45,14 +46,14 @@ class Clicker(Scene):
         )
         return self.canvas
 
-    def on_event(self, event):
+    def _on_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.score += 1
 
-    def on_enter(self):
+    def _on_enter(self):
         pass
 
-    def on_cleanup(self):
+    def _on_cleanup(self):
         """
         Save new high score if acheived before exiting.
         """

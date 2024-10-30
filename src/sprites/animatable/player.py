@@ -1,6 +1,7 @@
 import pygame
 
 from .animatable_sprite import AnimatableSprite
+from managers import EventManager
 
 
 class Player(AnimatableSprite):
@@ -32,18 +33,11 @@ class Player(AnimatableSprite):
         self.add_animation("run", 0, 5, 0.1)
         self.play_animation("run")
 
-    def handle_event(self, event):
+        EventManager().subscribe(pygame.KEYDOWN, self)
+        EventManager().subscribe(pygame.KEYUP, self)
 
+    def _handle_events(self, event):
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_d:
-                self.actions["right"] = True
-            if event.key == pygame.K_a:
-                self.actions["left"] = True
-            if event.key == pygame.K_w:
-                self.actions["up"] = True
-            if event.key == pygame.K_s:
-                self.actions["down"] = True
-        if event.type == pygame.KEYUP:
             if event.key == pygame.K_d:
                 self.actions["right"] = False
             if event.key == pygame.K_a:
@@ -52,6 +46,15 @@ class Player(AnimatableSprite):
                 self.actions["up"] = False
             if event.key == pygame.K_s:
                 self.actions["down"] = False
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_d:
+                self.actions["right"] = True
+            if event.key == pygame.K_a:
+                self.actions["left"] = True
+            if event.key == pygame.K_w:
+                self.actions["up"] = True
+            if event.key == pygame.K_s:
+                self.actions["down"] = True
 
     def update(self, delta_time):
         super().update(delta_time)

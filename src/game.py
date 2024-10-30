@@ -1,7 +1,12 @@
 import pygame
 import time
 
-from managers import AudioManager, SaveLoadManager, SceneManager, TransitionManager
+from managers import (
+    AudioManager,
+    SceneManager,
+    TransitionManager,
+    EventManager,
+)
 
 
 class Game:
@@ -32,31 +37,38 @@ class Game:
         self.prev_time = 0
         self.fps = 60
 
-        SceneManager()
-        SaveLoadManager()
-        AudioManager()
-        TransitionManager()
-
     def manage_delta_time(self):
         now = time.time()
         self.delta_time = now - self.prev_time
         self.prev_time = now
 
+    def process_global_events(self, event):
+        """
+        Handle global events that are relevant to the entire game.
+        This can include input handling for scene transitions or other game controls.
+        """
+        # Esc go back one scene (if possible)
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            SceneManager().pop_scene()
+
+        # Quit gracefully
+        if event.type == pygame.QUIT:
+            self.game_quit()
+
+        # Update resolution if window is resized
+        if event.type == pygame.WINDOWRESIZED:
+            self.screen_width = event.x
+            self.screen_height = event.y
+
     def event_loop(self):
+        """
+        Handle global events, let managers handle events, then publish events to
+        suscribed scenes.
+        """
         for event in pygame.event.get():
-
-            # Quit gracefully
-            if event.type == pygame.QUIT:
-                self.game_quit()
-
-            # Update resolution if window is resized
-            if event.type == pygame.WINDOWRESIZED:
-                self.screen_width = event.x
-                self.screen_height = event.y
-
-            # Let managers handle events
-            SceneManager().handle_event(event)
+            self.process_global_events(event)
             AudioManager().handle_event(event)
+            EventManager().publish(event)
 
     def update(self):
         SceneManager().update(self.delta_time)
@@ -90,7 +102,7 @@ class Game:
         """
         clock = pygame.time.Clock()
         self.prev_time = time.time()
-        SceneManager().set_scene("intro", 0, 0, 1280, 720)
+        SceneManager().set_scene("intro")
 
         while self.playing:
 

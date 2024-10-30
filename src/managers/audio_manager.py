@@ -1,23 +1,16 @@
 import pygame
 from random import shuffle
 
+from .manager import Manager
 from paths import MUSIC_DIR, SOUNDS_DIR
 from custom_events import PLAYLIST_NEXT
 
 
-class AudioManager:
+class AudioManager(Manager):
     """
     Manages loading audio and controlling volume.
     Uses singleton design pattern.
     """
-
-    _instance = None
-
-    def __new__(cls):
-        if cls._instance is None:
-            cls._instance = super(AudioManager, cls).__new__(cls)
-            cls._instance._init()
-        return cls._instance
 
     def _init(self):
         pygame.mixer.init()
@@ -27,6 +20,18 @@ class AudioManager:
         pygame.mixer.music.set_volume(self.music_volume)
         self.playlist = []
         self.current_track_index = 0
+
+    def handle_event(self, event):
+        """
+        Go to the next item in the playlist.
+        """
+        if event.type == PLAYLIST_NEXT:
+            if self.current_track_index == len(self.playlist) - 1:
+                self.current_track_index = 0
+            else:
+                self.current_track_index += 1
+            pygame.mixer.music.set_endevent(PLAYLIST_NEXT)
+            self.play_music(self.playlist[self.current_track_index])
 
     def set_music_volume(self, volume):
         if 0 <= volume <= 1:
@@ -38,15 +43,12 @@ class AudioManager:
         Increase the music volume by a requested increment.
         """
         self.set_music_volume(min(1, self.music_volume + increment))
-        print(f"music vol: {self.music_volume}")
 
     def decrease_music_volume(self, increment):
         """
         Decrease the music volume by a requested increment.
         """
-        print("decrease calc: ", self.music_volume - increment)
         self.set_music_volume(max(0, self.music_volume - increment))
-        print(f"music vol: {self.music_volume}")
 
     def set_sounds_volume(self, volume):
         if 0 <= volume <= 1:
@@ -59,14 +61,12 @@ class AudioManager:
         Increase the sounds volume by a requested increment.
         """
         self.set_sounds_volume(min(1, self.sounds_volume + increment))
-        print(f"sfx vol: {self.sounds_volume}")
 
     def decrease_sounds_volume(self, increment):
         """
         Increase the sounds volume by a requested increment.
         """
         self.set_sounds_volume(max(0, self.sounds_volume - increment))
-        print(f"sfx vol: {self.sounds_volume}")
 
     def load_sound(self, name, ext):
         """
@@ -112,15 +112,3 @@ class AudioManager:
 
     def stop_all_audio(self):
         pygame.mixer.stop()
-
-    def handle_event(self, event):
-        if event.type == PLAYLIST_NEXT:
-            print("playlist next")
-            if self.current_track_index == len(self.playlist) - 1:
-                print("restart")
-                self.current_track_index = 0
-            else:
-                print("next song")
-                self.current_track_index += 1
-            pygame.mixer.music.set_endevent(PLAYLIST_NEXT)
-            self.play_music(self.playlist[self.current_track_index])

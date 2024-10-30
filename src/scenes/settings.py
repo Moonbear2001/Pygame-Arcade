@@ -2,6 +2,7 @@ import pygame
 
 from .scene import Scene
 from paths import IMAGES_DIR
+from managers import SceneManager
 
 
 class Settings(Scene):
@@ -10,12 +11,10 @@ class Settings(Scene):
     """
 
     name = "settings"
+    custom_watched_events = {pygame.KEYDOWN}
 
     def __init__(self):
-        """
-        Initialize a new scene.
-        """
-        super().__init__()
+        super().__init__(self.custom_watched_events)
         self.settings_image = pygame.image.load(
             IMAGES_DIR / "settings.png"
         ).convert_alpha()
@@ -68,6 +67,10 @@ class Settings(Scene):
         #     callback=lambda: AudioManager().decrease_music_volume(0.1),
         # )
 
-    def on_render(self):
+    def _on_event(self, event):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_p:
+            SceneManager().pop_scene()
+
+    def _on_render(self):
         self.canvas.blit(self.settings_image, (0, 0))
         return self.canvas

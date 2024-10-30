@@ -18,7 +18,6 @@ class FadeToBlack(Transition):
         alpha = int(255 * fade_progress)
         self.surface.set_alpha(alpha)
         if fade_progress == 1:
-            print("fade to black finished")
             self.finished = True
 
     def render(self, canvas):
