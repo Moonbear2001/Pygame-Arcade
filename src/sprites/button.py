@@ -1,7 +1,6 @@
 import pygame
 
 from utilities import render_text
-from managers import EventManager
 
 
 class Button(pygame.sprite.Sprite):

@@ -1,6 +1,69 @@
 import pygame
 
 from paths import SPRITESHEETS_DIR
+from .scene import Scene
+
+
+class AnimScene(Scene):
+    """
+    A scene with the ability to set, create, loop, etc. animations.
+    Currently no way to stop animations.
+    """
+
+    def __init__(
+        self,
+        sprite_sheet_file,
+        num_rows,
+        num_cols,
+        px_width,
+        px_height,
+        colorkey=None,
+        left=0,
+        top=0,
+        width=1280,
+        height=720,
+        watched_events=set(),
+    ):
+        super().__init__(left, top, width, height, watched_events)
+        self.sprite_sheet = SpriteSheet(
+            sprite_sheet_file, num_rows, num_cols, px_width, px_height, colorkey
+        )
+        self.animations = {}
+        self.current_animation = None
+
+    def add_animation(self, name, start_row, num_frames, frame_duration):
+        self.animations[name] = Animation(start_row, num_frames, frame_duration)
+
+    def play_animation(self, animation_name):
+        """
+        If the animation doesn't exist, does nothing.
+        """
+        if animation_name in self.animations:
+            self.current_animation = self.animations[animation_name]
+            self.current_animation.current_frame = 0
+            self.current_animation.time_elapsed = 0
+            self.canvas = self.sprite_sheet.get_frame(
+                self.current_animation.start_row, self.current_animation.current_frame
+            )
+
+    def _on_update(self, delta_time):
+        """
+        Manage transitioning to next frame on time, etc.
+        """
+        if not self.current_animation:
+            return
+
+        anim = self.current_animation
+        anim.time_elapsed += delta_time
+
+        # Current frame over
+        if anim.time_elapsed >= anim.frame_duration:
+            anim.time_elapsed = anim.time_elapsed - anim.frame_duration
+            anim.time_elapsed = 0
+            anim.current_frame = (anim.current_frame + 1) % anim.num_frames
+            self.canvas = self.sprite_sheet.get_frame(
+                anim.start_row, anim.current_frame
+            )
 
 
 class Animation:
@@ -69,60 +132,3 @@ class SpriteSheet:
                 frame, (int(self.frame_width * scale), int(self.frame_height * scale))
             )
         return frame
-
-
-class AnimatableSprite(pygame.sprite.Sprite):
-    """
-    Sprite that accepts a sprite sheet and can create, set, loop etc. animations.
-    Designed to work with sprite sheets where each row contains an animation.
-    """
-
-    def __init__(
-        self, sprite_sheet_file, num_rows, num_cols, px_width, px_height, colorkey=None
-    ):
-        super().__init__()
-        self.sprite_sheet = SpriteSheet(
-            sprite_sheet_file, num_rows, num_cols, px_width, px_height, colorkey
-        )
-        self.animations = {}
-        self.current_animation = None
-        self.image = pygame.Surface((100, 100))
-        self.rect = pygame.Rect(0, 0, 100, 100)
-
-    def add_animation(self, name, start_row, num_frames, frame_duration):
-        self.animations[name] = Animation(start_row, num_frames, frame_duration)
-
-    def play_animation(self, animation_name):
-        """
-        If the animation doesn't exist, does nothing.
-        """
-        if animation_name in self.animations:
-            self.current_animation = self.animations[animation_name]
-            self.current_animation.current_frame = 0
-            self.current_animation.time_elapsed = 0
-            self.image = self.sprite_sheet.get_frame(
-                self.current_animation.start_row, self.current_animation.current_frame
-            )
-
-    def update(self, delta_time):
-        """
-        Manage transitioning to next frame on time, etc.
-        """
-        if not self.current_animation:
-            return
-
-        anim = self.current_animation
-        anim.time_elapsed += delta_time
-
-        # Current frame over
-        if anim.time_elapsed >= anim.frame_duration:
-            anim.time_elapsed = anim.time_elapsed - anim.frame_duration
-            anim.time_elapsed = 0
-            anim.current_frame = (anim.current_frame + 1) % anim.num_frames
-            self.image = self.sprite_sheet.get_frame(anim.start_row, anim.current_frame)
-
-    def render(self):
-        """
-        Return an image to be rendered one level above.
-        """
-        return self.image

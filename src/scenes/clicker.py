@@ -18,7 +18,7 @@ class Clicker(Scene):
         """
         Initialize a new scene.
         """
-        super().__init__(self.custom_watched_events)
+        super().__init__(watched_events=self.custom_watched_events)
         self.score = 0
         self.saved_data = SaveLoadManager().load_data("clicker")
         self.high_score = self.saved_data["high_score"]

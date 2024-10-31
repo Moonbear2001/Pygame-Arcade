@@ -12,14 +12,14 @@ class Scene(ABC):
 
     A scene then also functions as a node in a graph. The top-level scene updates and
     renders its children, which in turn do the same, etc.
-    
-    Scenes subscribe to events via the EventManager. Events are not passed from the top 
+
+    Scenes subscribe to events via the EventManager. Events are not passed from the top
     of the scene graph down to each child. Each scene is responsible for subscribing to
     the events it wants to handle. This prevents scenes from ever receiving events they
     do not care about.
     """
 
-    def __init__(self, watched_events=set(), left=0, top=0, width=1280, height=720):
+    def __init__(self, left=0, top=0, width=1280, height=720, watched_events=set()):
         """
         Initializes a new scene.
         """

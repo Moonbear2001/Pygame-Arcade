@@ -14,7 +14,7 @@ class Settings(Scene):
     custom_watched_events = {pygame.KEYDOWN}
 
     def __init__(self):
-        super().__init__(self.custom_watched_events)
+        super().__init__(watched_events=self.custom_watched_events)
         self.settings_image = pygame.image.load(
             IMAGES_DIR / "settings.png"
         ).convert_alpha()

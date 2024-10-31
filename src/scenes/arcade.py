@@ -1,6 +1,7 @@
 import pygame
 
 from .scene import Scene
+from .arcade_machine import ArcadeMachine
 from managers import AudioManager, SceneManager
 from paths import IMAGES_DIR
 
@@ -19,9 +20,11 @@ class Arcade(Scene):
         """
         Initialize a new scene.
         """
-        super().__init__(self.custom_watched_events)
+        super().__init__(watched_events=self.custom_watched_events)
         self.window = pygame.Rect(0, 0, 1280, 720)
         self.arcade_img = pygame.image.load(IMAGES_DIR / "arcade.png")
+
+        self.add_child(ArcadeMachine())
 
     def _on_enter(self):
         AudioManager().play_playlist("arcade_music")

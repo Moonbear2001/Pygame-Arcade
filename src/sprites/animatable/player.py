@@ -1,7 +1,6 @@
 import pygame
 
 from .animatable_sprite import AnimatableSprite
-from managers import EventManager
 
 
 class Player(AnimatableSprite):

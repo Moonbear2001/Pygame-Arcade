@@ -3,8 +3,6 @@ from random import choice
 
 from .scene import Scene
 from utilities import render_text
-from sprites import Button
-from managers import AudioManager
 
 
 # Paddle settings
@@ -28,6 +26,9 @@ SCORE_EDGE_OFFSET = 50
 LEFT_SCORE_POS = (SCORE_EDGE_OFFSET, SCORE_EDGE_OFFSET)
 RIGHT_SCORE_POS = (1280 - SCORE_EDGE_OFFSET, SCORE_EDGE_OFFSET)
 
+# Game settings
+END_SCORE = 10
+
 
 class Pong(Scene):
     """
@@ -36,7 +37,11 @@ class Pong(Scene):
 
     name = "pong"
 
-    def __init__(self, single_player=True):
+    def __init__(self, single_player=True, difficulty=4):
+        """
+        Difficulty can be 1-n, describes how much faster the computer paddle is than the
+        player paddle.
+        """
         super().__init__()
         self.single_player = single_player
 
@@ -44,9 +49,7 @@ class Pong(Scene):
         self.right_score = 0
 
         # Setup left paddle and ball
-        self.left_paddle = PlayerPaddle(
-            LEFT_PADDLE_STARTING_X, LEFT_PADDLE_STARTING_Y, left=True
-        )
+        self.left_paddle = PlayerPaddle(LEFT_PADDLE_STARTING_X, LEFT_PADDLE_STARTING_Y)
         self.ball = Ball(BALL_STARTING_X, BALL_STARTING_Y)
         self.add_child(self.left_paddle)
         self.add_child(self.ball)
@@ -54,25 +57,13 @@ class Pong(Scene):
         # Should the right paddle be computer controlled?
         if single_player:
             self.right_paddle = ComputerPaddle(
-                RIGHT_PADDLE_STARTING_X, RIGHT_PADDLE_STARTING_Y
+                RIGHT_PADDLE_STARTING_X, RIGHT_PADDLE_STARTING_Y, difficulty
             )
         else:
             self.right_paddle = PlayerPaddle(
-                RIGHT_PADDLE_STARTING_X, RIGHT_PADDLE_STARTING_Y
+                RIGHT_PADDLE_STARTING_X, RIGHT_PADDLE_STARTING_Y, left=False
             )
         self.add_child(self.right_paddle)
-
-        # self.add_sprite(Button(
-        #                     100,
-        #                     100,
-        #                     200,
-        #                     100,
-        #                     center_coords=True,
-        #                     bg_color="black",
-        #                     text="Music Volume Up",
-        #                     text_color="white",
-        #                     callback=lambda: AudioManager().increase_music_volume(0.1),
-        #                 ))
 
     def _on_update(self, delta_time):
 
@@ -116,7 +107,7 @@ class Paddle(Scene):
     custom_watched_events = set()
 
     def __init__(self, x, y):
-        super().__init__(self.custom_watched_events, x, y, PADDLE_WIDTH, PADDLE_HEIGHT)
+        super().__init__(x, y, PADDLE_WIDTH, PADDLE_HEIGHT, self.custom_watched_events)
         self.y_vel = 0
 
     def _on_render(self):
@@ -128,7 +119,7 @@ class PlayerPaddle(Paddle):
     Paddle controlled by the player.
     """
 
-    def __init__(self, x, y, left=False):
+    def __init__(self, x, y, left=True):
         super().__init__(x, y)
         self.left = left
 
@@ -152,19 +143,18 @@ class ComputerPaddle(Paddle):
     Paddle controlled by the computer.
     """
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, difficulty):
         super().__init__(x, y)
+        self.difficulty = difficulty
 
     def update_ai(self, ball):
         """
         Move the paddle to track the ball.
         """
         if ball.rect.centery > self.rect.centery and self.rect.bottom < 720:
-            self.rect.y += PADDLE_SPEED
+            self.rect.y += PADDLE_SPEED + self.difficulty
         elif ball.rect.centery < self.rect.centery and self.rect.top > 0:
-            self.rect.y -= PADDLE_SPEED
-        else:
-            print("neither")
+            self.rect.y -= PADDLE_SPEED + self.difficulty
 
 
 class Ball(Scene):
