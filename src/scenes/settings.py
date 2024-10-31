@@ -30,7 +30,6 @@ class Settings(Scene):
         self.canvas.blit(self.settings_image, (0, 0))
         return self.canvas
 
-
         # self.music_vol_up_btn = Button(
         #     self.canvas_width * 0.41,
         #     self.canvas_height * 1 / 3,

@@ -37,12 +37,10 @@ class Button(pygame.sprite.Sprite):
         if text:
             render_text(self.surface, text, font_name, text_color)
 
-        EventManager().subscribe(pygame.MOUSEBUTTONDOWN, self)
-
     def update(self):
         pass
 
-    def render(self):
+    def draw(self, surface):
         return self.surface
 
     def is_hovered(self, mouse_pos):

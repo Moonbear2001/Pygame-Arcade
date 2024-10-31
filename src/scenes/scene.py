@@ -5,10 +5,18 @@ from managers import EventManager
 
 class Scene(ABC):
     """
-    A scene that can contain other nested scenes.
-    A scene is responsible for passing events, updating, and drawing each of its
-    components onto its own Surface, which it returns to either the parent Scene or if
-    it is the top level Scene returns up to the SceneManager.
+    A scene is an object with the ability to handle events, update, and render. Scenes
+    can nest within one another, and when a scene renders it passes its surface up its
+    parent scene. The parent scene is then responsible for using its child's positioning
+    rect to blit the child onto its own surface.
+
+    A scene then also functions as a node in a graph. The top-level scene updates and
+    renders its children, which in turn do the same, etc.
+    
+    Scenes subscribe to events via the EventManager. Events are not passed from the top 
+    of the scene graph down to each child. Each scene is responsible for subscribing to
+    the events it wants to handle. This prevents scenes from ever receiving events they
+    do not care about.
     """
 
     def __init__(self, watched_events=set(), left=0, top=0, width=1280, height=720):
@@ -19,7 +27,6 @@ class Scene(ABC):
         self.rect = pygame.Rect(left, top, width, height)
         self.canvas = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha()
         self.children = []
-        self.sprites = pygame.sprite.Group()
         self.active = False
         self.watched_events = watched_events
 
@@ -27,14 +34,13 @@ class Scene(ABC):
 
     def update(self, delta_time):
         """
-        Updates the scene, all child scenes, and all child sprites.
+        Updates the scene and all child scenes.
         """
         if self.active:
             self._on_update(delta_time)
             for child in self.children:
                 if child.active:
                     child.update(delta_time)
-            self.sprites.update(delta_time)
 
     def _on_update(self, delta_time):
         """
@@ -46,14 +52,13 @@ class Scene(ABC):
 
     def render(self) -> pygame.Surface:
         """
-        Render the scene, all child scenes, and all child sprites.
+        Render the scene and all child scenes.
         """
         if self.active:
             self._on_render()
             for child in self.children:
                 if child.active:
                     self.canvas.blit(child.render(), child.rect)
-            self.sprites.draw(self.canvas)
             return self.canvas
 
     def _on_render(self):
@@ -132,17 +137,3 @@ class Scene(ABC):
         """
         if scene in self.children:
             self.children.remove(scene)
-
-    # SPRITE MANAGEMENT
-
-    def add_sprite(self, sprite):
-        """
-        Add a sprite to the scene.
-        """
-        self.sprites.add(sprite)
-
-    def remove_sprite(self, sprite):
-        """
-        Remove a sprite from the scene.
-        """
-        self.sprites.remove(sprite)

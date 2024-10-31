@@ -33,8 +33,8 @@ class Player(AnimatableSprite):
         self.add_animation("run", 0, 5, 0.1)
         self.play_animation("run")
 
-        EventManager().subscribe(pygame.KEYDOWN, self)
-        EventManager().subscribe(pygame.KEYUP, self)
+        # EventManager().subscribe(pygame.KEYDOWN, self)
+        # EventManager().subscribe(pygame.KEYUP, self)
 
     def _handle_events(self, event):
         if event.type == pygame.KEYDOWN:
