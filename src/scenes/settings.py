@@ -28,7 +28,7 @@ class Settings(Scene):
     def _on_render(self):
         # self.canvas.blit(self.background, (0, 0))
         self.canvas.blit(self.settings_image, (0, 0))
-        return self.canvas
+        # return self.canvas
 
         # self.music_vol_up_btn = Button(
         #     self.canvas_width * 0.41,
