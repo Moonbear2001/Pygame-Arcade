@@ -7,6 +7,7 @@ from managers import (
     TransitionManager,
     EventManager,
 )
+from constants import CANVAS_WIDTH, CANVAS_HEIGHT
 
 
 class Game:
@@ -22,8 +23,8 @@ class Game:
         pygame.init()
 
         self.name = "Template"
-        self.screen_width = 1280
-        self.screen_height = 720
+        self.screen_width = CANVAS_WIDTH
+        self.screen_height = CANVAS_HEIGHT
         # flags = pygame.NOFRAME | pygame.RESIZABLE
         flags = pygame.RESIZABLE
         self.screen = pygame.display.set_mode(

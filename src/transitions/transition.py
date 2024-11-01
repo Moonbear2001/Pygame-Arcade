@@ -1,6 +1,8 @@
 import pygame
 from abc import ABC, abstractmethod
 
+from constants import CANVAS_WIDTH, CANVAS_HEIGHT
+
 
 class Transition(ABC):
     """
@@ -14,7 +16,9 @@ class Transition(ABC):
         Next scene is the name of scene to go to after the transition is finished.
         """
         super().__init__()
-        self.surface = pygame.Surface((1280, 720), pygame.SRCALPHA).convert_alpha()
+        self.surface = pygame.Surface(
+            (CANVAS_WIDTH, CANVAS_HEIGHT), pygame.SRCALPHA
+        ).convert_alpha()
         self.finished = False
 
     @abstractmethod

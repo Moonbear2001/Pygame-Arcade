@@ -18,7 +18,7 @@ class Settings(Scene):
         self.settings_image = pygame.image.load(
             IMAGES_DIR / "settings.png"
         ).convert_alpha()
-        # self.background = pygame.Surface((1280, 720), pygame.SRCALPHA).convert_alpha()
+        # self.background = pygame.Surface((CANVAS_WIDTH, CANVAS_HEIGHT), pygame.SRCALPHA).convert_alpha()
         # self.background.fill((0, 0, 0, 1))
 
     def _on_event(self, event):

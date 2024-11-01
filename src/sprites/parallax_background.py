@@ -2,6 +2,7 @@ import pygame
 from pathlib import Path
 
 from paths import PARALLAX_DIR
+from constants import CANVAS_WIDTH, CANVAS_HEIGHT
 
 
 class ParallaxBackground(pygame.sprite.Sprite):
@@ -13,8 +14,8 @@ class ParallaxBackground(pygame.sprite.Sprite):
 
     def __init__(self, folder_name, speed=1):
         super().__init__()
-        self.canvas_width = 1280
-        self.canvas_height = 720
+        self.canvas_width = CANVAS_WIDTH
+        self.canvas_height = CANVAS_HEIGHT
         self.canvas = pygame.Surface((self.canvas_width, self.canvas_height))
         self.speed = speed
         self.layers = self.load_layers(folder_name)

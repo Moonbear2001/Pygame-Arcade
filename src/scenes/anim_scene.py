@@ -1,5 +1,6 @@
 import pygame
 
+from constants import CANVAS_WIDTH, CANVAS_HEIGHT
 from paths import SPRITESHEETS_DIR
 from .scene import Scene
 
@@ -20,11 +21,12 @@ class AnimScene(Scene):
         colorkey=None,
         left=0,
         top=0,
-        width=1280,
-        height=720,
+        width=CANVAS_WIDTH,
+        height=CANVAS_HEIGHT,
         watched_events=set(),
+        scale=1,
     ):
-        super().__init__(left, top, width, height, watched_events)
+        super().__init__(left, top, width, height, watched_events, scale)
         self.sprite_sheet = SpriteSheet(
             sprite_sheet_file, num_rows, num_cols, px_width, px_height, colorkey
         )

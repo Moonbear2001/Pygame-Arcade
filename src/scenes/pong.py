@@ -1,6 +1,7 @@
 import pygame
 from random import choice
 
+from constants import CANVAS_WIDTH, CANVAS_HEIGHT
 from .scene import Scene
 from utilities import render_text
 
@@ -12,7 +13,7 @@ PADDLE_HEIGHT = 100
 PADDLE_EDGE_OFFSET = 10
 LEFT_PADDLE_STARTING_X = PADDLE_EDGE_OFFSET
 LEFT_PADDLE_STARTING_Y = 0
-RIGHT_PADDLE_STARTING_X = 1280 - PADDLE_EDGE_OFFSET - PADDLE_WIDTH
+RIGHT_PADDLE_STARTING_X = CANVAS_WIDTH - PADDLE_EDGE_OFFSET - PADDLE_WIDTH
 RIGHT_PADDLE_STARTING_Y = 0
 
 # Ball settings
@@ -24,7 +25,7 @@ BALL_STARTING_Y = 500
 # Score text
 SCORE_EDGE_OFFSET = 50
 LEFT_SCORE_POS = (SCORE_EDGE_OFFSET, SCORE_EDGE_OFFSET)
-RIGHT_SCORE_POS = (1280 - SCORE_EDGE_OFFSET, SCORE_EDGE_OFFSET)
+RIGHT_SCORE_POS = (CANVAS_WIDTH - SCORE_EDGE_OFFSET, SCORE_EDGE_OFFSET)
 
 # Game settings
 END_SCORE = 10
@@ -71,7 +72,7 @@ class Pong(Scene):
         if self.ball.rect.left <= 0:
             self._reset_game()
             self.right_score += 1
-        elif self.ball.rect.right >= 1280:
+        elif self.ball.rect.right >= CANVAS_WIDTH:
             self._reset_game()
             self.left_score += 1
 
@@ -128,12 +129,12 @@ class PlayerPaddle(Paddle):
         if self.left:
             if keys[pygame.K_w] and self.rect.top - PADDLE_SPEED >= 0:
                 self.rect.y -= PADDLE_SPEED
-            if keys[pygame.K_s] and self.rect.bottom + PADDLE_SPEED <= 720:
+            if keys[pygame.K_s] and self.rect.bottom + PADDLE_SPEED <= CANVAS_HEIGHT:
                 self.rect.y += PADDLE_SPEED
         else:
             if keys[pygame.K_UP] and self.rect.top - PADDLE_SPEED >= 0:
                 self.rect.y -= PADDLE_SPEED
-            if keys[pygame.K_DOWN] and self.rect.bottom + PADDLE_SPEED <= 720:
+            if keys[pygame.K_DOWN] and self.rect.bottom + PADDLE_SPEED <= CANVAS_HEIGHT:
                 self.rect.y += PADDLE_SPEED
         self.rect.move_ip(0, self.y_vel * PADDLE_SPEED)
 
@@ -151,7 +152,7 @@ class ComputerPaddle(Paddle):
         """
         Move the paddle to track the ball.
         """
-        if ball.rect.centery > self.rect.centery and self.rect.bottom < 720:
+        if ball.rect.centery > self.rect.centery and self.rect.bottom < CANVAS_HEIGHT:
             self.rect.y += PADDLE_SPEED + self.difficulty
         elif ball.rect.centery < self.rect.centery and self.rect.top > 0:
             self.rect.y -= PADDLE_SPEED + self.difficulty
@@ -170,7 +171,7 @@ class Ball(Scene):
         self.speed = BALL_START_SPEED
 
     def _on_update(self, delta_time):
-        if self.rect.top <= 0 or self.rect.bottom >= 720:
+        if self.rect.top <= 0 or self.rect.bottom >= CANVAS_HEIGHT:
             self.y_vel *= -1
         self.rect.move_ip(self.x_vel * self.speed, self.y_vel * self.speed)
 
@@ -185,6 +186,6 @@ class Ball(Scene):
         pygame.draw.ellipse(self.canvas, "white", (0, 0, BALL_SIZE, BALL_SIZE))
 
     def reset(self):
-        self.rect.center = (1280 // 2, 720 // 2)
+        self.rect.center = (CANVAS_WIDTH // 2, CANVAS_HEIGHT // 2)
         self.set_random_direction()
         self.speed = BALL_START_SPEED
