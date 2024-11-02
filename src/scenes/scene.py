@@ -25,21 +25,27 @@ class Scene(ABC):
         self,
         left=0,
         top=0,
+        right=0,
+        bottom=0,
         width=CANVAS_WIDTH,
         height=CANVAS_HEIGHT,
-        watched_events=set(),
+        watched_events=None,
         scale=1,
     ):
         """
         Initializes a new scene.
         """
         super().__init__()
-        self.rect = pygame.Rect(left, top, width, height) 
+        self.scale = scale
         self.canvas = pygame.Surface((width, height), pygame.SRCALPHA).convert_alpha()
+        self.rect = pygame.Rect(left, top, width * scale, height * scale)
+        if right != 0:
+            self.rect.right = right
+        if bottom != 0:
+            self.rect.bottom = bottom
         self.children = []
         self.active = False
-        self.watched_events = watched_events
-        self.scale = scale
+        self.watched_events = watched_events if watched_events is not None else set()
 
     # UPDATING
 
@@ -48,8 +54,6 @@ class Scene(ABC):
         Updates the scene and all child scenes.
         """
         if self.active:
-            #print("update in scene")
-
             self._on_update(delta_time)
             for child in self.children:
                 if child.active:
@@ -59,7 +63,6 @@ class Scene(ABC):
         """
         Updates specifically for the current scene.
         """
-        #print("on update in scene")
         pass
 
     # RENDERING

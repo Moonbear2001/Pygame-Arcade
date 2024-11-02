@@ -1,7 +1,10 @@
 import pygame
-from random import randint
+from random import randint, choice
 
 from .anim_scene import AnimScene
+from paths import SPRITESHEETS_DIR
+
+ARCADE_MACHINE_SPRITESHEETS_DIR = SPRITESHEETS_DIR / "arcade_machine"
 
 
 class ArcadeMachine(AnimScene):
@@ -16,14 +19,13 @@ class ArcadeMachine(AnimScene):
 
         custom_watched_events = {pygame.KEYDOWN}
 
-        SPRITESHEET_FILE = "arcade_machine/bar_animations.png"
+        SPRITESHEET_FILE = ARCADE_MACHINE_SPRITESHEETS_DIR / "bar_animations.png"
         NUM_ROWS = 3
         NUM_COLS = 10
         PX_WIDTH = 5000
         PX_HEIGHT = 120
-        COLORKEY = None
 
-        def __init__(self, game_name="out_of_order"):
+        def __init__(self, random=True):
             super().__init__(
                 self.SPRITESHEET_FILE,
                 self.NUM_ROWS,
@@ -34,17 +36,14 @@ class ArcadeMachine(AnimScene):
                 top=540,
                 width=self.PX_WIDTH // self.NUM_COLS,
                 height=self.PX_HEIGHT // self.NUM_ROWS,
-                scale=0.5,
             )
 
-            if game_name == "random":
-                self.add_animation("random", randint(0, self.NUM_ROWS - 1), 1, 1)
-                self.play_animation("random")
+            self.add_animation("loading", 0, 10, 2.2)
+            self.add_animation("flyby", 1, 10, 1)
+            self.add_animation("dancing", 2, 2, 1)
 
-            self.add_animation("pong", 0, 23, 0.5)
-            self.add_animation("out_of_order", 1, 10, 2.2)
-
-            self.play_animation(game_name)
+            # Play random idle animation
+            self.play_animation(choice(list(self.animations.keys())))
 
     class Screen(AnimScene):
         """
@@ -52,16 +51,15 @@ class ArcadeMachine(AnimScene):
         played.
         """
 
-        SPRITESHEET_FILE = "arcade_machine/gameplay_previews.png"
+        SPRITESHEET_FILE = ARCADE_MACHINE_SPRITESHEETS_DIR / "gameplay_previews.png"
         NUM_ROWS = 2
         NUM_COLS = 23
         PX_WIDTH = 7820
         PX_HEIGHT = 400
-        COLORKEY = None
 
-        def __init__(self, game_name):
+        def __init__(self, game_name=None):
             """
-            'game' = name of game to preview
+            Show an out of order message if no game name is provided.
             """
             super().__init__(
                 self.SPRITESHEET_FILE,
@@ -75,30 +73,27 @@ class ArcadeMachine(AnimScene):
                 height=self.PX_HEIGHT // self.NUM_ROWS,
             )
 
-            if game_name == "random":
-                self.add_animation("random", randint(0, self.NUM_ROWS - 1), 1, 1)
-                self.play_animation("random")
-
-            self.add_animation("pong", 0, 23, 0.5)
-            self.add_animation("out_of_order", 1, 10, 2.2)
-
-            self.play_animation(game_name)
+            if game_name:
+                self.add_animation("pong", 0, 23, 0.5)
+                self.play_animation(game_name)
+            else:
+                self.add_animation("out_of_order", 1, 10, 2.2)
+                self.play_animation("out_of_order")
 
     class Title(AnimScene):
         """
         Top bar of the arcade machine that shows the game title.
         """
 
-        SPRITESHEET_FILE = "arcade_machine/arcade_machine_title.png"
+        SPRITESHEET_FILE = ARCADE_MACHINE_SPRITESHEETS_DIR / "arcade_machine_title.png"
         NUM_ROWS = 2
         NUM_COLS = 5
         PX_WIDTH = 2200
         PX_HEIGHT = 140
-        COLORKEY = None
 
         def __init__(self, game_name):
             """
-            'game' = name of game
+            Animation is left blank if no game name is provided.
             """
             super().__init__(
                 self.SPRITESHEET_FILE,
@@ -112,25 +107,21 @@ class ArcadeMachine(AnimScene):
                 height=self.PX_HEIGHT // self.NUM_ROWS,
             )
 
-            self.add_animation("arcade", 0, 5, 1.3)
-            self.add_animation("pong", 1, 5, 1.3)
-
-            if game_name == "out_of_order":
-                self.play_animation("arcade")
-            else:
+            if game_name:
+                self.add_animation("arcade", 0, 5, 1.3)
+                self.add_animation("pong", 1, 5, 1.3)
                 self.play_animation(game_name)
 
-    SPRITESHEET_FILE = "arcade_machine/arcade_machine.png"
+    SPRITESHEET_FILE = ARCADE_MACHINE_SPRITESHEETS_DIR / "arcade_machine.png"
     NUM_ROWS = 10
     NUM_COLS = 1
     PX_WIDTH = 600
     PX_HEIGHT = 10000
-    COLORKEY = None
 
-    def __init__(self, game_name="random", left=0, top=0):
+    def __init__(self, left, bottom, game_name, **kwargs):
         """
-        Pick a random arcade machine sprite upon initialization.
-        'game' = tells which preview to show
+        Pick a random arcade machine sprite upon initialization, tell screen, bar, and
+        title which animation to play by providing game name.
         """
         super().__init__(
             self.SPRITESHEET_FILE,
@@ -138,9 +129,11 @@ class ArcadeMachine(AnimScene):
             self.NUM_COLS,
             self.PX_WIDTH,
             self.PX_HEIGHT,
-            scale=0.5,
             left=left,
-            top=top,
+            bottom=bottom,
+            width=self.PX_WIDTH // self.NUM_COLS,
+            height=self.PX_HEIGHT // self.NUM_ROWS,
+            **kwargs
         )
 
         self.game_name = game_name

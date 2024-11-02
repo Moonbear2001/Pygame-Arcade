@@ -1,6 +1,5 @@
 import pygame
 
-from constants import CANVAS_WIDTH, CANVAS_HEIGHT
 from paths import SPRITESHEETS_DIR
 from .scene import Scene
 
@@ -19,14 +18,9 @@ class AnimScene(Scene):
         px_width,
         px_height,
         colorkey=None,
-        left=0,
-        top=0,
-        width=CANVAS_WIDTH,
-        height=CANVAS_HEIGHT,
-        watched_events=set(),
-        scale=1,
+        **kwargs
     ):
-        super().__init__(left, top, width, height, watched_events, scale)
+        super().__init__(**kwargs)
         self.sprite_sheet = SpriteSheet(
             sprite_sheet_file, num_rows, num_cols, px_width, px_height, colorkey
         )
@@ -97,8 +91,6 @@ class SpriteSheet:
         self.sheet = self.load_sprite_sheet(sprite_sheet_file, colorkey)
         self.num_rows = num_rows
         self.num_cols = num_cols
-        # self.px_width = px_width
-        # self.px_height = px_height
         self.frame_width = px_width / self.num_cols
         self.frame_height = px_height / self.num_rows
         self.curr_row = 0
@@ -129,8 +121,8 @@ class SpriteSheet:
                 self.frame_height,
             ),
         )
-        if scale != 1:
-            frame = pygame.transform.scale(
-                frame, (int(self.frame_width * scale), int(self.frame_height * scale))
-            )
+        # if scale != 1:
+        #     frame = pygame.transform.scale(
+        #         frame, (int(self.frame_width * scale), int(self.frame_height * scale))
+        #     )
         return frame

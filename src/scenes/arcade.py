@@ -1,7 +1,8 @@
 import pygame
 
 from constants import CANVAS_WIDTH, CANVAS_HEIGHT
-from .scene import Scene
+from .lamp import Lamp
+from .trash import Trash
 from .viewport_scene import ViewportScene
 from .arcade_machine import ArcadeMachine
 from managers import AudioManager, SceneManager
@@ -11,8 +12,10 @@ MOVE_SPEED = 100
 
 
 # Arcade machine positioning
-STARTING_X = 1000
-SPACING = 400
+STARTING_X = 1200
+SPACING = 275
+
+GROUND_PX_HEIGHT = 130 * 5
 
 
 class Arcade(ViewportScene):
@@ -28,7 +31,9 @@ class Arcade(ViewportScene):
         """
         Initialize a new scene.
         """
-        super().__init__(self.target, world_width=2560, watched_events=self.custom_watched_events)
+        super().__init__(
+            self.target, world_width=2560, watched_events=self.custom_watched_events
+        )
 
         # self.window = pygame.Rect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
         self.arcade_img = pygame.image.load(IMAGES_DIR / "arcade.png")
@@ -45,33 +50,20 @@ class Arcade(ViewportScene):
         self.arcade_machines = []
         posx = STARTING_X
         for game in game_names:
-            self.arcade_machines.append(ArcadeMachine(game, left=posx, top=220))
+            self.arcade_machines.append(
+                ArcadeMachine(posx, GROUND_PX_HEIGHT + 10, game, scale=0.35)
+            )
             posx += SPACING
 
         for arcade_machine in self.arcade_machines:
             self.add_child(arcade_machine)
 
-        # for arcade_machine in self.arcade_machines:
-        #     #print(arcade_machine.rect)
+        self.add_child(Lamp(855, GROUND_PX_HEIGHT))
+        self.add_child(Trash(525, GROUND_PX_HEIGHT))
 
     def _on_enter(self):
         # AudioManager().play_playlist("arcade_music")
         pass
-
-    # def render(self) -> pygame.Surface:
-    #     """
-    #     Render the scene and all child scenes.
-    #     """
-    #     if self.active:
-    #         self._on_render()
-    #         for child in self.children:
-    #             if child.active:
-    #                 self.canvas.blit(child.render(), child.rect)
-    #         if self.scale != 1:
-    #             return pygame.transform.scale_by(self.canvas, self.scale)
-    #         window_surf = pygame.Surface((CANVAS_WIDTH, CANVAS_HEIGHT))
-    #         window_surf.blit(self.canvas, (0, 0), self.window)
-    #         return window_surf
 
     def _on_render(self):
         self.canvas.blit(self.arcade_img, (0, 0))
@@ -97,11 +89,9 @@ class Arcade(ViewportScene):
             elif event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 self.target.move_ip(-1 * MOVE_SPEED, 0)
                 self.go_left()
-                #print("Move right, self.target: ", self.target)
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                 self.target.move_ip(MOVE_SPEED, 0)
                 self.go_right()
-                #print("Move right, self.target: ", self.target)
             elif event.key == pygame.K_e or event.key == pygame.K_RETURN:
                 self.enter_game()
 
@@ -125,5 +115,4 @@ class Arcade(ViewportScene):
         """
         Enter and play the selected game.
         """
-        # #print(self.arcade_machines[self.current_game_index].game_name)
         pass
