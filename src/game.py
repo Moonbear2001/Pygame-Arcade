@@ -87,7 +87,6 @@ class Game:
             canvas, (self.screen_width, self.screen_height)
         )
         self.screen.blit(scaled_canvas, (0, 0))
-        # self.screen.blit(canvas, (0, 0))
         pygame.display.flip()
 
     def game_quit(self):
@@ -103,23 +102,13 @@ class Game:
         """
         clock = pygame.time.Clock()
         self.prev_time = time.time()
-        SceneManager().set_scene("intro")
+        SceneManager().set_scene("tic_tac_toe")
 
         while self.playing:
-
-            # --- Delta time logic --- #
             self.manage_delta_time()
-
-            # --- Event Loop --- #
             self.event_loop()
-
-            # --- Game logic --- #
             self.update()
-
-            # --- Drawing to screen --- #
             self.render()
-
-            # --- Limit frame rate --- #
             clock.tick(self.fps)
 
         self.game_quit()

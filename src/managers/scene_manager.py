@@ -9,7 +9,15 @@ class SceneManager(Manager):
     default_scene = "arcade"
 
     def _init(self):
-        from scenes import Intro, Arcade, Settings, Clicker, Pong, ArcadeMachine
+        from scenes import (
+            Intro,
+            Arcade,
+            Settings,
+            Clicker,
+            Pong,
+            ArcadeMachine,
+            TicTacToe,
+        )
 
         self.scenes = {
             "intro": Intro,
@@ -18,6 +26,7 @@ class SceneManager(Manager):
             "clicker": Clicker,
             "pong": Pong,
             "arcade_machine": ArcadeMachine,
+            "tic_tac_toe": TicTacToe,
         }
         self.scene_stack = []
         self.current_scene = None

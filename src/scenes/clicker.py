@@ -15,16 +15,10 @@ class Clicker(Scene):
     custom_watched_events = {pygame.MOUSEBUTTONDOWN}
 
     def __init__(self):
-        """
-        Initialize a new scene.
-        """
         super().__init__(watched_events=self.custom_watched_events)
         self.score = 0
         self.saved_data = SaveLoadManager().load_data("clicker")
         self.high_score = self.saved_data["high_score"]
-
-    def _on_update(self, delta_time):
-        pass
 
     def _on_render(self):
         self.canvas.fill("gray")

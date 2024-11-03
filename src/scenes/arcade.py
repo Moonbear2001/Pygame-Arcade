@@ -56,7 +56,7 @@ class Arcade(ViewportScene):
         posx = STARTING_X
         for game in game_names:
             self.arcade_machines.append(
-                ArcadeMachine(posx, GROUND_PX_HEIGHT + 20, game, scale=0.35)
+                ArcadeMachine(posx, GROUND_PX_HEIGHT + 25, game, scale=0.3)
             )
             posx += SPACING
 
