@@ -10,9 +10,7 @@ class Cityscape(Scene):
     HEIGHT_PX = 180
 
     def __init__(self, left, top):
-        super().__init__(
-            width=self.WIDTH_PX, height=self.HEIGHT_PX, top=top, left=left
-        )
+        super().__init__(width=self.WIDTH_PX, height=self.HEIGHT_PX, top=top, left=left)
         self.trash_img = pygame.image.load(IMAGES_DIR / "cityscape.png")
 
     def _on_render(self):

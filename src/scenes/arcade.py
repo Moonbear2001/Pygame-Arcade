@@ -76,7 +76,7 @@ class Arcade(ViewportScene):
         # 18, 49
         self.add_child(ExitSign(90, 245))
 
-        # + 
+        # +
         # 180, 6
         self.add_child(Cityscape(900, 30))
         # 260, 6
@@ -84,7 +84,6 @@ class Arcade(ViewportScene):
         self.add_child(Cityscape(1490, 30))
         self.add_child(Cityscape(1895, 30))
         # self.add_child(Cityscape(2300, 30))
-
 
     def _on_enter(self):
         # AudioManager().play_playlist("arcade_music")
