@@ -3,8 +3,13 @@ import pygame
 from constants import CANVAS_WIDTH, CANVAS_HEIGHT
 from .lamp import Lamp
 from .trash import Trash
+from .cityscape import Cityscape
 from .viewport_scene import ViewportScene
 from .arcade_machine import ArcadeMachine
+from .python_logo import PythonLogo
+from .pygame_snake import PygameSnake
+from .arcade_sign import ArcadeSign
+from .exit_sign import ExitSign
 from managers import AudioManager, SceneManager
 from paths import IMAGES_DIR
 
@@ -51,15 +56,35 @@ class Arcade(ViewportScene):
         posx = STARTING_X
         for game in game_names:
             self.arcade_machines.append(
-                ArcadeMachine(posx, GROUND_PX_HEIGHT + 10, game, scale=0.35)
+                ArcadeMachine(posx, GROUND_PX_HEIGHT + 20, game, scale=0.35)
             )
             posx += SPACING
 
         for arcade_machine in self.arcade_machines:
             self.add_child(arcade_machine)
 
-        self.add_child(Lamp(855, GROUND_PX_HEIGHT))
+        self.add_child(Lamp(945, GROUND_PX_HEIGHT))
         self.add_child(Trash(525, GROUND_PX_HEIGHT))
+
+        # Add logos
+        # 131, 86 python logo
+        self.add_child(PythonLogo(655, 430))
+        # 131, 45 pygame logo
+        self.add_child(PygameSnake(655, 225))
+        # 5, 19 arcade sign
+        self.add_child(ArcadeSign(25, 95))
+        # 18, 49
+        self.add_child(ExitSign(90, 245))
+
+        # + 
+        # 180, 6
+        self.add_child(Cityscape(900, 30))
+        # 260, 6
+        self.add_child(Cityscape(1295, 30))
+        self.add_child(Cityscape(1490, 30))
+        self.add_child(Cityscape(1895, 30))
+        # self.add_child(Cityscape(2300, 30))
+
 
     def _on_enter(self):
         # AudioManager().play_playlist("arcade_music")
