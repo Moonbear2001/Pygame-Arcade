@@ -129,6 +129,8 @@ class Scene(ABC):
         Set things up when the scene is re-entered.
         """
         EventManager().subscribe(self.watched_events, self.handle_events)
+        for child in self.children:
+            child.reenter()
         self.active = True
         self._on_reenter()
 

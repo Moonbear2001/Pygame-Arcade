@@ -142,7 +142,7 @@ class ArcadeMachine(AnimScene):
 
         self.game_name = game_name
         self.hold_time = 0
-        self.holding = True
+        self.holding = False
         self.focused = False
         self.entering = False
 
@@ -175,6 +175,8 @@ class ArcadeMachine(AnimScene):
         if self.focused and not self.entering:
             if self.holding:
                 self.hold_time += delta_time
+            else:
+                self.hold_time = 0
             if self.hold_time >= self.HOLD_THRESHOLD:
                 print(f"ENTER GAME {self.game_name}")
                 self.entering = True

@@ -103,9 +103,6 @@ class Arcade(ViewportScene):
                 self.focus_left()
             elif event.key == pygame.K_d:
                 self.focus_right()
-            # elif event.key == pygame.K_e or event.key == pygame.K_RETURN:
-            #     self.enter_game()
-            print("focused game: ", self.focused_game)
 
     def focus_left(self):
         """
