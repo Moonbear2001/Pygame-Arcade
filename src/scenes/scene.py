@@ -72,7 +72,7 @@ class Scene(ABC):
         Render the scene and all child scenes.
         """
         if self.active:
-            self._on_render()
+            self._render_before_children()
             for child in self.children:
                 if child.active:
                     self.canvas.blit(child.render(), child.rect)
@@ -81,15 +81,15 @@ class Scene(ABC):
                 return pygame.transform.scale_by(self.canvas, self.scale)
             return self.canvas
 
-    def _on_render(self):
+    def _render_before_children(self):
         """
-        Render certain elements after this scene's children.
+        Render certain elements before this scene's children.
         """
         pass
 
     def _render_after_children(self):
         """
-        Render certain elements before this scene's children.
+        Render certain elements after this scene's children.
         """
         pass
 

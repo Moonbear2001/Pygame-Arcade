@@ -26,6 +26,6 @@ class Intro(Scene):
     def _on_enter(self):
         self.timer.start()
 
-    def _on_render(self):
+    def _render_before_children(self):
         self.canvas.blit(self.intro_image, (0, 0))
         return self.canvas

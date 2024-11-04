@@ -87,7 +87,7 @@ class Pong(Scene):
         if self.single_player:
             self.right_paddle.update_ai(self.ball)
 
-    def _on_render(self):
+    def _render_before_children(self):
         self.canvas.fill("black")
         render_text(
             self.canvas, str(self.left_score), "roboto", "white", LEFT_SCORE_POS, 40
@@ -109,7 +109,7 @@ class Paddle(Scene):
         super().__init__(left=x, top=y, width=PADDLE_WIDTH, height=PADDLE_HEIGHT)
         self.y_vel = 0
 
-    def _on_render(self):
+    def _render_before_children(self):
         pygame.draw.rect(self.canvas, "white", (0, 0, PADDLE_WIDTH, PADDLE_HEIGHT))
 
 
@@ -180,7 +180,7 @@ class Ball(Scene):
         self.x_vel = choice([-1, 1])
         self.y_vel = choice([-1, 1])
 
-    def _on_render(self):
+    def _render_before_children(self):
         pygame.draw.ellipse(self.canvas, "white", (0, 0, BALL_SIZE, BALL_SIZE))
 
     def reset(self):

@@ -15,5 +15,5 @@ class Trash(Scene):
         )
         self.trash_img = pygame.image.load(IMAGES_DIR / "trash_can.png").convert_alpha()
 
-    def _on_render(self):
+    def _render_before_children(self):
         self.canvas.blit(self.trash_img, (0, 0))

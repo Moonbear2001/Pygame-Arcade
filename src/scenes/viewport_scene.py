@@ -40,7 +40,7 @@ class ViewportScene(Scene):
         """
 
         if self.active:
-            self._on_render()
+            self._render_before_children()
             for child in self.children:
                 if child.active:
                     self.canvas.blit(child.render(), child.rect)

@@ -18,5 +18,5 @@ class Lamp(Scene):
         )
         self.lamp_img = pygame.image.load(IMAGES_DIR / "lamp.png").convert_alpha()
 
-    def _on_render(self):
+    def _render_before_children(self):
         self.canvas.blit(self.lamp_img, (0, 0))

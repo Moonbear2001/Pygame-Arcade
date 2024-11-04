@@ -39,12 +39,12 @@ class ArcadeMachine(AnimScene):
                 height=self.PX_HEIGHT // self.NUM_ROWS,
             )
 
-            self.add_animation("loading", 0, 10, 2.2)
+            self.add_animation("loading", 0, 10, 0.25)
             self.add_animation("flyby", 1, 10, 1)
             self.add_animation("dancing", 2, 2, 1)
 
             # Play random idle animation
-            self.play_animation(choice(list(self.animations.keys())))
+            self.play_animation(choice(["flyby", "dancing"]))
 
     class Screen(AnimScene):
         """
@@ -141,11 +141,12 @@ class ArcadeMachine(AnimScene):
         )
 
         self.game_name = game_name
-        self.hold_time = 0 
+        self.hold_time = 0
         self.holding = True
         self.focused = False
+        self.entering = False
 
-        self.add_animation("random", randint(0, self.NUM_ROWS - 1), 1, 1)
+        self.add_animation("random", randint(0, self.NUM_ROWS - 1), 1, 0.1)
         self.play_animation("random")
 
         self.title = ArcadeMachine.Title(game_name)
@@ -156,17 +157,27 @@ class ArcadeMachine(AnimScene):
         self.add_child(self.screen)
         self.add_child(self.bar)
 
+    def _render_after_children(self):
+        if self.focused:
+            pygame.draw.rect(self.canvas, "white", (0, 0, self.canvas.get_width(), self.canvas.get_height()), 10)
+
     def _on_event(self, event):
         if self.focused:
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
                 self.holding = True
-            elif event.type == pygame.KEYUP:
+                self.bar.play_animation("loading")
+            elif event.type == pygame.KEYUP and event.key == pygame.K_e:
                 self.holding = False
+                self.bar.play_animation("flyby")
 
     def _on_update(self, delta_time):
         super()._on_update(delta_time)
-        if self.focused:
+        if self.focused and not self.entering:
             if self.holding:
                 self.hold_time += delta_time
             if self.hold_time >= self.HOLD_THRESHOLD:
-                TransitionManager().start_transition("fade_to_black", self.game_name, "fade_from_black")
+                print(f"ENTER GAME {self.game_name}")
+                self.entering = True
+                TransitionManager().start_transition(
+                    "fade_to_black", self.game_name, "fade_from_black"
+                )

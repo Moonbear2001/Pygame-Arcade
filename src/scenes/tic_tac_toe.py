@@ -47,7 +47,7 @@ class TicTacToe(Scene):
 
         # TODO: grab a saved game if there is one
 
-    def _on_render(self):
+    def _render_before_children(self):
         self.canvas.fill(BG_COLOR)
 
         # TESTING
@@ -154,7 +154,7 @@ class TicTacToe(Scene):
         ):
             return True
         return False
-    
+
     def get_grid_pos(self, mouse_pos):
         """
         Given a mouse position as a cooordinate pair, find the cell that was clicked.
@@ -173,11 +173,9 @@ class TicTacToe(Scene):
             self.board[row][col] = self.symbols[self.current_player]
             return True
         return False
-    
+
     def _reset_game(self):
-        self.board = [[None, None, None],
-                      [None, None, None],
-                      [None, None, None]]
+        self.board = [[None, None, None], [None, None, None], [None, None, None]]
         shuffle(self.symbols)
         self.current_player = randint(0, 1)
         self.move_num = 0

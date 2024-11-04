@@ -41,6 +41,10 @@ class AnimScene(Scene):
             self.canvas = self.sprite_sheet.get_frame(
                 self.current_animation.start_row, self.current_animation.current_frame
             )
+            # frame = self.sprite_sheet.get_frame(
+            #     self.current_animation.start_row, self.current_animation.current_frame
+            # )
+            # self.canvas.blit(frame, (0, 0))
 
     def _on_update(self, delta_time):
         """
@@ -60,7 +64,6 @@ class AnimScene(Scene):
             self.canvas = self.sprite_sheet.get_frame(
                 anim.start_row, anim.current_frame
             )
-
 
 class Animation:
     """
@@ -105,7 +108,6 @@ class SpriteSheet:
     def get_frame(self, row, col, scale=1):
         """
         Get a specific frame from the sprite sheet.
-        Scale and make certain colors to transparent if requested.
         """
         frame = pygame.Surface(
             (self.frame_width, self.frame_height), flags=pygame.SRCALPHA
@@ -121,8 +123,5 @@ class SpriteSheet:
                 self.frame_height,
             ),
         )
-        # if scale != 1:
-        #     frame = pygame.transform.scale(
-        #         frame, (int(self.frame_width * scale), int(self.frame_height * scale))
-        #     )
         return frame
+    

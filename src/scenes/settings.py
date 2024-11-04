@@ -25,7 +25,7 @@ class Settings(Scene):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_p:
             SceneManager().pop_scene()
 
-    def _on_render(self):
+    def _render_before_children(self):
         # self.canvas.blit(self.background, (0, 0))
         self.canvas.blit(self.settings_image, (0, 0))
 

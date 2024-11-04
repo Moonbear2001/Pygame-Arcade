@@ -13,5 +13,5 @@ class Cityscape(Scene):
         super().__init__(width=self.WIDTH_PX, height=self.HEIGHT_PX, top=top, left=left)
         self.trash_img = pygame.image.load(IMAGES_DIR / "cityscape.png")
 
-    def _on_render(self):
+    def _render_before_children(self):
         self.canvas.blit(self.trash_img, (0, 0))

@@ -20,7 +20,7 @@ class Clicker(Scene):
         self.saved_data = SaveLoadManager().load_data("clicker")
         self.high_score = self.saved_data["high_score"]
 
-    def _on_render(self):
+    def _render_before_children(self):
         self.canvas.fill("gray")
         render_text(
             self.canvas,
