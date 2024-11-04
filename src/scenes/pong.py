@@ -105,10 +105,8 @@ class Paddle(Scene):
     Functionality of a paddle independent of movement control.
     """
 
-    custom_watched_events = set()
-
     def __init__(self, x, y):
-        super().__init__(x, y, PADDLE_WIDTH, PADDLE_HEIGHT, self.custom_watched_events)
+        super().__init__(left=x, top=y, width=PADDLE_WIDTH, height=PADDLE_HEIGHT)
         self.y_vel = 0
 
     def _on_render(self):
@@ -120,13 +118,13 @@ class PlayerPaddle(Paddle):
     Paddle controlled by the player.
     """
 
-    def __init__(self, x, y, left=True):
+    def __init__(self, x, y, left_side=True):
         super().__init__(x, y)
-        self.left = left
+        self.left_side = left_side
 
     def _on_update(self, delta_time):
         keys = pygame.key.get_pressed()
-        if self.left:
+        if self.left_side:
             if keys[pygame.K_w] and self.rect.top - PADDLE_SPEED >= 0:
                 self.rect.y -= PADDLE_SPEED
             if keys[pygame.K_s] and self.rect.bottom + PADDLE_SPEED <= CANVAS_HEIGHT:

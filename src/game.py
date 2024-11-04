@@ -102,7 +102,7 @@ class Game:
         """
         clock = pygame.time.Clock()
         self.prev_time = time.time()
-        SceneManager().set_scene("tic_tac_toe")
+        SceneManager().set_scene("intro")
 
         while self.playing:
             self.manage_delta_time()

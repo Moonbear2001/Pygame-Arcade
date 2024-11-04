@@ -44,6 +44,7 @@ class ViewportScene(Scene):
             for child in self.children:
                 if child.active:
                     self.canvas.blit(child.render(), child.rect)
+            self._render_after_children()
 
             # Create a new surface for the viewport view
             viewport_surface = pygame.Surface(

@@ -3,6 +3,7 @@ from random import randint, choice
 
 from .anim_scene import AnimScene
 from paths import SPRITESHEETS_DIR
+from managers import TransitionManager
 
 ARCADE_MACHINE_SPRITESHEETS_DIR = SPRITESHEETS_DIR / "arcade_machine"
 
@@ -117,6 +118,8 @@ class ArcadeMachine(AnimScene):
     NUM_COLS = 1
     PX_WIDTH = 600
     PX_HEIGHT = 10000
+    custom_watched_events = {pygame.KEYDOWN, pygame.KEYUP}
+    HOLD_THRESHOLD = 2
 
     def __init__(self, left, bottom, game_name, **kwargs):
         """
@@ -133,10 +136,14 @@ class ArcadeMachine(AnimScene):
             bottom=bottom,
             width=self.PX_WIDTH // self.NUM_COLS,
             height=self.PX_HEIGHT // self.NUM_ROWS,
+            watched_events=self.custom_watched_events,
             **kwargs
         )
 
         self.game_name = game_name
+        self.hold_time = 0 
+        self.holding = True
+        self.focused = False
 
         self.add_animation("random", randint(0, self.NUM_ROWS - 1), 1, 1)
         self.play_animation("random")
@@ -148,3 +155,18 @@ class ArcadeMachine(AnimScene):
         self.add_child(self.title)
         self.add_child(self.screen)
         self.add_child(self.bar)
+
+    def _on_event(self, event):
+        if self.focused:
+            if event.type == pygame.KEYDOWN:
+                self.holding = True
+            elif event.type == pygame.KEYUP:
+                self.holding = False
+
+    def _on_update(self, delta_time):
+        super()._on_update(delta_time)
+        if self.focused:
+            if self.holding:
+                self.hold_time += delta_time
+            if self.hold_time >= self.HOLD_THRESHOLD:
+                TransitionManager().start_transition("fade_to_black", self.game_name, "fade_from_black")
