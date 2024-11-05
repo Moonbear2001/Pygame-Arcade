@@ -1,17 +1,26 @@
 import pygame
 
-from .scene import Scene
-from paths import IMAGES_DIR
+from .anim_scene import AnimScene
+from paths import SPRITESHEETS_DIR
 
 
-class Cityscape(Scene):
+class Cityscape(AnimScene):
 
-    WIDTH_PX = 405
-    HEIGHT_PX = 180
+    SPRITESHEET_FILE = SPRITESHEETS_DIR / "cityscape.png"
+    NUM_ROWS = 1
+    NUM_COLS = 43
+    PX_WIDTH = 17415
+    PX_HEIGHT = 180
 
     def __init__(self, left, top):
-        super().__init__(width=self.WIDTH_PX, height=self.HEIGHT_PX, top=top, left=left)
-        self.trash_img = pygame.image.load(IMAGES_DIR / "cityscape.png")
-
-    def _render_before_children(self):
-        self.canvas.blit(self.trash_img, (0, 0))
+        super().__init__(
+            self.SPRITESHEET_FILE,
+            self.NUM_ROWS,
+            self.NUM_COLS,
+            self.PX_WIDTH,
+            self.PX_HEIGHT,
+            left=left,
+            top=top,
+            width=self.PX_WIDTH // self.NUM_COLS,
+            height=self.PX_HEIGHT // self.NUM_ROWS,
+        )
