@@ -28,8 +28,8 @@ class ExitSign(AnimScene):
             self.PX_HEIGHT,
             left=left,
             top=top,
-            width=self.PX_WIDTH // self.NUM_COLS,
-            height=self.PX_HEIGHT // self.NUM_ROWS,
+            # width=self.PX_WIDTH // self.NUM_COLS,
+            # height=self.PX_HEIGHT // self.NUM_ROWS,
             watched_events = self.custom_watched_events,
             **kwargs
         )

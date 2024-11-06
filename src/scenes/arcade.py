@@ -55,6 +55,7 @@ class Arcade(ViewportScene):
         )
 
         self.arcade_img = pygame.image.load(IMAGES_DIR / "arcade.png")
+        self.ropes_img = pygame.image.load(IMAGES_DIR / "ropes.png")
 
         self.focused_item_index = 0
         self.focusable_items = []
@@ -92,6 +93,7 @@ class Arcade(ViewportScene):
 
     def _render_after_children(self):
         pygame.draw.rect(self.canvas, "white", self.focusable_items[self.focused_item_index].rect, 10)
+        self.canvas.blit(self.ropes_img, (0, 0))
 
     def _on_event(self, event):
 

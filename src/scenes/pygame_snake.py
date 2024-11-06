@@ -22,8 +22,8 @@ class PygameSnake(AnimScene):
             self.PX_HEIGHT,
             left=left,
             top=top,
-            width=self.PX_WIDTH // self.NUM_COLS,
-            height=self.PX_HEIGHT // self.NUM_ROWS,
+            # width=self.PX_WIDTH // self.NUM_COLS,
+            # height=self.PX_HEIGHT // self.NUM_ROWS,
             **kwargs
         )
         self.add_animation("loop", 0, 12, 1.1)

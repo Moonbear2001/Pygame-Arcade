@@ -20,7 +20,7 @@ class AnimScene(Scene):
         colorkey=None,
         **kwargs
     ):
-        super().__init__(**kwargs)
+        super().__init__(width=px_width // num_cols, height=px_height // num_rows, **kwargs)
         self.sprite_sheet = SpriteSheet(
             sprite_sheet_file, num_rows, num_cols, px_width, px_height, colorkey
         )

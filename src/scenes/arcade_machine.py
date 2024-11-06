@@ -35,8 +35,8 @@ class ArcadeMachine(AnimScene):
                 self.PX_HEIGHT,
                 left=40,
                 top=540,
-                width=self.PX_WIDTH // self.NUM_COLS,
-                height=self.PX_HEIGHT // self.NUM_ROWS,
+                # width=self.PX_WIDTH // self.NUM_COLS,
+                # height=self.PX_HEIGHT // self.NUM_ROWS,
             )
 
             self.add_animation("loading", 0, 10, 0.25)
@@ -70,8 +70,8 @@ class ArcadeMachine(AnimScene):
                 self.PX_HEIGHT,
                 left=130,
                 top=150,
-                width=self.PX_WIDTH // self.NUM_COLS,
-                height=self.PX_HEIGHT // self.NUM_ROWS,
+                # width=self.PX_WIDTH // self.NUM_COLS,
+                # height=self.PX_HEIGHT // self.NUM_ROWS,
             )
 
             if game_name == "out_of_order":
@@ -105,8 +105,8 @@ class ArcadeMachine(AnimScene):
                 self.PX_HEIGHT,
                 left=80,
                 top=40,
-                width=self.PX_WIDTH // self.NUM_COLS,
-                height=self.PX_HEIGHT // self.NUM_ROWS,
+                # width=self.PX_WIDTH // self.NUM_COLS,
+                # height=self.PX_HEIGHT // self.NUM_ROWS,
             )
             
             if game_name != "out_of_order":
@@ -138,8 +138,8 @@ class ArcadeMachine(AnimScene):
             self.PX_HEIGHT,
             left=left,
             bottom=bottom,
-            width=self.PX_WIDTH // self.NUM_COLS,
-            height=self.PX_HEIGHT // self.NUM_ROWS,
+            # width=self.PX_WIDTH // self.NUM_COLS,
+            # height=self.PX_HEIGHT // self.NUM_ROWS,
             watched_events=self.custom_watched_events,
             **kwargs
         )
