@@ -60,7 +60,7 @@ class Arcade(ViewportScene):
         self.focusable_items = []
 
         # Visual elements in arcade
-        self.add_child(Lamp(945, GROUND_PX_HEIGHT))
+        self.add_child(Lamp(900, GROUND_PX_HEIGHT))
         self.add_child(Trash(525, GROUND_PX_HEIGHT))
         self.add_child(PythonLogo(655, 430))  # 131, 86
         self.add_child(PygameSnake(655, 225))  # 131, 45
@@ -76,9 +76,10 @@ class Arcade(ViewportScene):
         posx = STARTING_X
         for game in GAME_NAMES:
             self.am_positions.append(posx)
-            arcade_machine = ArcadeMachine(posx, GROUND_PX_HEIGHT + 25, game, scale=0.3)
+            arcade_machine = ArcadeMachine(posx, GROUND_PX_HEIGHT + 25, game, scale=0.34)
             # self.arcade_machines.append(arcade_machine)
-            posx += randint(SPACING_LOW, SPACING_HIGH)
+            # posx += randint(SPACING_LOW, SPACING_HIGH)
+            posx += 200
             self.add_child(arcade_machine)
             self.focusable_items.append(arcade_machine)
 
