@@ -14,7 +14,7 @@ IMAGES_DIR = ASSETS_DIR / "images"
 SOUNDS_DIR = ASSETS_DIR / "sounds"
 FONTS_DIR = ASSETS_DIR / "fonts"
 MUSIC_DIR = ASSETS_DIR / "music"
-PARALLAX_DIR = ASSETS_DIR / "images" / "parallax_backgrounds"
+PARALLAX_DIR = ASSETS_DIR / "images" / "parallax"
 
 # Saving
 SAVE_DIR = ROOT_DIR / "save"

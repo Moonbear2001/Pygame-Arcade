@@ -1,4 +1,5 @@
 import pygame
+from random import randint
 
 from constants import CANVAS_WIDTH, CANVAS_HEIGHT
 from .lamp import Lamp
@@ -12,13 +13,15 @@ from .arcade_sign import ArcadeSign
 from .exit_sign import ExitSign
 from managers import AudioManager, SceneManager
 from paths import IMAGES_DIR
+from .parallax_scene import ParallaxScene
 
 MOVE_SPEED = 100
 
 
 # Arcade machine positioning
 STARTING_X = 1200
-SPACING = 275
+SPACING_LOW = 200
+SPACING_HIGH = 300
 
 FOCUS_RECT_Y = 300
 
@@ -28,6 +31,9 @@ GAME_NAMES = [
     "pong",
     "clicker",
     "tic_tac_toe",
+    "out_of_order",
+    "out_of_order",
+    "out_of_order",
 ]
 
 
@@ -50,32 +56,31 @@ class Arcade(ViewportScene):
 
         self.arcade_img = pygame.image.load(IMAGES_DIR / "arcade.png")
 
-        self.focused_game = None
-        self.focus_rect = pygame.Rect(0, 0, 400, 400)
+        self.focused_item_index = 0
+        self.focusable_items = []
 
-        # Spawn arcade machines
-        self.arcade_machines = []
-        self.am_positions = []
-        posx = STARTING_X
-        for game in GAME_NAMES:
-            self.am_positions.append(posx)
-            arcade_machine = ArcadeMachine(posx, GROUND_PX_HEIGHT + 25, game, scale=0.3)
-            self.arcade_machines.append(arcade_machine)
-            posx += SPACING
-            self.add_child(arcade_machine)
-
-        # Visual elements
+        # Visual elements in arcade
         self.add_child(Lamp(945, GROUND_PX_HEIGHT))
         self.add_child(Trash(525, GROUND_PX_HEIGHT))
         self.add_child(PythonLogo(655, 430))  # 131, 86
         self.add_child(PygameSnake(655, 225))  # 131, 45
         self.add_child(ArcadeSign(25, 95))  # 5, 19
-        self.add_child(ExitSign(90, 245))  # 18, 49
-        self.add_child(Cityscape(900, 30))  # 180, 6
-        self.add_child(Cityscape(1295, 30))  # 260, 6
-        self.add_child(Cityscape(1490, 30))
-        self.add_child(Cityscape(1895, 30))
-        # self.add_child(Cityscape(2300, 30))
+        exit_sign = ExitSign(90, 245)
+        self.add_child(exit_sign)  # 18, 49
+        self.focusable_items.append(exit_sign)
+        self.add_child(ParallaxScene("skyline", 900, 30, 1618, 180, static_layers={0, 100, 2, 3, 4}))
+
+        # Spawn arcade machines
+        # self.arcade_machines = []
+        self.am_positions = []
+        posx = STARTING_X
+        for game in GAME_NAMES:
+            self.am_positions.append(posx)
+            arcade_machine = ArcadeMachine(posx, GROUND_PX_HEIGHT + 25, game, scale=0.3)
+            # self.arcade_machines.append(arcade_machine)
+            posx += randint(SPACING_LOW, SPACING_HIGH)
+            self.add_child(arcade_machine)
+            self.focusable_items.append(arcade_machine)
 
     def _on_enter(self):
         # AudioManager().play_playlist("arcade_music")
@@ -83,6 +88,9 @@ class Arcade(ViewportScene):
 
     def _render_before_children(self):
         self.canvas.blit(self.arcade_img, (0, 0))
+
+    def _render_after_children(self):
+        pygame.draw.rect(self.canvas, "white", self.focusable_items[self.focused_item_index].rect, 10)
 
     def _on_event(self, event):
 
@@ -108,30 +116,33 @@ class Arcade(ViewportScene):
         """
         Move one game selection to the left.
         """
-        if self.focused_game is not None:
-            if self.focused_game == 0:
-                self.arcade_machines[self.focused_game].focused = False
-                self.focused_game = None
-            elif self.focused_game > 0:
-                self.arcade_machines[self.focused_game].focused = False
-                self.focused_game -= 1
-                self.arcade_machines[self.focused_game].focused = True
+        # if self.focused_item_index is not None:
+        #     if self.focused_item == 0:
+        #         self.arcade_machines[self.focused_item].focused = False
+        #         self.focused_item = None
+        #     elif self.focused_item > 0:
+        #         self.arcade_machines[self.focused_item].focused = False
+        #         self.focused_item -= 1
+        #         self.arcade_machines[self.focused_item].focused = True
+
+        if self.focused_item_index != 0:
+            self.focusable_items[self.focused_item_index].focused = False
+            self.focused_item_index -= 1
+            self.focusable_items[self.focused_item_index].focused = True
+
 
     def focus_right(self):
         """
         Move one game selection to the right.
         """
-        if self.focused_game is None:
-            self.focused_game = 0
-            self.arcade_machines[self.focused_game].focused = True
-        elif self.focused_game < len(self.arcade_machines) - 1:
-            self.arcade_machines[self.focused_game].focused = False
-            self.focused_game += 1
-            self.arcade_machines[self.focused_game].focused = True
-            
-
-    def enter_game(self):
-        """
-        Enter and play the selected game.
-        """
-        pass
+        # if self.focused_item is None:
+        #     self.focused_item = 0
+        #     self.arcade_machines[self.focused_item].focused = True
+        # elif self.focused_item < len(self.arcade_machines) - 1:
+            # self.arcade_machines[self.focused_item].focused = False
+            # self.focused_item += 1
+            # self.arcade_machines[self.focused_item].focused = True
+        if self.focused_item_index != len(self.focusable_items) - 1:
+            self.focusable_items[self.focused_item_index].focused = False
+            self.focused_item_index += 1
+            self.focusable_items[self.focused_item_index].focused = True

@@ -7,7 +7,7 @@ class ArcadeSign(AnimScene):
     "Pygame Arcade" arcade sign.
     """
 
-    SPRITESHEET_FILE = SPRITESHEETS_DIR / "arcade_sign.png"
+    SPRITESHEET_FILE = SPRITESHEETS_DIR / "pygame_arcade_sign.png"
     NUM_ROWS = 1
     NUM_COLS = 29
     PX_WIDTH = 20590

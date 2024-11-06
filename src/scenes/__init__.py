@@ -5,6 +5,7 @@ from .clicker import Clicker
 from .pong import Pong
 from .arcade_machine import ArcadeMachine
 from .tic_tac_toe import TicTacToe
+from .parallax_scene import ParallaxScene
 
 __all__ = [
     "Intro",
@@ -14,4 +15,5 @@ __all__ = [
     "Pong",
     "ArcadeMachine",
     "TicTacToe",
+    "ParallaxScene"
 ]

@@ -1,4 +1,5 @@
 import pygame
+from random import random
 
 from .anim_scene import AnimScene
 from paths import SPRITESHEETS_DIR
@@ -24,3 +25,5 @@ class Cityscape(AnimScene):
             width=self.PX_WIDTH // self.NUM_COLS,
             height=self.PX_HEIGHT // self.NUM_ROWS,
         )
+        self.add_animation("loop", 0, 43, random())
+        self.play_animation("loop")

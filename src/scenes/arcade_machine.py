@@ -1,5 +1,5 @@
 import pygame
-from random import randint, choice
+from random import randint, choice, random
 
 from .anim_scene import AnimScene
 from paths import SPRITESHEETS_DIR
@@ -58,7 +58,7 @@ class ArcadeMachine(AnimScene):
         PX_WIDTH = 7820
         PX_HEIGHT = 400
 
-        def __init__(self, game_name=None):
+        def __init__(self, game_name):
             """
             Show an out of order message if no game name is provided.
             """
@@ -74,12 +74,13 @@ class ArcadeMachine(AnimScene):
                 height=self.PX_HEIGHT // self.NUM_ROWS,
             )
 
-            if game_name:
+            if game_name == "out_of_order":
+                self.add_animation("out_of_order", 1, 10, random() * 2)
+                self.play_animation("out_of_order")
+            else:
                 self.add_animation("pong", 0, 23, 0.5)
                 self.play_animation(game_name)
-            else:
-                self.add_animation("out_of_order", 1, 10, 2.2)
-                self.play_animation("out_of_order")
+
 
     class Title(AnimScene):
         """
@@ -107,11 +108,14 @@ class ArcadeMachine(AnimScene):
                 width=self.PX_WIDTH // self.NUM_COLS,
                 height=self.PX_HEIGHT // self.NUM_ROWS,
             )
-
-            if game_name:
+            
+            if game_name != "out_of_order":
                 self.add_animation("arcade", 0, 5, 1.3)
                 self.add_animation("pong", 1, 5, 1.3)
                 self.play_animation(game_name)
+
+
+    # ARCADE MACHINE
 
     SPRITESHEET_FILE = ARCADE_MACHINE_SPRITESHEETS_DIR / "arcade_machine.png"
     NUM_ROWS = 10
@@ -146,7 +150,7 @@ class ArcadeMachine(AnimScene):
         self.focused = False
         self.entering = False
 
-        self.add_animation("random", randint(0, self.NUM_ROWS - 1), 1, 0.1)
+        self.add_animation("random", randint(0, self.NUM_ROWS - 1), 1, 1)
         self.play_animation("random")
 
         self.title = ArcadeMachine.Title(game_name)
@@ -157,16 +161,16 @@ class ArcadeMachine(AnimScene):
         self.add_child(self.screen)
         self.add_child(self.bar)
 
-    def _render_after_children(self):
-        if self.focused:
-            pygame.draw.rect(self.canvas, "white", (0, 0, self.canvas.get_width(), self.canvas.get_height()), 10)
+    # def _render_after_children(self):
+    #     if self.focused:
+    #         pygame.draw.rect(self.canvas, "white", (0, 0, self.canvas.get_width(), self.canvas.get_height()), 10)
 
     def _on_event(self, event):
         if self.focused:
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 self.holding = True
                 self.bar.play_animation("loading")
-            elif event.type == pygame.KEYUP and event.key == pygame.K_e:
+            elif event.type == pygame.KEYUP and event.key == pygame.K_RETURN:
                 self.holding = False
                 self.bar.play_animation("flyby")
 
