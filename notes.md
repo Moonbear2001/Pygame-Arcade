@@ -1,11 +1,10 @@
 gaols:
 
-- most efficient way to propogate events around the project?
-
 - ability to chain transition effects together, load scenes in between transitions
 - unhappy with SceneManager registry, how else can it be done (seems hard)
-- need animatable button, or at least click effects (probably simpler)
-- settings spritsheet needs to be separated into parts
+
+- text render uilities should just return a surface (avoid rendering frame after frame)
+- save load manager needs to be much more versatile
 
 KNOWN BUGS
 

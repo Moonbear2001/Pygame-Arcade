@@ -17,6 +17,7 @@ class SceneManager(Manager):
             Pong,
             ArcadeMachine,
             TicTacToe,
+            Info
         )
 
         self.scenes = {
@@ -27,6 +28,7 @@ class SceneManager(Manager):
             "pong": Pong,
             "arcade_machine": ArcadeMachine,
             "tic_tac_toe": TicTacToe,
+            "info": Info
         }
         self.scene_stack = []
         self.current_scene = None

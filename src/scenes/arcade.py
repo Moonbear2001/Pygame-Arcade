@@ -14,6 +14,7 @@ from .exit_sign import ExitSign
 from managers import AudioManager, SceneManager
 from paths import IMAGES_DIR
 from .parallax_scene import ParallaxScene
+from .info_screen import InfoScreen
 
 MOVE_SPEED = 100
 
@@ -66,10 +67,15 @@ class Arcade(ViewportScene):
         self.add_child(PythonLogo(655, 430))  # 131, 86
         self.add_child(PygameSnake(655, 225))  # 131, 45
         self.add_child(ArcadeSign(25, 95))  # 5, 19
+        self.add_child(ParallaxScene("skyline", 900, 30, 1618, 180, static_layers={0, 100, 2, 3, 4}))
+
         exit_sign = ExitSign(90, 245)
         self.add_child(exit_sign)  # 18, 49
         self.focusable_items.append(exit_sign)
-        self.add_child(ParallaxScene("skyline", 900, 30, 1618, 180, static_layers={0, 100, 2, 3, 4}))
+
+        info_screen = InfoScreen(200, 400)
+        self.add_child(info_screen)
+        self.focusable_items.append(info_screen)
 
         # Spawn arcade machines
         # self.arcade_machines = []
