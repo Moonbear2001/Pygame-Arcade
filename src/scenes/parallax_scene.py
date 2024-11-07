@@ -6,7 +6,17 @@ from .scene import Scene
 
 
 class ParallaxScene(Scene):
-    def __init__(self, folder_name, left, top, width, height, speed=1, static_layers=None, **kwargs):
+    def __init__(
+        self,
+        folder_name,
+        left,
+        top,
+        width,
+        height,
+        speed=1,
+        static_layers=None,
+        **kwargs
+    ):
         """
         Initializes a ParallaxScene with an integrated parallax background that scrolls horizontally.
         If a file named "0" is present in the folder, it will be used as a repeating static background.
@@ -18,8 +28,8 @@ class ParallaxScene(Scene):
         self.background_height = height
         self.speed = speed
         self.static_layers = static_layers if static_layers else set()
-        self.static_background = None  
-        self.static_foreground = None  
+        self.static_background = None
+        self.static_foreground = None
         self.static_images = []
         self.layers = self.load_layers(folder_name)
 
@@ -50,7 +60,7 @@ class ParallaxScene(Scene):
             if file_path.is_file() and file_path.stem not in ["0", "100"]:
                 layer_image = pygame.image.load(file_path).convert_alpha()
                 layer_index = int(file_path.stem)
-                
+
                 if layer_index in self.static_layers:
                     # Add to static images if specified in static_layers
                     self.static_images.append(layer_image)
@@ -58,7 +68,7 @@ class ParallaxScene(Scene):
                     # Add to moving parallax layers
                     layer_speed = self.speed / (i + 1)
                     layers.append({"image": layer_image, "x": 0, "speed": layer_speed})
-                
+
         return layers
 
     def _on_update(self, delta_time):
@@ -90,7 +100,9 @@ class ParallaxScene(Scene):
         for layer in self.layers:
             for i in range(0, self.background_width, layer["image"].get_width()):
                 self.canvas.blit(layer["image"], (layer["x"] + i, 0))
-                self.canvas.blit(layer["image"], (layer["x"] + i + self.background_width, 0))
+                self.canvas.blit(
+                    layer["image"], (layer["x"] + i + self.background_width, 0)
+                )
 
         # Draw the repeating static foreground, if it exists
         if self.static_foreground:

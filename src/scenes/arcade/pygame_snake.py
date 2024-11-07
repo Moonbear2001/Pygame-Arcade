@@ -1,4 +1,4 @@
-from .anim_scene import AnimScene
+from ..anim_scene import AnimScene
 from paths import SPRITESHEETS_DIR
 
 

@@ -1,9 +1,8 @@
 import pygame
 
-from .anim_scene import AnimScene
-from .scene import Scene
+from ..anim_scene import AnimScene
+from ..scene import Scene
 from paths import SPRITESHEETS_DIR, IMAGES_DIR
-
 
 
 class Lamp(AnimScene):

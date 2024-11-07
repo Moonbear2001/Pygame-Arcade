@@ -29,7 +29,10 @@ def render_text(surface, text, font_name=None, color="white", coord=None, size=1
 
     surface.blit(text_surface, text_rect)
 
-def render_text_block(surface, text, font_name=None, color="white", padding=10, coord=(0, 0), size=10):
+
+def render_text_block(
+    surface, text, font_name=None, color="white", padding_x=10, padding_y=10, coord=(0, 0), size=10
+):
     """
     Render a block of text.
     Surface width is used to know how much space is available.
@@ -37,11 +40,18 @@ def render_text_block(surface, text, font_name=None, color="white", padding=10, 
     """
     font_path = FONTS_DIR / (font_name + ".ttf")
 
-    wrapper = textwrap.TextWrapper(width=40, replace_whitespace=False, drop_whitespace=False)
+    wrapper = textwrap.TextWrapper(
+        width=65, replace_whitespace=False, drop_whitespace=False
+    )
     wrapped_text = []
-    for l in text.splitlines():
-        wrapped_text.extend(wrapper.wrap(l))
-
+    split_lines = text.splitlines()
+    # print(split_lines)
+    for l in split_lines:
+        if l:
+            wrapped_text.extend(wrapper.wrap(l))
+        else:
+            wrapped_text.append(l)
+    # print("wrapped text: ", wrapped_text)
 
     # wrapped_text = textwrap.wrap(text, 40)
     # wrapped_text = textwrap.wrap(text, surface.get_width() - 2 * padding)
@@ -50,11 +60,12 @@ def render_text_block(surface, text, font_name=None, color="white", padding=10, 
     # req_width, req_height = font.size(text)
 
     blit_coord = list(coord)
-    blit_coord[0] += padding
+    blit_coord[0] += padding_x
+    blit_coord[1] += padding_y
     for line in wrapped_text:
         text_surface = pygame.font.Font(str(font_path), size).render(line, True, color)
         surface.blit(text_surface, blit_coord)
         blit_coord[1] += size
-        
+
 
 __all__ = ["render_text", "render_text_block"]

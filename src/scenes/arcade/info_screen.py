@@ -1,8 +1,8 @@
 import pygame
 
-from .anim_scene import AnimScene
+from ..anim_scene import AnimScene
 from paths import SPRITESHEETS_DIR
-from managers import TransitionManager
+from managers import SceneManager
 
 
 class InfoScreen(AnimScene):
@@ -17,7 +17,6 @@ class InfoScreen(AnimScene):
     PX_HEIGHT = 105
     custom_watched_events = {pygame.KEYDOWN}
 
-
     def __init__(self, left, top, **kwargs):
         super().__init__(
             self.SPRITESHEET_FILE,
@@ -27,7 +26,7 @@ class InfoScreen(AnimScene):
             self.PX_HEIGHT,
             left=left,
             top=top,
-            watched_events = self.custom_watched_events,
+            watched_events=self.custom_watched_events,
             **kwargs
         )
         self.focused = False
@@ -35,5 +34,10 @@ class InfoScreen(AnimScene):
         self.play_animation("loop")
 
     def _on_event(self, event):
-        if self.focused and event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-            TransitionManager().start_transition("fade_to_black", "info", "fade_from_black")
+        if (
+            self.focused
+            and event.type == pygame.KEYDOWN
+            and (event.key == pygame.K_RETURN or event.key == pygame.K_e)
+        ):
+            print("focused")
+            SceneManager().push_scene("info")

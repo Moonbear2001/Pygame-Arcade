@@ -1,5 +1,4 @@
-import pygame
-from .anim_button import AnimButton
+from ..anim_button import AnimButton
 from paths import SPRITESHEETS_DIR
 
 
@@ -18,11 +17,13 @@ class PlusMinusButton(AnimButton):
     PX_WIDTH = 50
     PX_HEIGHT = 150
 
-    def __init__(self, left, top, callback=None, minus=False,**kwargs):
+    def __init__(self, left, top, callback=None, minus=False, **kwargs):
         super().__init__(
             left=left,
             top=top,
-            sprite_sheet_file=self.MINUS_SPRITESHEET_FILE if minus else self.PLUS_SPRITESHEET_FILE,
+            sprite_sheet_file=(
+                self.MINUS_SPRITESHEET_FILE if minus else self.PLUS_SPRITESHEET_FILE
+            ),
             num_rows=self.NUM_ROWS,
             num_cols=self.NUM_COLS,
             px_width=self.PX_WIDTH,

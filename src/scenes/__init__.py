@@ -1,12 +1,12 @@
 from .intro import Intro
-from .arcade import Arcade
-from .settings import Settings
+from .arcade.arcade import Arcade
+from .settings.settings import Settings
 from .clicker import Clicker
 from .pong import Pong
-from .arcade_machine import ArcadeMachine
+from .arcade.arcade_machine import ArcadeMachine
 from .tic_tac_toe import TicTacToe
 from .parallax_scene import ParallaxScene
-from .info import Info
+from .arcade.info import Info
 
 __all__ = [
     "Intro",
@@ -17,5 +17,5 @@ __all__ = [
     "ArcadeMachine",
     "TicTacToe",
     "ParallaxScene",
-    "Info"
+    "Info",
 ]

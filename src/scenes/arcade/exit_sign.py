@@ -1,8 +1,9 @@
 import pygame
 
-from .anim_scene import AnimScene
+from ..anim_scene import AnimScene
 from paths import SPRITESHEETS_DIR
 from managers import TransitionManager
+
 # from ..focusable_item import FocusableItem
 
 
@@ -18,7 +19,6 @@ class ExitSign(AnimScene):
     PX_HEIGHT = 75
     custom_watched_events = {pygame.KEYDOWN, pygame.KEYUP}
 
-
     def __init__(self, left, top, **kwargs):
         super().__init__(
             self.SPRITESHEET_FILE,
@@ -30,7 +30,7 @@ class ExitSign(AnimScene):
             top=top,
             # width=self.PX_WIDTH // self.NUM_COLS,
             # height=self.PX_HEIGHT // self.NUM_ROWS,
-            watched_events = self.custom_watched_events,
+            watched_events=self.custom_watched_events,
             **kwargs
         )
         # super().__init__(left, top, width=self.PX_WIDTH // self.NUM_COLS, height=self.PX_HEIGHT // self.NUM_ROWS, )
@@ -39,5 +39,9 @@ class ExitSign(AnimScene):
         self.play_animation("loop")
 
     def _on_event(self, event):
-        if self.focused and event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+        if (
+            self.focused
+            and event.type == pygame.KEYDOWN
+            and event.key == pygame.K_RETURN
+        ):
             pygame.quit()

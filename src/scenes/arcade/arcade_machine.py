@@ -1,7 +1,7 @@
 import pygame
 from random import randint, choice, random
 
-from .anim_scene import AnimScene
+from ..anim_scene import AnimScene
 from paths import SPRITESHEETS_DIR
 from managers import TransitionManager
 
@@ -81,7 +81,6 @@ class ArcadeMachine(AnimScene):
                 self.add_animation("pong", 0, 23, 0.5)
                 self.play_animation(game_name)
 
-
     class Title(AnimScene):
         """
         Top bar of the arcade machine that shows the game title.
@@ -108,12 +107,11 @@ class ArcadeMachine(AnimScene):
                 # width=self.PX_WIDTH // self.NUM_COLS,
                 # height=self.PX_HEIGHT // self.NUM_ROWS,
             )
-            
+
             if game_name != "out_of_order":
                 self.add_animation("arcade", 0, 5, 1.3)
                 self.add_animation("pong", 1, 5, 1.3)
                 self.play_animation(game_name)
-
 
     # ARCADE MACHINE
 
@@ -141,7 +139,7 @@ class ArcadeMachine(AnimScene):
             # width=self.PX_WIDTH // self.NUM_COLS,
             # height=self.PX_HEIGHT // self.NUM_ROWS,
             watched_events=self.custom_watched_events,
-            **kwargs
+            **kwargs,
         )
 
         self.game_name = game_name
