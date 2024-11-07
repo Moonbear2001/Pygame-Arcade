@@ -3,6 +3,7 @@ from random import randint
 
 from constants import CANVAS_WIDTH, CANVAS_HEIGHT
 from .lamp import Lamp
+from .lamp_light import LampLight
 from .trash import Trash
 from .cityscape import Cityscape
 from .viewport_scene import ViewportScene
@@ -58,12 +59,13 @@ class Arcade(ViewportScene):
         self.arcade_img = pygame.image.load(IMAGES_DIR / "arcade.png")
         self.ropes_img = pygame.image.load(IMAGES_DIR / "ropes.png")
 
-        self.focused_item_index = 0
+        self.focused_item_index = 1
         self.focusable_items = []
 
         # Visual elements in arcade
-        self.add_child(Lamp(900, GROUND_PX_HEIGHT))
-        self.add_child(Trash(525, GROUND_PX_HEIGHT))
+        self.add_child(Lamp(880, GROUND_PX_HEIGHT + 10))
+        self.add_child(LampLight(830, 305))
+        self.add_child(Trash(400, GROUND_PX_HEIGHT + 10))
         self.add_child(PythonLogo(655, 430))  # 131, 86
         self.add_child(PygameSnake(655, 225))  # 131, 45
         self.add_child(ArcadeSign(25, 95))  # 5, 19
@@ -73,7 +75,7 @@ class Arcade(ViewportScene):
         self.add_child(exit_sign)  # 18, 49
         self.focusable_items.append(exit_sign)
 
-        info_screen = InfoScreen(200, 400)
+        info_screen = InfoScreen(335, 390) #67, 78
         self.add_child(info_screen)
         self.focusable_items.append(info_screen)
 
@@ -98,7 +100,7 @@ class Arcade(ViewportScene):
         self.canvas.blit(self.arcade_img, (0, 0))
 
     def _render_after_children(self):
-        pygame.draw.rect(self.canvas, "white", self.focusable_items[self.focused_item_index].rect, 10)
+        pygame.draw.rect(self.canvas, "white", self.focusable_items[self.focused_item_index].rect, 5)
         self.canvas.blit(self.ropes_img, (0, 0))
 
     def _on_event(self, event):

@@ -1,22 +1,32 @@
 import pygame
 
+from .anim_scene import AnimScene
 from .scene import Scene
-from paths import IMAGES_DIR
+from paths import SPRITESHEETS_DIR, IMAGES_DIR
 
 
-class Lamp(Scene):
+
+class Lamp(AnimScene):
     """
     Street lamp.
     """
 
-    WIDTH_PX = 135
-    HEIGHT_PX = 420
+    SPRITESHEET_FILE = SPRITESHEETS_DIR / "lamp.png"
+    NUM_ROWS = 1
+    NUM_COLS = 2
+    PX_WIDTH = 270
+    PX_HEIGHT = 420
 
-    def __init__(self, left, bottom):
+    def __init__(self, left, bottom, **kwargs):
         super().__init__(
-            width=self.WIDTH_PX, height=self.HEIGHT_PX, bottom=bottom, left=left
+            self.SPRITESHEET_FILE,
+            self.NUM_ROWS,
+            self.NUM_COLS,
+            self.PX_WIDTH,
+            self.PX_HEIGHT,
+            left=left,
+            bottom=bottom,
+            **kwargs
         )
-        self.lamp_img = pygame.image.load(IMAGES_DIR / "lamp.png").convert_alpha()
-
-    def _render_before_children(self):
-        self.canvas.blit(self.lamp_img, (0, 0))
+        self.add_animation("loop", 0, 2, 1)
+        self.play_animation("loop")

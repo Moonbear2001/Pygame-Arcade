@@ -10,11 +10,11 @@ class InfoScreen(AnimScene):
     Pygame logo on a screen.
     """
 
-    SPRITESHEET_FILE = SPRITESHEETS_DIR / "exit_sign.png"
+    SPRITESHEET_FILE = SPRITESHEETS_DIR / "info_screen.png"
     NUM_ROWS = 1
-    NUM_COLS = 17
-    PX_WIDTH = 2975
-    PX_HEIGHT = 75
+    NUM_COLS = 8
+    PX_WIDTH = 1400
+    PX_HEIGHT = 105
     custom_watched_events = {pygame.KEYDOWN}
 
 
@@ -31,7 +31,7 @@ class InfoScreen(AnimScene):
             **kwargs
         )
         self.focused = False
-        self.add_animation("loop", 0, 17, 0.2)
+        self.add_animation("loop", 0, 5, 0.25)
         self.play_animation("loop")
 
     def _on_event(self, event):
