@@ -43,6 +43,10 @@ class Scene(ABC):
             self.rect.right = right
         if bottom != 0:
             self.rect.bottom = bottom
+            print(self)
+            print("setting bottom")
+            print(self.rect)
+            print()
         self.children = []
         self.active = False
         self.watched_events = watched_events if watched_events is not None else set()

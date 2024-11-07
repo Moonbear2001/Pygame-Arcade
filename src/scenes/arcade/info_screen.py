@@ -39,5 +39,4 @@ class InfoScreen(AnimScene):
             and event.type == pygame.KEYDOWN
             and (event.key == pygame.K_RETURN or event.key == pygame.K_e)
         ):
-            print("focused")
             SceneManager().push_scene("info")

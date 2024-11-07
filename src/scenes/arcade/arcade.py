@@ -22,8 +22,7 @@ MOVE_SPEED = 100
 
 # Arcade machine positioning
 STARTING_X = 1200
-SPACING_LOW = 200
-SPACING_HIGH = 300
+SPACING = 275
 
 FOCUS_RECT_Y = 300
 
@@ -32,10 +31,8 @@ GROUND_PX_HEIGHT = 130 * 5
 GAME_NAMES = [
     "pong",
     "clicker",
+    "out_of_order",
     "tic_tac_toe",
-    "out_of_order",
-    "out_of_order",
-    "out_of_order",
 ]
 
 
@@ -63,12 +60,14 @@ class Arcade(ViewportScene):
         self.focusable_items = []
 
         # Visual elements in arcade
-        self.add_child(Lamp(880, GROUND_PX_HEIGHT + 10))
-        self.add_child(LampLight(830, 305))
+        self.add_child(Lamp(850, GROUND_PX_HEIGHT + 10))
+        self.add_child(LampLight(875, GROUND_PX_HEIGHT + 30))
+        self.add_child(Lamp(2295, GROUND_PX_HEIGHT + 10))
+        self.add_child(LampLight(2320, GROUND_PX_HEIGHT + 30))
         self.add_child(Trash(400, GROUND_PX_HEIGHT + 10))
         self.add_child(PythonLogo(655, 430))  # 131, 86
         self.add_child(PygameSnake(655, 225))  # 131, 45
-        self.add_child(ArcadeSign(25, 95))  # 5, 19
+        self.add_child(ArcadeSign(25, 70))  # 5, 19
         self.add_child(
             ParallaxScene(
                 "skyline", 900, 30, 1618, 180, static_layers={0, 100, 2, 3, 4}
@@ -94,8 +93,7 @@ class Arcade(ViewportScene):
                 posx, GROUND_PX_HEIGHT + 25, game, scale=0.34
             )
             # self.arcade_machines.append(arcade_machine)
-            # posx += randint(SPACING_LOW, SPACING_HIGH)
-            posx += 200
+            posx += SPACING
             self.add_child(arcade_machine)
             self.focusable_items.append(arcade_machine)
 
@@ -111,10 +109,18 @@ class Arcade(ViewportScene):
         pygame.draw.rect(
             self.canvas, "white", focused_item_rect, 5, 20
         )
-        offset_y = 10
+        offset_y = 20
         offset_x = 10
-        right_points = [focused_item_rect.topright, focused_item_rect.bottomright, (focused_item_rect.right + offset_x, focused_item_rect.centery)]
-        pygame.draw.polygon(self.canvas, "white", right_points, 5)
+        right_points = [(focused_item_rect.right + offset_x, focused_item_rect.centery + offset_y), 
+                        (focused_item_rect.right + offset_x, focused_item_rect.centery - offset_y), 
+                        (focused_item_rect.right + offset_x + 20, focused_item_rect.centery)]
+        left_points = [(focused_item_rect.left - offset_x, focused_item_rect.centery + offset_y), 
+                       (focused_item_rect.left - offset_x, focused_item_rect.centery - offset_y), 
+                       (focused_item_rect.left - offset_x - 20, focused_item_rect.centery)]
+        if self.focused_item_index != 0:
+            pygame.draw.polygon(self.canvas, "white", left_points)
+        if self.focused_item_index != len(self.focusable_items) - 1:
+            pygame.draw.polygon(self.canvas, "white", right_points)
         # pygame.draw.polygon(self.canvas, "white", [[100, 100], [0, 200], [200, 200]], 5)
         self.canvas.blit(self.ropes_img, (0, 0))
 

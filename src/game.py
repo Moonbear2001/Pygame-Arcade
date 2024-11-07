@@ -25,8 +25,7 @@ class Game:
         self.name = "Template"
         self.screen_width = CANVAS_WIDTH
         self.screen_height = CANVAS_HEIGHT
-        # flags = pygame.NOFRAME | pygame.RESIZABLE
-        flags = pygame.RESIZABLE
+        flags = pygame.NOFRAME | pygame.RESIZABLE
         self.screen = pygame.display.set_mode(
             (self.screen_width, self.screen_height), flags=flags
         )
