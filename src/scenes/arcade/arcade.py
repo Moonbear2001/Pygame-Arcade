@@ -1,11 +1,9 @@
 import pygame
-from random import randint
 
 from constants import CANVAS_WIDTH, CANVAS_HEIGHT
 from .lamp import Lamp
 from .lamp_light import LampLight
 from .trash import Trash
-from .cityscape import Cityscape
 from ..viewport_scene import ViewportScene
 from .arcade_machine import ArcadeMachine
 from .python_logo import PythonLogo
@@ -98,30 +96,30 @@ class Arcade(ViewportScene):
             self.focusable_items.append(arcade_machine)
 
     def _on_enter(self):
-        # AudioManager().play_playlist("arcade_music")
-        pass
+        AudioManager().play_playlist("arcade_music")
 
     def _render_before_children(self):
         self.canvas.blit(self.arcade_img, (0, 0))
 
     def _render_after_children(self):
         focused_item_rect = self.focusable_items[self.focused_item_index].rect
-        pygame.draw.rect(
-            self.canvas, "white", focused_item_rect, 5, 20
-        )
+        pygame.draw.rect(self.canvas, "white", focused_item_rect, 5, 20)
         offset_y = 20
         offset_x = 10
-        right_points = [(focused_item_rect.right + offset_x, focused_item_rect.centery + offset_y), 
-                        (focused_item_rect.right + offset_x, focused_item_rect.centery - offset_y), 
-                        (focused_item_rect.right + offset_x + 20, focused_item_rect.centery)]
-        left_points = [(focused_item_rect.left - offset_x, focused_item_rect.centery + offset_y), 
-                       (focused_item_rect.left - offset_x, focused_item_rect.centery - offset_y), 
-                       (focused_item_rect.left - offset_x - 20, focused_item_rect.centery)]
+        right_points = [
+            (focused_item_rect.right + offset_x, focused_item_rect.centery + offset_y),
+            (focused_item_rect.right + offset_x, focused_item_rect.centery - offset_y),
+            (focused_item_rect.right + offset_x + 20, focused_item_rect.centery),
+        ]
+        left_points = [
+            (focused_item_rect.left - offset_x, focused_item_rect.centery + offset_y),
+            (focused_item_rect.left - offset_x, focused_item_rect.centery - offset_y),
+            (focused_item_rect.left - offset_x - 20, focused_item_rect.centery),
+        ]
         if self.focused_item_index != 0:
             pygame.draw.polygon(self.canvas, "white", left_points)
         if self.focused_item_index != len(self.focusable_items) - 1:
             pygame.draw.polygon(self.canvas, "white", right_points)
-        # pygame.draw.polygon(self.canvas, "white", [[100, 100], [0, 200], [200, 200]], 5)
         self.canvas.blit(self.ropes_img, (0, 0))
 
     def _on_event(self, event):

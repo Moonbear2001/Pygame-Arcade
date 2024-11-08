@@ -2,9 +2,6 @@ import pygame
 
 from ..anim_scene import AnimScene
 from paths import SPRITESHEETS_DIR
-from managers import TransitionManager
-
-# from ..focusable_item import FocusableItem
 
 
 class ExitSign(AnimScene):
@@ -28,12 +25,9 @@ class ExitSign(AnimScene):
             self.PX_HEIGHT,
             left=left,
             top=top,
-            # width=self.PX_WIDTH // self.NUM_COLS,
-            # height=self.PX_HEIGHT // self.NUM_ROWS,
             watched_events=self.custom_watched_events,
             **kwargs
         )
-        # super().__init__(left, top, width=self.PX_WIDTH // self.NUM_COLS, height=self.PX_HEIGHT // self.NUM_ROWS, )
         self.focused = False
         self.add_animation("loop", 0, 17, 0.2)
         self.play_animation("loop")

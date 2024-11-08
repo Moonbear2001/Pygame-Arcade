@@ -18,10 +18,8 @@ class ParallaxScene(Scene):
         **kwargs
     ):
         """
-        Initializes a ParallaxScene with an integrated parallax background that scrolls horizontally.
-        If a file named "0" is present in the folder, it will be used as a repeating static background.
-        If a file named "100" is present in the folder, it will be used as a repeating static foreground.
-        Additionally, layers specified in `static_layers` will be treated as static and will not scroll.
+        Layers specified in `static_layers` will be treated as static and will not
+        scroll.
         """
         super().__init__(left=left, top=top, width=width, height=height, **kwargs)
         self.background_width = width
@@ -35,11 +33,7 @@ class ParallaxScene(Scene):
 
     def load_layers(self, folder_name: Path):
         """
-        Load the layers from the provided directory and prepare them for parallax scrolling.
-        If a file named '0' exists, it is treated as a repeating static background layer.
-        If a file named '100' exists, it is treated as a repeating static foreground layer.
-        The rest of the layers are drawn starting at 1 (background) and ending at n (foreground).
-        Layers specified in `static_layers` are treated as static layers.
+        Load the layers from the provided directory.
         """
         layers = []
         folder_path = PARALLAX_DIR / folder_name
@@ -82,7 +76,8 @@ class ParallaxScene(Scene):
 
     def _render_before_children(self):
         """
-        Draws the repeating static background (if present), each parallax layer, and the repeating static foreground (if present).
+        Draws the repeating static background (if present), each parallax layer, and the
+        repeating static foreground (if present).
         """
         # Draw the repeating static background, if it exists
         if self.static_background:

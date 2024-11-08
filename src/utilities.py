@@ -31,7 +31,14 @@ def render_text(surface, text, font_name=None, color="white", coord=None, size=1
 
 
 def render_text_block(
-    surface, text, font_name=None, color="white", padding_x=10, padding_y=10, coord=(0, 0), size=10
+    surface,
+    text,
+    font_name=None,
+    color="white",
+    padding_x=10,
+    padding_y=10,
+    coord=(0, 0),
+    size=10,
 ):
     """
     Render a block of text.
@@ -45,19 +52,11 @@ def render_text_block(
     )
     wrapped_text = []
     split_lines = text.splitlines()
-    # print(split_lines)
     for l in split_lines:
         if l:
             wrapped_text.extend(wrapper.wrap(l))
         else:
             wrapped_text.append(l)
-    # print("wrapped text: ", wrapped_text)
-
-    # wrapped_text = textwrap.wrap(text, 40)
-    # wrapped_text = textwrap.wrap(text, surface.get_width() - 2 * padding)
-    # print(wrapped_text)
-    # font = pygame.font.Font(str(font_path), size)
-    # req_width, req_height = font.size(text)
 
     blit_coord = list(coord)
     blit_coord[0] += padding_x

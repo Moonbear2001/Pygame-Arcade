@@ -7,7 +7,7 @@ BUTTON_SPRITESHEETS = SPRITESHEETS_DIR / "buttons"
 
 class AnimButton(AnimScene):
     """
-    An animatable button class that combines animation functionality with button interaction.
+    An animatable button that combines animation functionality with button interaction.
     """
 
     custom_watched_events = {pygame.MOUSEBUTTONDOWN}

@@ -159,10 +159,6 @@ class ArcadeMachine(AnimScene):
         self.add_child(self.screen)
         self.add_child(self.bar)
 
-    # def _render_after_children(self):
-    #     if self.focused:
-    #         pygame.draw.rect(self.canvas, "white", (0, 0, self.canvas.get_width(), self.canvas.get_height()), 10)
-
     def _on_event(self, event):
         if self.focused:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:

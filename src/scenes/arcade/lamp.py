@@ -1,8 +1,5 @@
-import pygame
-
 from ..anim_scene import AnimScene
-from .lamp_light import LampLight
-from paths import SPRITESHEETS_DIR, IMAGES_DIR
+from paths import SPRITESHEETS_DIR
 
 
 class Lamp(AnimScene):
@@ -27,8 +24,6 @@ class Lamp(AnimScene):
             bottom=bottom,
             **kwargs
         )
-
-        # self.add_child(LampLight(25, 20))
 
         self.add_animation("loop", 0, 2, 0.1)
         self.play_animation("loop")
