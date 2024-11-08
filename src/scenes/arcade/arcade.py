@@ -97,6 +97,7 @@ class Arcade(ViewportScene):
 
     def _on_enter(self):
         AudioManager().play_playlist("arcade_music")
+        # pass
 
     def _render_before_children(self):
         self.canvas.blit(self.arcade_img, (0, 0))

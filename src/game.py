@@ -6,6 +6,7 @@ from managers import (
     SceneManager,
     TransitionManager,
     EventManager,
+    SaveLoadManager,
 )
 from constants import CANVAS_WIDTH, CANVAS_HEIGHT
 
@@ -36,6 +37,11 @@ class Game:
         self.delta_time = 0
         self.prev_time = 0
         self.fps = 60
+
+        # Load saved settings
+        saved_settings = SaveLoadManager().load_data("settings")
+        AudioManager().set_music_volume(saved_settings["music_volume"])
+        AudioManager().set_sounds_volume(saved_settings["sounds_volume"])
 
     def manage_delta_time(self):
         now = time.time()

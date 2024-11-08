@@ -52,11 +52,11 @@ def render_text_block(
     )
     wrapped_text = []
     split_lines = text.splitlines()
-    for l in split_lines:
-        if l:
-            wrapped_text.extend(wrapper.wrap(l))
+    for split_line in split_lines:
+        if split_line:
+            wrapped_text.extend(wrapper.wrap(split_line))
         else:
-            wrapped_text.append(l)
+            wrapped_text.append(split_line)
 
     blit_coord = list(coord)
     blit_coord[0] += padding_x

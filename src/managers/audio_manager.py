@@ -2,6 +2,7 @@ import pygame
 from random import shuffle
 
 from .manager import Manager
+from .save_load_manager import SaveLoadManager
 from paths import MUSIC_DIR, SOUNDS_DIR
 from custom_events import PLAYLIST_NEXT
 
@@ -9,7 +10,6 @@ from custom_events import PLAYLIST_NEXT
 class AudioManager(Manager):
     """
     Manages loading audio and controlling volume.
-    Uses singleton design pattern.
     """
 
     def _init(self):
@@ -33,10 +33,17 @@ class AudioManager(Manager):
             pygame.mixer.music.set_endevent(PLAYLIST_NEXT)
             self.play_music(self.playlist[self.current_track_index])
 
+    def save_audio_settings(self):
+        SaveLoadManager().save_data(
+            {"music_volume": self.music_volume, "sounds_volume": self.sounds_volume},
+            "settings",
+        )
+
     def set_music_volume(self, volume):
         if 0 <= volume <= 1:
             self.music_volume = volume
             pygame.mixer.music.set_volume(self.music_volume)
+            self.save_audio_settings()
 
     def increase_music_volume(self, increment):
         """
@@ -55,6 +62,7 @@ class AudioManager(Manager):
             self.sounds_volume = volume
             for sound in self.sounds.values():
                 sound.set_volume(self.sounds_volume)
+            self.save_audio_settings()
 
     def increase_sounds_volume(self, increment):
         """
