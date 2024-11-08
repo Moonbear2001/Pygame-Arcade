@@ -6,7 +6,6 @@ from paths import IMAGES_DIR
 
 
 WELCOME = "Welcome to the Pygame Arcade."
-BLURB = "I created this project as a way to catalog my various pygame projects into one central game." 
 NAVIGATION = "Navigate between the exit, info screen, games."
 CAMERA = "Pan the camera left and right."
 BACK_SCENE = "Go back one scene."
@@ -38,16 +37,6 @@ class Info(Scene):
             padding_y=100,
             size=40,
         )
-        # render_text_block(
-        #     self.canvas,
-        #     BLURB,
-        #     55,
-        #     "pixel",
-        #     color="black",
-        #     padding_x=75,
-        #     padding_y=125,
-        #     size=32,
-        # )
         render_text_block(
             self.canvas,
             NAVIGATION,

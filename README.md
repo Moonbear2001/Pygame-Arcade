@@ -1,31 +1,47 @@
-# 🎮 Pygame Template Arcade
+# 🕹️ Pygame Arcade
 
-Welcome to the **Pygame Template Arcade** – a versatile, expandable collection for organizing and showcasing Pygame projects. This template serves as a container for classic recreations and focused, smaller-scale projects, forming a cohesive Pygame portfolio.
+Welcome to the **Pygame Arcade** – a versatile, expandable collection for organizing and showcasing a Pygame portfolio. I created this project as a way to show off all my pygame projects in one central project.
 
----
+All the art is of my own making.
 
-## 🕹️ About the Arcade
+# ✏️ Design choices
+This template uses a scene-based organizational system partly inspired by some work I did in the Godot game engine. Scenes are objects responsible for updating and rendering themselves. Scenes can be nested inside of one another.
 
-Learning game development often involves re-creating classic games to understand their mechanics or building small projects to focus on specific Pygame techniques. While these projects may not warrant a full repository of their own, they represent essential steps in mastering game development. The **Pygame Arcade** serves as a dedicated space to catalog, demonstrate, and celebrate that progress.
+A scene is an object with the ability to handle events, update, and render. Scenes can nest within one another, and when a scene renders it passes its surface up its parent scene. The parent scene is then responsible for using its child's positioning rect to blit the child onto its own surface.
 
----
+A scene then also functions as a node in a graph. The top-level scene updates and renders its children, which in turn do the same, etc.
 
-## 🧩 Features
+### Managers
 
-- **Modular Project Collection**: Store multiple Pygame projects in one place.
-- **Interactive Portfolio**: A navigable arcade to play and view your games.
-- **Showcase Learning**: Perfect for tracking milestones and techniques learned along the way.
+This project uses 'managers' to handle certain game elements. Managers are singletons that can be used anywhere in the code provide a certain service. The managers in this project are:
+
+- EventManager
+An event bus that publishes events to subscribers. Subscribers pass an event handler to the manager to be called when that event occurs. This subscription based model prevents Scenes from receiving any events that do not interest them.
+
+- SceneManager
+Manages loading and switching to new scenes. Includes a scene stack that allows returning to scenes that were just left.
+
+- SaveLoadManager
+Manages saving and loading of data to json files. Settings, game data, and other such information can be easily saved and loaded using this manager.
+
+- AudioManager
+Manages music and sounds effects. Can do things like queue a playlist and adjust the volume of music and sound effects.
+
+- TransitionManager
+Allows for the addition of transitions while changing scenes.
+
+### Summary
+
+The combination of a tree-like Scene system with a series of global singleton managers that abstract away complicated code is a powerful addition on top of Pygame's simple layer on top of SDL 2. It solves questions like:
+- How do I create a complex scene?
+- How do I pass around events?
+- How do I determine the order in which to render objects?
+
+By providing a simple and intuitive framework.
 
 ---
 
 ## 🚀 Getting Started
 
-Clone the repository, run `main.py`, and explore the arcade. Each game is a separate project within the arcade, ready to be launched, played, and enjoyed.
+Clone the repository, downlaod python and run `main.py`, and explore the arcade.
 
----
-
-## 🎉 Contribute
-
-This project is designed to grow! Feel free to contribute new games or features to make the arcade even better. 
-
-Happy Gaming!
