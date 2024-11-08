@@ -5,11 +5,13 @@ from utilities import render_text_block
 from paths import IMAGES_DIR
 
 
-TEXT_BLOCK = """Welcome to the Pygame Arcade. I created this project as a way to catalog
-my various pygame projects into one central game. Use the 'a' and 'd' or 'left arrow'
-and 'right arrow' keys to navigate between the exit, the info screen, and the games.
-Hold 'e' or 'enter' in order to play the game. Enjoy!
-"""
+WELCOME = "Welcome to the Pygame Arcade."
+BLURB = "I created this project as a way to catalog my various pygame projects into one central game." 
+NAVIGATION = "Navigate between the exit, info screen, games."
+CAMERA = "Pan the camera left and right."
+BACK_SCENE = "Go back one scene."
+SELECT = "Hold to select or play a game."
+FINAL = "Enjoy!"
 
 
 class Info(Scene):
@@ -28,10 +30,71 @@ class Info(Scene):
         self.canvas.blit(self.info_img, (0, 0))
         render_text_block(
             self.canvas,
-            TEXT_BLOCK,
-            "roboto",
+            WELCOME,
+            55,
+            "pixel",
             color="black",
-            padding_x=100,
+            padding_x=300,
             padding_y=100,
-            size=35,
+            size=40,
+        )
+        # render_text_block(
+        #     self.canvas,
+        #     BLURB,
+        #     55,
+        #     "pixel",
+        #     color="black",
+        #     padding_x=75,
+        #     padding_y=125,
+        #     size=32,
+        # )
+        render_text_block(
+            self.canvas,
+            NAVIGATION,
+            55,
+            "pixel",
+            color="black",
+            padding_x=230,
+            padding_y=220,
+            size=32,
+        )
+        render_text_block(
+            self.canvas,
+            CAMERA,
+            55,
+            "pixel",
+            color="black",
+            padding_x=230,
+            padding_y=300,
+            size=32,
+        )
+        render_text_block(
+            self.canvas,
+            BACK_SCENE,
+            55,
+            "pixel",
+            color="black",
+            padding_x=230,
+            padding_y=380,
+            size=32,
+        )
+        render_text_block(
+            self.canvas,
+            SELECT,
+            55,
+            "pixel",
+            color="black",
+            padding_x=230,
+            padding_y=460,
+            size=32,
+        )
+        render_text_block(
+            self.canvas,
+            FINAL,
+            55,
+            "pixel",
+            color="black",
+            padding_x=580,
+            padding_y=600,
+            size=40,
         )

@@ -12,12 +12,10 @@ def render_text(surface, text, font_name=None, color="white", coord=None, size=1
     onto 'surface'. 'coord' is the draw location, if no coordinate is provided then the
     text is centered horizontally and vertically in the provided surface.
     """
-    font_path = FONTS_DIR / (font_name + ".ttf")
 
-    if not font_path.is_file():
-        return
+    font_path = FONTS_DIR / (font_name + ".ttf") if font_name is not None else None
 
-    text_surface = pygame.font.Font(str(font_path), size).render(text, True, color)
+    text_surface = pygame.font.Font(font_path, size).render(text, True, color)
     text_rect = text_surface.get_rect()
 
     # No drawing coordinate provided, draw in center of provided Surface
@@ -33,6 +31,7 @@ def render_text(surface, text, font_name=None, color="white", coord=None, size=1
 def render_text_block(
     surface,
     text,
+    width,
     font_name=None,
     color="white",
     padding_x=10,
@@ -42,13 +41,12 @@ def render_text_block(
 ):
     """
     Render a block of text.
-    Surface width is used to know how much space is available.
     Padding can be supplied from top and left of surface.
     """
     font_path = FONTS_DIR / (font_name + ".ttf")
 
     wrapper = textwrap.TextWrapper(
-        width=65, replace_whitespace=False, drop_whitespace=False
+        width=width, replace_whitespace=False, drop_whitespace=False
     )
     wrapped_text = []
     split_lines = text.splitlines()

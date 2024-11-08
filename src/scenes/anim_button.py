@@ -22,12 +22,6 @@ class AnimButton(AnimScene):
         """
         Check for click events on the button.
         """
-        # if event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos):
-        #     print("hovered")
-        #     self.hovered = True
-        #     if event.button == 1:
-        #         print("clicked")
-        #         self.clicked = True
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             self.click = True
 

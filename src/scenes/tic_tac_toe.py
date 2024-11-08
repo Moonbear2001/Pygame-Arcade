@@ -115,9 +115,7 @@ class TicTacToe(Scene):
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             if self.board_rect.collidepoint(mouse_pos):
-                print(mouse_pos)
                 row, col = self.get_grid_pos(mouse_pos)
-                print(row, col)
                 # Update self.board, check for win, switch player (if necessary)
                 if self.update_board(row, col):
                     self.move_num += 1

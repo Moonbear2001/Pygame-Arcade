@@ -176,7 +176,6 @@ class ArcadeMachine(AnimScene):
             else:
                 self.hold_time = 0
             if self.hold_time >= self.HOLD_THRESHOLD:
-                print(f"ENTER GAME {self.game_name}")
                 self.entering = True
                 TransitionManager().start_transition(
                     "fade_to_black", self.game_name, "fade_from_black"

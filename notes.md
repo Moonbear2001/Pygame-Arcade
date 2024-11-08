@@ -5,12 +5,4 @@ gaols:
 
 - text render uilities should just return a surface (avoid rendering frame after frame)
 
-
-KNOWN BUGS
-
-- switching between clicker and settings can stack scenes
-
-
 CURRENTLY WORKING ON
-
-- save load manager needs to be much more versatile
